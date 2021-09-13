@@ -1,0 +1,34 @@
+\section{Methodology}
+To establish a distribution on this extremal dependence structure, first we must standardize
+  $\bm{W} \in R^d$ such that its marginal extreme distributions follow a common form.  Following
+  the work of \cite{ferreira2014}, if the marginal distributions $F_{\ell}$ fall into the domain
+  of attraction of some GEV $G_{\ell}$, then threshold exceedences for a sufficiently high threshold
+  $b_{\ell}$ can be modelled as generalized Pareto $H_{\ell}$.  Standardization---transforming threshold
+  exceedences to standard Pareto---occurs as
+  \begin{equation}
+    \label{eqn:standardization}
+    Z_{\ell} = \left(1 + \xi_{\ell}\frac{W_{\ell} - b_{\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}
+  \end{equation}
+  where $(\cdot)_{+}$ indicates not less than 0. If the quantity inside is less than 0, then the value
+  is truncated at 0.  We begin this transformation by establishing the marginal thresholds
+  $b_{t,\ell} := \hat{F}_{\ell}^{-1}\left(1 - \frac{1}{t}\right)$, then for those observations
+  in excess of the marginal threshold, we fit the scale parameters $a_{\ell}$, and extremal index $\xi_{\ell}$
+  via maximum likelihood. Note that $z_{\ell} > 1$ implies that $w_{\ell} > b_{t,\ell}$, meaning that the observation
+  $\bm{w}$ is extreme in the $\ell$'th dimension.  Note also that $\sup_j Z_j$ follows a simple Pareto
+  distribution. Estimation of the marginal extremal index and scale parameters uses only observations
+  in excess of the marginal threshold. Following standardization, further analysis is conditional on
+  $R \geq 1$.
+
+After standardization and transformation, we have $R\sim\text{Pareto}(1)$, and, independently,
+  $\bm{V}\in\mathcal{S}_{\infty}^{d-1}$, the positive orthant of the unit hypersphere under the
+  $\mathcal{L}_{\infty}$ norm.  The distribution of $\bm{V}$ effectively describes the dependence
+  structure of $\bm{Z}$, so the goal of our analysis subsequently becomes to adequately describe this
+  distribution.  We are as yet unaware of any known distributions established with a support
+  natively in this space, so we propose projecting a distribution defined on $\mathcal{R}_{+}^{d}$ onto
+  $\mathcal{S}_{\infty}^{d-1}$, the unit hypersphere established under the $\mathcal{L}_{\infty}$ norm.
+
+  \input{methodology_pnorm}
+
+  \input{methodology_projgamma}
+
+  \input{methodology_alternative}
