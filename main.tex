@@ -2,8 +2,28 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage{algorithm2e}
 \usepackage{bm}
 
+\newtheorem{prop}{Proposition}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\bruno}[1]{\textcolor{blue}{#1}} % Bruno Sanso edits - blue
+\newcommand{\makenote}[1]{\textcolor{red}{#1}} % Peter edits - red
+\newcommand{\findcite}{\textcolor{red}{[Find Citation]}}
+\newcommand{\needcite}{\findcite}
+\newcommand{\Chi}{\mbox{\Large$\chi$}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\inorm}[1]{\norm{#1}_{\infty}}
+\newcommand{\pnorm}[2]{\norm{#1}_{#2}}
 
 \title{}
 \author{}
@@ -11,6 +31,31 @@
 
 \begin{document}
 
+%--------title page
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+  \input{abstract}
+\end{abstract}
+
+\newpage
+%--------Table of contents
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+
+%--------content
+\input{introduction}
+
+\input{methodology}
+
+\input{evaluation}
+
+\input{results}
+
+\input{conclusion}
 
 \end{document}
+
 % EOF
