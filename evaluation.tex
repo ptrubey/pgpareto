@@ -23,14 +23,15 @@ The posterior predictive loss criterion, \emph{PPL} is introduced in \cite{gelfa
   where $X_i$ is a random variable from the posterior predictive distribution for $x_i$.  The
   scalar $k$ is a weighting factor by which we arbitrarily scale the importance of goodness of fit
   relative to precision.  In our analysis, we take the limit as $k\to\infty$, weighting both
-  parts equally.  Interpreting this criterion, a smaller $\text{Var}(\bm{X}_l)$ indicates a higher
-  precision, and a smaller $(\text{E}[\bm{X}_l] - \bm{x}_l)^2$  indicates a better fit.  Thus,
+  parts equally.  Interpreting this criterion, a smaller $\text{Var}(\bm{X}_{\ell})$ indicates a higher
+  precision, and a smaller $(\text{E}[\bm{X}_{\ell}] - \bm{x}_{\ell})^2$  indicates a better fit.  Thus,
   smaller is better.  Note that this is defined for a univariate distribution.  As we are dealing
   with a multivariate distribution, we will be taking the posterior predictive loss
   summed over all dimensions.  That is,
   \begin{equation}
     \label{eq:ppl2}
-    D_k^{(i)} = \frac{1}{d}\sum_{l = 1}^{d}\left[\text{Var}(X_{il}) + \frac{k}{k+1}\left(\text{E}[X_{il}] - x_{il}\right)^2\right]
+    D_k^{(i)} = \frac{1}{d}\sum_{\ell = 1}^{d}\left[\text{Var}(X_{i,\ell}) +
+                  \frac{k}{k+1}\left(\text{E} [X_{i,\ell}] - x_{i,\ell}\right)^2\right]
   \end{equation}
   Then we report the average $D_k$, taken over all $i$.
 
@@ -39,13 +40,14 @@ The energy score of Gneiting, et al\cite{gneiting2007}, is a generalization of t
   probability score, or \emph{crps}, defined for a multi-dimensional random variable.
   \begin{equation}
     \label{eq:es}
-    \text{ES}\left(P,x_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) - \frac{1}{2}\text{E}_p g\left(\bm{X}_i,\bm{X}_i^{\prime}\right)
+    \text{ES}\left(P, \bm{x}_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) -
+                                    \frac{1}{2}\text{E}_p g\left(\bm{X}_i,\bm{X}_i^{\prime}\right)
   \end{equation}
   where $g(\cdot)$ identifies a negative definite kernel, and $\bm{X}_i^{\prime}$ represents another
   replicate from the posterior predictive distribution of $\bm{x}_i$. A function $g$ is a negative definite kernel if it is symmetric in its arguments, $g(x_1,x_2) = g(x_2,x_1)$, and for which
-  $\sum_{i =1}^n\sum_{j=1}^n\alpha_i\alpha_jg(x_1,x_2) \leq 0$ for all positive integers n, with the
+  $\sum_{i =1}^n\sum_{j=1}^n\alpha_i\alpha_jg(\bm{x}_1,\bm{x}_2) \leq 0$ for all positive integers n, with the
   restriction that $\sum_{i=1}^n\alpha_i = 0$.  Euclidean distance is one example of a negative definite kernel,
-  and the one most often used.  However,   on $\mathcal{S}_p^{d-1}$ for $p > 1$, Euclidean distance
+  and the one most often used.  However, on $\mathcal{S}_p^{d-1}$ for $p > 1$, Euclidean distance
   can under-report the actual distance required for travel between two points. That distortion is
   maximized on $\mathcal{S}_{\infty}^{d-1}$.
 
@@ -140,7 +142,7 @@ Every successive rotation is relative to the last face.  So, as the number of di
 For points $a,b \in \mathcal{S}_{\infty}^{d-1}$ a valid negative definite kernel can be formed as
   \begin{equation}
     g(\bm{a},\bm{b}) = \begin{cases}
-        \pnorm{\bm{b}-\bm{a}}{2} &\text{ if }\argmax_l\bm{a} = \argmax_l\bm{b}\\
+        \pnorm{\bm{b}-\bm{a}}{2} &\text{ if }\argmax_{\ell}\bm{a} = \argmax_{\ell}\bm{b}\\
         \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} &\text{ otherwise}
     \end{cases}
   \end{equation}
@@ -159,7 +161,7 @@ In the first case, where $\bm{a}$ and $\bm{b}$ reside on the same face, then tha
   which is less than $0$ in both terms by definition.
 
 To compute this energy score as described would require optimization of the interim point $\bm{c}$.
-  If we again consider the one-dimensional rotation in Equation~\ref{eq:1drotation}--we
+  If we again consider the one-dimensional rotation in Equation~\ref{eq:1drotation}---we
   can view that as a numerically easier analogue accomplishing the same goal: the distance from
   the starting point, to some optimal point along the intersection between the starting and
   ending faces, to the ending point.  The strait line will pass through the optimal point, so
