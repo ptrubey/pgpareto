@@ -1,16 +1,39 @@
 
 \section{Introduction}
-In recent years much work has been done in the exploration of the definition and properties of an
-  appropriate generalization of the \emph{univariate} generalized Pareto distribution for exceedences
-  over a threshold, to a \emph{multivariate} setting.  For a short accounting of the topic, the work of
+The statistical analysis of extreme values focuses on inference for
+rare events that correspond to the tails of probability distributions.
+As such, it is a key ingredient in the assessment of the risk of
+phenomena that can have strong societal impacts like floods, heat waves,
+high concentration of pollutants, crashes in the financial markets,
+among others. The fundamental challenge of extreme value theory (EVT) is
+to use information, collected over limited periods of time, to
+extrapolate to long time horizons. This sets EVT apart from most of
+statistical inference, where the focus is on the bulk of the
+distribution. Extrapolation to the tails of the distributions is
+possible thanks to theoretical results that give asymptotic descriptions
+of the probability distributions of extreme values. 
+
+Inferential methods for the extreme values of univariate observations
+are well established and software is widely available \cite[see, for
+example,][]{coles2001}. For variables in one dimension the application of EVT methods consider the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter, which is the focus of this paper, leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameter. Likelihood-based approaches to inference can be readily implemented in both cases.
+In the multivariate case the GEV theory is well established \citep[see, for example][]{dehaan2006}, but the inferential problem is more complicated, as there is no parametric representation of the GEV. This problem is inherited by the PoT approach and compunded by the fact that there is no unique definition of an exceedance of a multivariate threshold, as there is an obvious dependence on the norm that used to measure the size of a vector. 
+
+During the last decade much work has been done in the exploration of the definition and properties of an
+  appropriate generalization of the univariate GP distribution 
+  to a multivariate setting.  To mention some of the papers on the topic, the work of
   \cite{rootzen2006} defines the generalized Pareto distribution, with further analysis on these classes
   of distributions presented in \cite{falk2008} and \cite{michel2008}.  A recent review of the state
   of the art in multivariate peaks over threshold modelling using generalized Pareto is provided in
-  \cite{rootzen2018}.  \cite{ferreira2014} presents a constructive definition of the multivariate Pareto
-  that decomposes the random vector into independent radial and angular components; the latter
-  containing all and only information pertaining to the dependence structure of the random vector.
-  Based on this definition, we present a novel approach for modelling that angular component, and thus
-  the modelling the dependence structure of the random vector.
+  \cite{rootzen2018} while \cite{RoSeWa2018a} provides insight on the theoretical properties of possible parametrizations. 
+  A frequently used method for describing the dependence
+  in multivariate distributions is to use a copula. \cite{renard2007,deng2011,falk2019}, provide successful examples of this approach in an EVT framework. {\bf is \cite{deng2011} really a relevant reference? It looks weird.}
+  \cite{ferreira2014} presents a constructive definition of the Pareto process, that generalizes the GP to an infinite dimensional setting. It consists of decomposing the process into independent radial and angular components. Such approach can be used in the finite dimensional case, where the angular component 
+  contains the information pertaining to the dependence structure of the random vector.
+  Based on this definition, we present a novel approach for modelling the distribution of the angular component
+  with families of distributions that provide flexibility and can be applied in a moderately large dimensional setting.
+  Models for the angular measure are important for multivariate EVT applications. \cite{SaNa2014} and \cite{HaCaCh2017} consider Bayesian non-parametric approaches to model the angular measure of the multivariate GEV. Particular attention is paid to the problem of satisfying the so called moment constraint.
+  
+  The reminder of this paper is outlined as follows. 
 
 To motivate the topic and our proposed solution, we acknowledge the relevance of extreme analysis to
   climatological events.  Outcomes such as heat waves, extreme precipitation, storm surges, and
@@ -20,150 +43,150 @@ To motivate the topic and our proposed solution, we acknowledge the relevance of
   specialized tools become necessary; especially so in a time of intensifying extreme weather
   events~\citep{jentsch2007,vousdoukas2018,li2019}.  To this end, we use the integrated water vapor
   transport (\emph{IVT}) data for observing atmospheric rivers as an example application for our proposed method.
-
-\subsection{Extreme Value Theory}
-\subsubsection{Univariate Maxima}
-Regarding the asymptotic behavior of extreme events, there are a couple major strategies for conducting
-  inference---developing probabilistic estimates of extreme behavior.  First developed is the theory
-  of a limiting distribution on maxima---the largest observation from a sample.  For a sample $\bm{x}$
-  where $\bm{x} = (x_1,\ldots,x_n)$ represents a sequence of $n$ independent random variables from a
-  distribution function $F$, the distribution of the maximum $M_n$ of this sequence can be derived
-  as:
-  \begin{equation*}
-    \begin{aligned}
-      \text{Pr}\left[M_n\leq z\right] &= \text{Pr}\left[X_1 \leq z, \ldots, X_n \leq z\right]\\
-        &= \text{Pr}\left[X_1\leq z\right]\times\ldots\times\text{Pr}\left[X_n\leq z\right]\\
-        &= F(z)^n.
-    \end{aligned}
-  \end{equation*}
-  In situations where $F$ is unknown, we can seek to approximate the behavior of $F^n$ as
-  $n\rightarrow\infty$.  To ensure this does not degenerate to a point mass, we need to consider a
-  standardized sequence of maxima. If this sequence stabilizes as $n$ increases, the a limiting
-  distribution exists.  More specifically, if there exists some sequence of constants $a_n > 0$, $b_n$
-  such that:
-  \begin{equation*}
-    \text{Pr}\left[\frac{M_n - b_n}{a_n} \leq z\right] \stackrel{d}{\rightarrow} G(z)
-  \end{equation*}
-  as $n\rightarrow\infty$, then $G$ is a max-stable distribution, and $F$ is in the domain of
-  attraction of that max stable distribution.  \cite{frechet1927} originates the
-  field, identifying two limiting forms of max-stable distributions, which would become known as the
-  Fr{\'e}chet and Weibull distributions. \cite{weibull1951} expands the analysis of the Weibull
-  distribution.  \cite{fisher1928}, in what is now called the \emph{Fisher-Tippett Theorem}, identifies
-  the Fr{\'e}chet and Weibull distributions, along with an as then unnamed third form, as the three
-  limiting forms of the distribution of the maxima of a sample.  \cite{gumbel1935,gumbel1942} offer
-  analysis of that third form, now known as the Gumbel distribution.  Later works, including
-  \cite{jenkinson1955} reparameterize all three forms as special cases of a single unifying form,
-  the generalized extreme value distribution, \emph{GEV}:
-  \begin{equation*}
-    \label{eqn:gev}
-    F(m \mid \mu, \sigma, \xi) = \exp\left\lbrace-\left[1 + \xi\left(\frac{x - \mu}{\sigma}\right)\right]_{}^{-1/{\xi}}\right\rbrace.
-  \end{equation*}
-  Thus distributions in the domain of attraction of an EVD (Gumbel, Fr{\'e}chet, or Weibull) will be
-  in the domain of attraction of the GEV.
-
-As this distribution specifies asymptotic behavior for the maximum of a set of observations,
-  inference assuming this distribution requires we that specify some block of data, and for the block
-  report only the maximum.  A series of these blocks yielding a series of maxima allows us to conduct
-  inference about the parameters of the distribution.  Taking only the
-  maximum in a block of observations necessarily leads to the reduction of our sample size by a factor
-  of $1/\text{block size}$. In problems where the data occur in natural blocks, such as an hourly time
-  series where a natural block might be a day, this might be appropriate.  There is an implicit
-  violation of the assumption of independence within a block, in most cases, but that violation is
-  generally ignored. In data without a natural block, it may be difficult to justify an induced
-  artitifial block. Moreover, by reducing available information, retaining only one datum for each
-  block increases the variability of the parameter estimates.
-
-\subsubsection{Univariate exceedences over a high threshold}
-The \emph{Pickands-Balkema-de Haan Theorem}~\citep{balkema1974,pickands1975} offers us another means
-  of conducting inference that will be less wasteful of data.  It states that if the original distribution
-  $F$ is in the domain of attraction of the GEV, then excesses over a high threshold $u$ can be well
-  modelled using the Generalized Pareto distribution.  Again, let $X$ follow some distribution function
-  $F$. It follows that:
-  \begin{equation*}
-    \text{Pr}\left[X > u + y\mid X > u\right] = \frac{1 - F(u + y)}{1 - F(u)}
-  \end{equation*}
-  for $y > 0$.  If $F$ is in the domain of attraction of an EVD, then
-  \begin{equation*}
-    \lim\limits_{u\to u^{\prime}}\text{Pr}\left[X > u + y\mid X > u\right] = H(y)
-  \end{equation*}
-  where $u^{\prime}$ represents some upper boundary of $X$ has a functional form---the survival
-  function of a Pareto distribution. We approximate this asymptotic relationship by setting some
-  large threshold $u$, and then threshold exceedences $Y = X - u$ are modelled under the distrribution
-  function
-  \begin{equation*}
-    \label{eqn:gp}
-    H(y) = 1 - \left(1 + \xi\frac{y}{\sigma}\right)^{-\frac{1}{\xi}}.
-  \end{equation*}
-  This defines the generalized Pareto family of distributions.  Thus, if block maxima have a
-  limiting distribution $G$ within the EVD family, then threshold exceedances for a sufficiently
-  high threshold have a limiting distribution $H$ within the Generalized Pareto (GP) family.  We can
-  identify $\sigma$ as a scale parameter, but $\xi$ deserves special mention as the extremal index.
-  We can interpret the Pareto tail probability as
-  \begin{equation*}
-    \lim\limits_{t\to\infty}\frac{1 - F(ty)}{1 - F(t)} = y^{-\frac{1}{\xi}}
-  \end{equation*}
-  for $y > 1$.  Importantly, $\xi$ from the limiting distribution of excesses over a threshold is the
-  same parameter, and has the same value as the $\xi$ from the limiting distribution of the maximum
-  observation of a sample \citep{dehaan2006}.
-
-One other point of note is that for time series, the data are temporally correlated.  Thus the implicit
-  assumption of independence for those observations in excess of a threshold is violated.  One means
-  of ameliorating the effect of this correlation is to decluster the data---and one method of declustering
-  is, for a series of observations in excess of the threshold, to keep only the maximum observed value
-  in the series.
-
-\subsubsection{Multivariate threshold EVT}
+  
 For the remainder of this paper, we adopt the operators $\wedge$ to denote minima, and the $\vee$
   to denote maxima.  Thus $\wedge_i x_i = \min_i x_i$, $\vee_i x_i = \max_i x_i$.  These operators can
   also be applied component-wise between vectors, such as $\bm{a}\wedge\bm{b} = (a_1\wedge b_1, a_2\wedge b_2,\ldots)$.
+  
+\section{A model for the multivariate GP}
+%\subsubsection{Univariate Maxima}
+%Regarding the asymptotic behavior of extreme events, there are a couple major strategies for conducting
+%  inference---developing probabilistic estimates of extreme behavior.  First developed is the theory
+%  of a limiting distribution on maxima---the largest observation from a sample.  For a sample $\bm{x}$
+%  where $\bm{x} = (x_1,\ldots,x_n)$ represents a sequence of $n$ independent random variables from a
+%  distribution function $F$, the distribution of the maximum $M_n$ of this sequence can be derived
+%  as:
+%  \begin{equation*}
+%    \begin{aligned}
+%      \text{Pr}\left[M_n\leq z\right] &= \text{Pr}\left[X_1 \leq z, \ldots, X_n \leq z\right]\\
+%        &= \text{Pr}\left[X_1\leq z\right]\times\ldots\times\text{Pr}\left[X_n\leq z\right]\\
+%        &= F(z)^n.
+%    \end{aligned}
+%  \end{equation*}
+%  In situations where $F$ is unknown, we can seek to approximate the behavior of $F^n$ as
+%  $n\rightarrow\infty$.  To ensure this does not degenerate to a point mass, we need to consider a
+%  standardized sequence of maxima. If this sequence stabilizes as $n$ increases, the a limiting
+%  distribution exists.  More specifically, if there exists some sequence of constants $a_n > 0$, $b_n$
+%  such that:
+%  \begin{equation*}
+%    \text{Pr}\left[\frac{M_n - b_n}{a_n} \leq z\right] \stackrel{d}{\rightarrow} G(z)
+%  \end{equation*}
+%  as $n\rightarrow\infty$, then $G$ is a max-stable distribution, and $F$ is in the domain of
+%  attraction of that max stable distribution.  \cite{frechet1927} originates the
+%  field, identifying two limiting forms of max-stable distributions, which would become known as the
+%  Fr{\'e}chet and Weibull distributions. \cite{weibull1951} expands the analysis of the Weibull
+%  distribution.  \cite{fisher1928}, in what is now called the \emph{Fisher-Tippett Theorem}, identifies
+%  the Fr{\'e}chet and Weibull distributions, along with an as then unnamed third form, as the three
+%  limiting forms of the distribution of the maxima of a sample.  \cite{gumbel1935,gumbel1942} offer
+%  analysis of that third form, now known as the Gumbel distribution.  Later works, including
+%  \cite{jenkinson1955} reparameterize all three forms as special cases of a single unifying form,
+%  the generalized extreme value distribution, \emph{GEV}:
+%  \begin{equation*}
+%    \label{eqn:gev}
+%    F(m \mid \mu, \sigma, \xi) = \exp\left\lbrace-\left[1 + \xi\left(\frac{x - \mu}{\sigma}\right)\right]_{}^{-1/{\xi}}\right\rbrace.
+%  \end{equation*}
+%  Thus distributions in the domain of attraction of an EVD (Gumbel, Fr{\'e}chet, or Weibull) will be
+%  in the domain of attraction of the GEV.
 
-The generalization of EVT to multiple dimensions presents a unique challenge in the case of maxima---how
-  do we define the maximum of a sample?  How can we order observations in a multivariate scenario?
-  \cite{rootzen2006} offers a brief review of the subject.  One possible treatment sidesteps this
-  conundrum by using component maxima---let $\bm{M}_n = \left(\vee_i X_{i1},\ldots,\vee_i X_{id}\right)$.
-  Then the multivariate GEV establishes the limiting behavior of $\bm{M}_n$ as $n\to\infty$.  Note
-  that $\bm{M}_n$ need not be in the observed $\left\lbrace\bm{X}_i; i = 1,\ldots,n\right\rbrace$.
-  Then, if there is a set of constants $\bm{a}_n > \bm{0}$, $\bm{b}_n$ such that
-  \begin{equation*}
-    \lim\limits_{n\to\infty}\text{P}\left(\bigcap_{\ell = 1}^d
-      \frac{M_{n\ell} - b_{n\ell}}{a_{n\ell}} \leq x_{\ell}\right) = G(\bm{x})
-  \end{equation*}
-  with non-degenerate marginals, then $G(\bm{x})$ is a \emph{multivariate extreme value distribution}.
-  The marginal distribution of $M_{nl}$ is by construction a GEV with the parameters $a_{n\ell}, b_{n\ell}, \xi$.
-  With the existence of the marginal distributions established as a consequence of the existence of the
-  GEV, multivariate EVT then splits into two components---estimation of the marginal parameters, and
-  estimation of the dependence structure.  This separation is born out extensively in the literature.
+%As this distribution specifies asymptotic behavior for the maximum of a set of observations,
+%  inference assuming this distribution requires we that specify some block of data, and for the block
+%  report only the maximum.  A series of these blocks yielding a series of maxima allows us to conduct
+%  inference about the parameters of the distribution.  Taking only the
+%  maximum in a block of observations necessarily leads to the reduction of our sample size by a factor
+%  of $1/\text{block size}$. In problems where the data occur in natural blocks, such as an hourly time
+%  series where a natural block might be a day, this might be appropriate.  There is an implicit
+%  violation of the assumption of independence within a block, in most cases, but that violation is
+%  generally ignored. In data without a natural block, it may be difficult to justify an induced
+%  artitifial block. Moreover, by reducing available information, retaining only one datum for each
+%  block increases the variability of the parameter estimates.
 
-As in the multivariate extrema case, analysis in peaks over thresholds modelling generally first develops
-  the marginal distributions, then establishes the dependence structure.  In extreme analysis, a frequently
-  used method for describing the dependence
-  structure is the copula---a family of multivariate cumulative distribution functions with uniform
-  marginal distributions~\cite{renard2007,deng2011,falk2019},
-  but this presents its own difficulties in modelling and interpretation.  Instead, we propose a novel
-  method based on the constructive definition of the multivariate Pareto presented in
-  \cite{ferreira2014}, where we assume that the $d$-dimensional vector $\bm{Z}$, after standardization
-  is such that for some distribution $\mu$ defined on $\mathcal{R}_+^d$,
-  \begin{equation}
-    \lim\limits_{n\to\infty}n\text{Pr}\left[\frac{1}{n}\bm{Z}\geq \bm{z}\right] = \mu\left([\bm{0},\bm{z}]^c\right).
-  \end{equation}
-  In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ in extreme regions---the
-  \emph{exponent measure}.  $\mu$ features the homogeneity property $\mu(tA) = \frac{1}{t}\mu(A)$.
-  By this property, \cite{ferreira2014} factorize $\bm{Z}\to R\bm{V}$, where
-  $R = \pnorm{\bm{Z}}{\infty} > 1$ describes the radial component, and
+%\subsubsection{Univariate exceedences over a high threshold}
+%The \emph{Pickands-Balkema-de Haan Theorem}~\citep{balkema1974,pickands1975} offers us another means
+%  of conducting inference that will be less wasteful of data.  It states that if the original distribution
+%  $F$ is in the domain of attraction of the GEV, then excesses over a high threshold $u$ can be well
+%  modelled using the Generalized Pareto distribution.  Again, let $X$ follow some distribution function
+%  $F$. It follows that:
+%  \begin{equation*}
+%    \text{Pr}\left[X > u + y\mid X > u\right] = \frac{1 - F(u + y)}{1 - F(u)}
+%  \end{equation*}
+%  for $y > 0$.  If $F$ is in the domain of attraction of an EVD, then
+%  \begin{equation*}
+%    \lim\limits_{u\to u^{\prime}}\text{Pr}\left[X > u + y\mid X > u\right] = H(y)
+%  \end{equation*}
+%  where $u^{\prime}$ represents some upper boundary of $X$ has a functional form---the survival
+%  function of a Pareto distribution. We approximate this asymptotic relationship by setting some
+%  large threshold $u$, and then threshold exceedences $Y = X - u$ are modelled under the distrribution
+%  function
+%  \begin{equation*}
+%    \label{eqn:gp}
+%    H(y) = 1 - \left(1 + \xi\frac{y}{\sigma}\right)^{-\frac{1}{\xi}}.
+%  \end{equation*}
+%  This defines the generalized Pareto family of distributions.  Thus, if block maxima have a
+%  limiting distribution $G$ within the EVD family, then threshold exceedances for a sufficiently
+%  high threshold have a limiting distribution $H$ within the Generalized Pareto (GP) family.  We can
+%  identify $\sigma$ as a scale parameter, but $\xi$ deserves special mention as the extremal index.
+%  We can interpret the Pareto tail probability as
+%  \begin{equation*}
+%    \lim\limits_{t\to\infty}\frac{1 - F(ty)}{1 - F(t)} = y^{-\frac{1}{\xi}}
+%  \end{equation*}
+%  for $y > 1$.  Importantly, $\xi$ from the limiting distribution of excesses over a threshold is the
+%  same parameter, and has the same value as the $\xi$ from the limiting distribution of the maximum
+%  observation of a sample \citep{dehaan2006}.
+
+%One other point of note is that for time series, the data are temporally correlated.  Thus the implicit
+%  assumption of independence for those observations in excess of a threshold is violated.  One means
+%  of ameliorating the effect of this correlation is to decluster the data---and one method of declustering
+%  is, for a series of observations in excess of the threshold, to keep only the maximum observed value
+%  in the series.
+
+%\subsubsection{Multivariate threshold EVT}
+
+%The generalization of EVT to multiple dimensions presents a unique challenge in the case of maxima---how
+%  do we define the maximum of a sample?  How can we order observations in a multivariate scenario?
+%  \cite{rootzen2006} offers a brief review of the subject.  One possible treatment sidesteps this
+%  conundrum by using component maxima---let $\bm{M}_n = \left(\vee_i X_{i1},\ldots,\vee_i X_{id}\right)$.
+%  Then the multivariate GEV establishes the limiting behavior of $\bm{M}_n$ as $n\to\infty$.  Note
+%  that $\bm{M}_n$ need not be in the observed $\left\lbrace\bm{X}_i; i = 1,\ldots,n\right\rbrace$.
+%  Then, if there is a set of constants $\bm{a}_n > \bm{0}$, $\bm{b}_n$ such that
+%  \begin{equation*}
+%    \lim\limits_{n\to\infty}\text{P}\left(\bigcap_{\ell = 1}^d
+%      \frac{M_{n\ell} - b_{n\ell}}{a_{n\ell}} \leq x_{\ell}\right) = G(\bm{x})
+%  \end{equation*}
+%  with non-degenerate marginals, then $G(\bm{x})$ is a \emph{multivariate extreme value distribution}.
+%  The marginal distribution of $M_{nl}$ is by construction a GEV with the parameters $a_{n\ell}, b_{n\ell}, \xi$.
+%  With the existence of the marginal distributions established as a consequence of the existence of the
+%  GEV, multivariate EVT then splits into two components---estimation of the marginal parameters, and
+%  estimation of the dependence structure.  This separation is born out extensively in the literature.
+
+To develop a multivariate PoT model for extreme values consider a $d$-dimensional random vector $\bm{Z}$, whose marginal distributions have been standardized. Thus $\bm{Z} \in {\mathbb R}^d_+ = [0,+\infty]^d$, the positive $d$-dimensional cone. Following the discussion in \cite{goix2017} we assume a form of regular variation, consisting on assuming the existing of a limiting measure $\mu$, such that.
+\[
+    \lim\limits_{n\to\infty}n\text{Pr}\left[\frac{1}{n}\bm{Z}\geq \bm{z}\right] = \mu\left([\bm{0},\bm{z}]^c\right),
+\]
+where the inequality and the interval are taken componentwise. 
+In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ in extreme regions, and it is referred to as the
+  \emph{exponent measure}.  $\mu$ features the homogeneity property $\mu(tA) = \frac{1}{t}\mu(A)$. This
+corresponds to the second condition in Theorem 2.1 of
+\cite{ferreira2014}, applied to the finite-dimensional case.
+Thus, we factorize $\bm{Z} =  R\bm{V}$, where
+  $R = \pnorm{\bm{Z}}{\infty} $ describes the radial component, and
   $\bm{V} = \bm{Z}/\pnorm{\bm{Z}}{\infty} \in \mathcal{S}_{\infty}^{d-1}$ the angular component of
-  $\bm{Z}$ in $\mathcal{R}_+^d$.  $\mu(\cdot)$ is similarly factorized as
-  \begin{equation}
-    \mu\left( \left\lbrace\bm{Z} : R(\bm{Z}) > r, V(\bm{Z}) \in A \right\rbrace \right) = r^{-1}\Phi(A),
-  \end{equation}
-  where $\Phi(\cdot)$ is the \emph{spectral measure}.  The spectral measure is thus independent and
+  $\bm{Z}$,  and ${\mathbb S}_\infty^{d-1}$ denotes the positive
+orthant of the unit sphere in infinite
+norm.  $\mu(\cdot)$ is then factorized as
+\[
+    \mu\left( \left\lbrace\bm{Z} : V(\bm{Z}) \in A , R(\bm{Z}) > r\right\rbrace \right) = r^{-1}\Phi(A),
+\]
+  where $\Phi(\cdot)$ is the \emph{angular measure}.  The angular measure is thus independent and
   separable from the radial component.  Furthermore,
-  \begin{equation}
-    \text{P}\left[\bm{V} \in A \mid R > r\right]
-      = \frac{r\text{P}\left[\bm{V} \in A, R > r\right]}{r\text{P}[R > r]}\hspace{0.2cm}
-      \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \frac{\Phi(A)}{\Phi(\mathcal{S}_{\infty}^{d-1})}
-  \end{equation}
-  Describing the dependence structure of $\bm{Z}$, equivalently describes the spectral measure
-  $\Phi$. To accomplish this, we seek to establish a distribution on $\bm{V} \in \mathcal{S}_{\infty}^{d-1}$.
+\begin{equation} \label{MGP}
+    \text{Pr}\left[\bm{V} \in A \mid R > r\right]
+      = \frac{r\text{Pr}\left[\bm{V} \in A, R > r\right]}{r\text{Pr}[R > r]}\hspace{0.2cm}
+      \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \frac{\Phi(A)}{\Phi(\mathcal{S}_{\infty}^{d-1})}.
+\end{equation}
+  Thus, the angular measure corresponds to the distribution of $\bm{V}$, conditional on $\bm{R}$ being large.
+  As such, it controls the dependence structure of $\bm{Z}$ in the tails. To obtain an EVT model for $\bm{Z}$, we seek to establish a flexible distribution on $\bm{V} \in \mathcal{S}_{\infty}^{d-1}$.
+
+An alternative approach to defining the multivariate GP in Equation \eqref{MGP} is provided by Theorem 6 in \cite{RoSeWa2018a}. Using the notation in that theorem, define $\bm{S} = \log(\bm{V})$. Then $\bm{S}$ is a spectral random vector, according to Definition 5. Taking $E \sim \text{Exp}(1)$, independent of $\bm{V}$, we have that $\bm{Y} = \bm{S} + E$ follows a multivariate GP, according to Theorem 6.  Then, using Proposition 4, $\bm{Z} = e^{Y}$ is also a multivariate GP. Notice that $\bm{R} = e^E$ is distributed as a standard Pareto random variable.
 
 \subsection{Integrated Vapor Transport}
 Atmospheric rivers are temporary events, where large elongated regions of high concentrations of
