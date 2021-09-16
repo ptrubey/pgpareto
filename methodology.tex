@@ -1,31 +1,17 @@
-\section{Methodology}
-To establish a distribution on this extremal dependence structure, first we must standardize
-  $\bm{W} \in R^d$ such that its marginal extreme distributions follow a common form.  Following
-  the work of \cite{ferreira2014}, if the marginal distributions $F_{\ell}$ fall into the domain
-  of attraction of some GEV $G_{\ell}$, then threshold exceedences for a sufficiently high threshold
-  $b_{\ell}$ can be modelled as generalized Pareto $H_{\ell}$.  Standardization---transforming threshold
-  exceedences to standard Pareto---occurs as
-  \begin{equation}
-    \label{eqn:standardization}
-    Z_{\ell} = \left(1 + \xi_{\ell}\frac{W_{\ell} - b_{\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}
-  \end{equation}
-  where $(\cdot)_{+}$ indicates not less than 0. If the quantity inside is less than 0, then the value
-  is truncated at 0.  We begin this transformation by establishing the marginal thresholds
-  $b_{t,\ell} := \hat{F}_{\ell}^{-1}\left(1 - \frac{1}{t}\right)$, then for those observations
-  in excess of the marginal threshold, we fit the scale parameters $a_{\ell}$, and extremal index $\xi_{\ell}$
-  via maximum likelihood. Note that $z_{\ell} > 1$ implies that $w_{\ell} > b_{t,\ell}$, meaning that the observation
-  $\bm{w}$ is extreme in the $\ell$'th dimension.  Note also that $\sup_j Z_j$ follows a simple Pareto
-  distribution. Estimation of the marginal extremal index and scale parameters uses only observations
-  in excess of the marginal threshold. Following standardization, further analysis is conditional on
-  $R \geq 1$.
+\section{Estimation of the angular measure}
 
-After standardization and transformation, we have $R\sim\text{Pareto}(1)$, and, independently,
-  $\bm{V}\in\mathcal{S}_{\infty}^{d-1}$, the positive orthant of the unit hypersphere under the
-  $\mathcal{L}_{\infty}$ norm.  The distribution of $\bm{V}$ effectively describes the dependence
-  structure of $\bm{Z}$, so the goal of our analysis subsequently becomes to adequately describe this
-  distribution.  We are as yet unaware of any known distributions established with a support
-  natively in this space, so we propose projecting a distribution defined on $\mathcal{R}_{+}^{d}$ onto
-  $\mathcal{S}_{\infty}^{d-1}$, the unit hypersphere established under the $\mathcal{L}_{\infty}$ norm.
+Consider a collection of observations that correspond to independent replicates of  random vector $\bm{W}\in {\mathbb R}^d$ and that exhibit extreme behavior. In order to estimate the angular distribution we start by standardizing each of the marginals. We set a large threshold $b_{t,i}$ for the $i$-th marginal, and assume that the corresponding exceedances follow a univariate GP. A threshold can be chosen using the empirical $1/t$-quantile fot he $i$-th component. Thus $b_{t,i} = \hat{F}_i(1 - 1/t)$. Standardization yields
+
+\begin{equation}
+    \label{eqn:standardization}
+    Z_{i} = \left(1 + \xi_{i}\frac{W_{i} - b_{t,i}}{a_{i}}\right)_{+}^{1/\xi_{i}}
+\end{equation}
+  where $(\cdot)_{+}$ indicates the positive part function. The scale parameters $a_{i}$, and extremal indexes $\xi_{i}$ can be fitted using a likelihood based method.
+ Note that $Z_{i} > 1$ implies that $w_{i} > b_{t,i}$, meaning that the observation
+  $\bm{w}$ is extreme in the $i$-th dimension.  Note also that $R>1$ implies that at least one dimension has an extreme observation, and corresponds to a very extreme observation when $t$ is large. Thus, we perform the estimation of $\Phi$ conditional on the standardized observations that are such that $R>1$. From these, we obtain a sample of $R$ and
+  $\bm{V}\in\mathcal{S}_{\infty}^{d-1}$. We are as yet unaware of any known distributions with a support
+  in this space, so we propose projecting a distribution defined on ${\mathbb R}_{+}^{d}$ onto
+  $\mathcal{S}_{\infty}^{d-1}$.
 
   \input{methodology_pnorm}
 

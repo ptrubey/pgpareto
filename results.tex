@@ -1,7 +1,7 @@
 
-\section{Results}
+\section{Data illustrations}
 
-\subsection{Simulation}
+\subsection{Simulations}
 We have introduced this projected gamma distribution existing on $\mathcal{S}_{\infty}^{p-1}$.  As a
   means of evaluating how well we can recover a distribution under the proposed model, we have
   generated a series of datasets on $\mathcal{S}_{\infty}^{d-1}$, for $d$ ranging between 3 and 20.
@@ -93,6 +93,26 @@ in Figure~\ref{fig:simkld} we see the application of the $k$NN-based K.L. diverg
   energy score and posterior predictive loss criteria.
 
 \subsection{Integrated Vapor Transport}
+One metric by which we might identify and declare atmospheric rivers is the integrated water vapor
+  transport, or \emph{IVT}.  This value represents the total amount of water
+  vapor being transported in an atmospheric column---that is, a column of the troposphere above a given
+  area of the surface of the Earth. Raw data are measured by dropsondes---measurement devices dropped
+  out of aircraft, taking measurements as they fall to the earth.~\citep{ralph2017}  A data vector
+  includes an estimate of IVT at grid cell at a period in time; where a grid cell specifies the surface
+  of the earth under the atmospheric column.  We have two such datasets, in differing spatial
+  resolutions---the lower resolution data splits the coast of california into 8 grid cells, while the
+  higher resolution does so into 47 grid cells~\citep{guan2015}.
+
+As IVT tracks water vapor in the atmosphere, extreme values in IVT can lead to
+  extreme precipitation events.  Atmospheric rivers are necessary events, in that they carry the
+  bulk of precipitation that California recieves, but extreme precipitation events can be extremely
+  destructive as well.  Thus, we are interested in the distribution of extreme precipitation events,
+  including their depenedence structure.  This tells us about the probability of jointly extreme
+  events---where IVT is extreme in two or more grid cells, as well as identifying particular
+  configurations of IVT that may be anomalous.  In California, groundwater is a managed resource.
+  Extreme precipitation events significantly affect groundwater, so anomalous precipitation events
+  can produce anomalous configurations of groundwater, leading to destructive flooding.
+
 We use data from the integrated water vapor transport (\emph{IVT}) model \citep{guan2015}
   of atmospheric rivers as a means of testing these models.  An atmospheric river is a meteorological
   event of local concentration of water vapor in the atmosphere that moves with wind patterns.
@@ -103,6 +123,8 @@ We use data from the integrated water vapor transport (\emph{IVT}) model \citep{
   the extremal dependence, then we may not install adequate capacity and thus experience flooding.
   Alternatively, if we install too much capacity everywhere, then we are wasting money that could be
   better spent elsewhere.
+  
+  {\bf We need a one paragraph summary of the stuff in the last three paragraphs. Say what IVT, how it is obtained, why it is important and describe the two datasets you have.}
 
 Fitting our models to this data requires some pre-processing. First, we subset the data to the rainy
   season, which appears from November to March.  The marginal distributions of the
