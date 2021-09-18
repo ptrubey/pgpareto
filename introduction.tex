@@ -16,9 +16,9 @@ of the probability distributions of extreme values.
 Inferential methods for the extreme values of univariate observations
 are well established and software is widely available \cite[see, for
 example,][]{coles2001}. For variables in one dimension the application of EVT methods consider the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameters. Likelihood-based approaches to inference can be readily implemented in both cases.
-In the multivariate case the GEV theory is well established \citep[see, for example][]{dehaan2006}, but the inferential problem is more complicated, as there is no parametric representation of the GEV. This problem is inherited by the PoT approach and compounded by the fact that there is no unique definition of an exceedance of a multivariate threshold, as there is an obvious dependence on the norm that is used to measure the size of a vector. 
+In the multivariate case the GEV theory is well developed \citep[see, for example][]{dehaan2006}, but the inferential problem is more complicated, as there is no parametric representation of the GEV. This problem is inherited by the PoT approach and compounded by the fact that there is no unique definition of an exceedance of a multivariate threshold, as there is an obvious dependence on the norm that is used to measure the size of a vector. 
 
-During the last decade much work has been done in the exploration of the definition and properties of an
+During the last decade or so much work has been done in the exploration of the definition and properties of an
   appropriate generalization of the univariate GP distribution 
   to a multivariate setting.  To mention some of the papers on the topic, the work of
   \cite{rootzen2006} defines the generalized Pareto distribution, with further analysis on these classes
@@ -164,19 +164,19 @@ To develop a multivariate PoT model for extreme values consider a $d$-dimensiona
 \]
 where the inequality and the interval are taken componentwise. 
 In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ in extreme regions, and it is referred to as the
-  \emph{exponent measure}.  $\mu$ features the homogeneity property $\mu(tA) = \frac{1}{t}\mu(A)$. 
-Assume that $R = \max_{i} Z_i>1$ with probability one, and that $V_i = Z_i/\max_i Z_i$ is such that $E(V_i)>0$, then
-we have that the second condition in Theorem 2.1 of
-\cite{ferreira2014}, applied to the finite-dimensional case, is satisfied.
-Thus, we have the factorization $\bm{Z} =  R\bm{V}$, where $R$ and $\bm{V}$  are independent. Thus,
+  \emph{exponent measure}. Under this condition $\mu$ features the homogeneity property $\mu(tA) = \frac{1}{t}\mu(A)$. 
+Define that $R = \max_{i} Z_i$, and assume that $R>1$ with probability one. Also, define $V_i = Z_i/\max_i Z_i$, and assume that $E(V_i)>0$.
+These two assumption together with the homogeneity of $\mu$ correspond to the second condition in Theorem 2.1 of
+\cite{ferreira2014}, applied to the finite-dimensional case.
+Thus, we have the factorization $\bm{Z} =  R\bm{V}$, where $R$ and $\bm{V}$  are independent. Moreover,
 for some measure $\Phi$, $\mu(\cdot)$ is factorized as
-\[
+\begin{equation}\label{mufact}
     \mu\left( \left\lbrace\bm{Z} : V \in A , R > r\right\rbrace \right) = r^{-1}\Phi(A).
-\]
+\end{equation}
 $R$ describes the radial component, and $\bm{V} \in \mathcal{S}_{\infty}^{d-1}$ the 
 angular component of $\bm{Z}$.  Here ${\mathbb S}_\infty^{d-1}$ denotes the positive
 orthant of the unit sphere in infinite norm.  $\Phi(\cdot)$ is referred to as the \emph{angular measure}.   
-Moreover, $R$ is distributed as a standard Pareto random variable. Conditioning on $R$, we have that
+From Equation (\ref{mufact}) we see that $R$ is distributed as a standard Pareto random variable. Conditioning on $R$, we have that
 \begin{equation} \label{MGP}
     \text{Pr}\left[\bm{V} \in A \mid R > r\right]
       = \frac{r\text{Pr}\left[\bm{V} \in A, R > r\right]}{r\text{Pr}[R > r]}\hspace{0.2cm}
@@ -195,7 +195,7 @@ a flexible distribution on $\bm{V} \in \mathcal{S}_{\infty}^{d-1}$.
 
 \cite{ferreira2014} refer to the model defined in Equation \eqref{MGP} as a simple 
 Pareto process indexed on a finite dimensional set. An alternative approach to 
-define such distribution that provides a link to the multivariate GEV is discussed 
+define such distribution, that provides a link to the multivariate GEV, is discussed 
 in Remark 1 of \cite{RoSeWa2018a}. More specifically, 
 using the notation in Theorem 6 of \cite{RoSeWa2018a}, define $\bm{S} = \log(\bm{V})$. 
 Then, according to Definition 5, $\bm{S}$ is a spectral random vector. Taking 
