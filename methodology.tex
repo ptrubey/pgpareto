@@ -1,15 +1,15 @@
 \section{Estimation of the angular measure}
 
-Consider a collection of observations that correspond to independent replicates of  random vector $\bm{W}\in {\mathbb R}^d$ and that exhibit extreme behavior. In order to estimate the angular distribution we start by standardizing each of the marginals. We set a large threshold $b_{t,i}$ for the $i$-th marginal, and assume that the corresponding exceedances follow a univariate GP. A threshold can be chosen using the empirical $1/t$-quantile fot he $i$-th component. Thus $b_{t,i} = \hat{F}_i(1 - 1/t)$. Standardization yields
+Consider a collection of observations $\bm{w}_j\in {\mathbb R}^d, j=1, \ldots , n$ that exhibit extreme behavior. In order to estimate the angular distribution we start by standardizing each of the marginals. We set a large threshold $b_{t,i}$ for the $i$-th marginal, $i=1, \ldots ,d$, and assume that the corresponding exceedances follow a univariate GP. A threshold can be chosen using the empirical $1/t$-quantile for the $i$-th component. Thus $b_{t,i} = \hat{F}_i(1 - 1/t)$. Standardization yields
 
 \begin{equation}
     \label{eqn:standardization}
-    Z_{i} = \left(1 + \xi_{i}\frac{W_{i} - b_{t,i}}{a_{i}}\right)_{+}^{1/\xi_{i}}
+    z_{ji} = \left(1 + \xi_{i}\frac{w_{ji} - b_{t,i}}{a_{i}}\right)_{+}^{1/\xi_{i}}
 \end{equation}
   where $(\cdot)_{+}$ indicates the positive part function. The scale parameters $a_{i}$, and extremal indexes $\xi_{i}$ can be fitted using a likelihood based method.
- Note that $Z_{i} > 1$ implies that $w_{i} > b_{t,i}$, meaning that the observation
-  $\bm{w}$ is extreme in the $i$-th dimension.  Note also that $R>1$ implies that at least one dimension has an extreme observation, and corresponds to a very extreme observation when $t$ is large. Thus, we perform the estimation of $\Phi$ conditional on the standardized observations that are such that $R>1$. From these, we obtain a sample of $R$ and
-  $\bm{V}\in\mathcal{S}_{\infty}^{d-1}$. We are as yet unaware of any known distributions with a support
+ Note that $z_{ji} > 1$ implies that $w_{ji} > b_{t,i}$, meaning that the observation
+  $\bm{w}_j$ is extreme in the $i$-th dimension.  Note also that $r_j = ||\bm{w}_j||_\infty>1$ implies that at least one dimension has an extreme observation, and corresponds to a very extreme observation when $t$ is large. Thus, we perform the estimation of $\Phi$ conditional on the standardized observations that are such that $r_j>1$. From these, we obtain a sub-sample of $r_j$ and
+  $\bm{v}_j = \bm{z}_j/r_j\in\mathcal{S}_{\infty}^{d-1}$. We are as yet unaware of any known distributions with a support
   in this space, so we propose projecting a distribution defined on ${\mathbb R}_{+}^{d}$ onto
   $\mathcal{S}_{\infty}^{d-1}$.
 
