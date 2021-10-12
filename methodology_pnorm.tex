@@ -1,4 +1,4 @@
-\subsection{Projection onto an arbitrary unit hypersphere}
+\subsection{Projection onto an arbitrary unit hypersphere\label{subsec:projection}}
 
 %\begin{figure}[ht]
 %    \centering
@@ -20,11 +20,11 @@ The $\mathcal{L}_{\infty}$ norm can be obtained as a limit,
 To define an angular measure,  we are interested in the direction of
 vectors in ${\mathbb R}_{+}^d$, thus, we project them onto
   \begin{equation*}
-    \mathcal{S}_{p}^{d-1} = \left\lbrace \bm{s} : \bm{s} \in {\mathbb R}_{+}^{d}, \lVert \bm{s}\rVert_{p} = 1\right\rbrace,
+    {\mathbb S}_{p}^{d-1} = \left\lbrace \bm{s} : \bm{s} \in {\mathbb R}_{+}^{d}, \lVert \bm{s}\rVert_{p} = 1\right\rbrace,
   \end{equation*}
   the $\mathcal{L}_p$-norm unit hypersphere.
-  Given $\bm{x}\in {\mathbb R}^d_+$ the projection onto $\mathcal{S}_{p}^{d-1}$ is given as
-  $\bm{y} = \bm{x} / \lVert \bm{x}\rVert_p \in \mathcal{S}_{p}^{d-1}$.
+  Given $\bm{x}\in {\mathbb R}^d_+$ the projection onto ${\mathbb S}_{p}^{d-1}$ is given as
+  $\bm{y} = \bm{x} / \lVert \bm{x}\rVert_p \in {\mathbb S}_{p}^{d-1}$.
   Observations on one hypersphere can be projected without loss of information onto another by
   dividing by the defining norm of the target hypersphere. In fact, letting 
   \begin{equation*}
@@ -48,6 +48,6 @@ vectors in ${\mathbb R}_{+}^d$, thus, we project them onto
     r^{d-1}\left[\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}} +
         {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right].
   \end{equation}
-  Equations (\ref{eqn:pnormt}) -- (\ref{eqn:pnormjac}) can be used to define a density on ${\mathbb R}^p_+$, and then obtain a density on $\mathcal{S}_{p}^{d-1}$, for any finite $p>0$. Unfortunately in the limit, when $p\rightarrow +\infty$, the transformation is not differentiable. Thus, even though the projected distribution on $\mathcal{S}_\infty^{d-1}$ is defined, there is no corresponding density.
+  Equations (\ref{eqn:pnormt}) -- (\ref{eqn:pnormjac}) can be used to define a density on ${\mathbb R}^p_+$, and then obtain a density on ${\mathbb S}_{p}^{d-1}$, for any finite $p>0$. Unfortunately in the limit, when $p\rightarrow +\infty$, the transformation is not differentiable. Thus, even though the projected distribution on ${\mathbb S}_\infty^{d-1}$ is defined, there is no corresponding density.
   
 % EOF

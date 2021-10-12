@@ -1,5 +1,6 @@
 
 \section{Introduction}
+
 The statistical analysis of extreme values focuses on inference for
 rare events that correspond to the tails of probability distributions.
 As such, it is a key ingredient in the assessment of the risk of
@@ -14,8 +15,7 @@ possible thanks to theoretical results that give asymptotic descriptions
 of the probability distributions of extreme values. 
 
 Inferential methods for the extreme values of univariate observations
-are well established and software is widely available \cite[see, for
-example,][]{coles2001}. For variables in one dimension the application of EVT methods consider the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameters. Likelihood-based approaches to inference can be readily implemented in both cases.
+are well established and software is widely available \cite[see, for example,][]{coles2001}. For variables in one dimension the application of EVT methods consider the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameters. Likelihood-based approaches to inference can be readily implemented in both cases.
 In the multivariate case the GEV theory is well developed \citep[see, for example][]{dehaan2006}, but the inferential problem is more complicated, as there is no parametric representation of the GEV. This problem is inherited by the PoT approach and compounded by the fact that there is no unique definition of an exceedance of a multivariate threshold, as there is an obvious dependence on the norm that is used to measure the size of a vector. 
 
 During the last decade or so much work has been done in the exploration of the definition and properties of an
@@ -33,22 +33,25 @@ During the last decade or so much work has been done in the exploration of the d
   with families of distributions that provide flexibility and can be applied in a moderately large dimensional setting.
   Our focus on the  angular measure is similar to that in \cite{SaNa2014} and \cite{HaCaCh2017}, that consider Bayesian non-parametric approaches. Yet, our approach avoids the problem of dealing with the so called moment constraint by considering a constructive definition of the multivariate GP based on the infinity norm.
   
-  The reminder of this paper is outlined as follows. {\bf We need a roadmap. Part of the roadmap should mention the analysis of the IVT. Basically condensing the paragraph below in a couple of sentences.}
+  The reminder of this paper is outlined as follows. Section~\ref{sec:multivariatepot} comprises a brief review of multivariate PoT, detailing the separation of the radial measure from the angular measure.
+  Section~\ref{sec:methodology} details our routine for estimating the angular measure, where~\ref{subsec:projection} elaborates the process of projecting an arbitrary distribution supported in ${\mathbb R}_+^d$ onto an a series of manifolds ${\mathbb S}_p^{d-1}$, $p = 1,2,\ldots$ approaching the support of the angular measure, on to which~\ref{subsec:projgamma} builds to develop a \emph{projected Gamma} family of distributions.  Section~\ref{sec:evaluation} is concerned with developing criteria for model selection in the support of the angular measure.  Section~\ref{sec:results} details the efficacy of the projected gamma model in recovering the distribution of data on the support of the angular measure---in~\ref{subsec:simulated}, this is done on simulated data, and in~\ref{subsec:ivt}, acknowledging the relevance of of extreme value theory to climatological events~\citep{jentsch2007,vousdoukas2018,li2019}, we estimate the extremal dependence structure for the integrated vapor transport---a measure of water vapor in the atmosphere, used for identifying atmospheric rivers.  Inferences from the dependence structure detailed in~\ref{subsec:ped} and~\ref{subsec:condsurv} are applied.  Finally, Section~\ref{sec:conclusion} concludes.
 
-To motivate the topic and our proposed solution, we acknowledge the relevance of extreme analysis to
-  climatological events.  Outcomes such as heat waves, extreme precipitation, storm surges, and
-  such present a similar challenge to investigators, in that the events of interest can be very destructive,
-  and occur in probability at the tail end of \emph{normal} behavior.  In this fashion, a model built
-  to capture \emph{normal} behavior may struggle to adequately represent extreme behavior.  More
-  specialized tools become necessary; especially so in a time of intensifying extreme weather
-  events~\citep{jentsch2007,vousdoukas2018,li2019}.  To this end, we use the integrated water vapor
-  transport (\emph{IVT}) data for observing atmospheric rivers as an example application for our proposed method.
+% Extreme value theory bears strong relevance to climate analysis, as climatological events of interest occur at the tail of the distribution, both in terms of magnitude and frequency.  We motivate our proposed model with an analysis of the integrated vapor transport data for observing atmospheric rivers---high concentrations of water vapor that lead to extreme precipitation events.
+
+% To motivate the topic and our proposed solution, we acknowledge the relevance of extreme analysis to
+%   climatological events.  Outcomes such as heat waves, extreme precipitation, storm surges, and
+%   such present a similar challenge to investigators, in that the events of interest can be very destructive,
+%   and occur in probability at the tail end of \emph{normal} behavior.  In this fashion, a model built
+%   to capture \emph{normal} behavior may struggle to adequately represent extreme behavior.  More
+%   specialized tools become necessary; especially so in a time of intensifying extreme weather
+%   events.  To this end, we use the integrated water vapor
+%   transport (\emph{IVT}) data for observing atmospheric rivers as an example application for our proposed method.
   
 Throughout the paper, we adopt the operators $\wedge$ to denote minima, and the $\vee$
   to denote maxima.  Thus $\wedge_i x_i = \min_i x_i$, $\vee_i x_i = \max_i x_i$.  These operators can
   also be applied component-wise between vectors, such as $\bm{a}\wedge\bm{b} = (a_1\wedge b_1, a_2\wedge b_2,\ldots)$.
   
-\section{A multivariate PoT model}
+\section{A multivariate PoT model\label{sec:multivariatepot}}
 %\subsubsection{Univariate Maxima}
 %Regarding the asymptotic behavior of extreme events, there are a couple major strategies for conducting
 %  inference---developing probabilistic estimates of extreme behavior.  First developed is the theory
@@ -160,7 +163,7 @@ Throughout the paper, we adopt the operators $\wedge$ to denote minima, and the 
 
 To develop a multivariate PoT model for extreme values consider a $d$-dimensional random vector $\bm{Z} \in {\mathbb R}^d_+ = [0,+\infty)^d$, the positive $d$-dimensional cone. Following the discussion in \cite{goix2017} we assume a form of regular variation, consisting on assuming the existence of a limiting measure $\mu$, such that.
 \[
-    \lim\limits_{n\to\infty}n\text{Pr}\left[\frac{1}{n}\bm{Z}\geq \bm{z}\right] = \mu\left([\bm{0},\bm{z}]^c\right),
+    \lim\limits_{n\to\infty}n\prob{\frac{1}{n}\bm{Z}\geq \bm{z}} = \mu\left([\bm{0},\bm{z}]^c\right),
 \]
 where the inequality and the interval are taken componentwise. 
 In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ in extreme regions, and it is referred to as the
@@ -173,25 +176,24 @@ for some measure $\Phi$, $\mu(\cdot)$ is factorized as
 \begin{equation}\label{mufact}
     \mu\left( \left\lbrace\bm{Z} : V \in A , R > r\right\rbrace \right) = r^{-1}\Phi(A).
 \end{equation}
-$R$ describes the radial component, and $\bm{V} \in \mathcal{S}_{\infty}^{d-1}$ the 
+$R$ describes the radial component, and $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$ the 
 angular component of $\bm{Z}$.  Here ${\mathbb S}_\infty^{d-1}$ denotes the positive
 orthant of the unit sphere in infinite norm.  $\Phi(\cdot)$ is referred to as the \emph{angular measure}.   
 From Equation (\ref{mufact}) we see that $R$ is distributed as a standard Pareto random variable. Conditioning on $R$, we have that
 \begin{equation} \label{MGP}
-    \text{Pr}\left[\bm{V} \in A \mid R > r\right]
-      = \frac{r\text{Pr}\left[\bm{V} \in A, R > r\right]}{r\text{Pr}[R > r]}\hspace{0.2cm}
-      \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \frac{\Phi(A)}{\Phi(\mathcal{S}_{\infty}^{d-1})}.
+    \prob{\bm{V} \in A \mid R > r} = \frac{r\prob{\bm{V} \in A, R > r}}{r\prob{R > r}}\hspace{0.2cm}
+      \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \frac{\Phi(A)}{\Phi({\mathbb S}_{\infty}^{d-1})}.
 \end{equation}
  Thus, the angular measure corresponds to the distribution of $\bm{V}$, conditional on $R$ being large.
  As such, it controls the dependence structure of $\bm{Z}$ in the tails. In fact, following \cite{ferreira2014} the distribution function of $\bm{Z}$ is given as
 \begin{equation*}
-	\text{Pr}[Z_1\leq z_1, \ldots ,Z_d\leq z_d] = E\left(\bigvee_{i=1}^d
-\frac{V_i}{z_i\wedge 1}\right) - E\left(\bigvee_{i=1}^d
-\frac{V_i}{z_i}\right) 
+    \prob{Z_1\leq z_1, \ldots ,Z_d\leq z_d} = \expect{\bigvee_{i=1}^d
+\frac{V_i}{z_i\wedge 1}} - \expect{\bigvee_{i=1}^d
+\frac{V_i}{z_i}}
 \end{equation*}
 where the expectation is taken with respect to $\Phi$.
 In view of this, to obtain a PoT model for $\bm{Z}$, we seek 
-a flexible distribution on $\bm{V} \in \mathcal{S}_{\infty}^{d-1}$.
+a flexible distribution on $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$.
 
 \cite{ferreira2014} refer to the model defined in Equation \eqref{MGP} as a simple 
 Pareto process indexed on a finite dimensional set. An alternative approach to 
@@ -204,42 +206,41 @@ follows a multivariate GP, according to Theorem 6.  Then, using Proposition 4,
 $\bm{Z} = e^{Y}$ is also a multivariate GP. Notice that $R = e^E$ is distributed as 
 a standard Pareto random variable.
 
+\subsection{Pairwise Extremal Dependence\label{subsec:ped}}
 A measure that is used to characterize the strength of the dependence,
 in the tail, for two random variables $W_1$ and $W_2$, with marginal
 distributions $F_1$ and $F_2$ is given by
-\[	\chi_{12} = \lim_{u\uparrow 1} \text{Pr}[ F_1(W_1)>u|F_2(W_2)>u]  \]
+\[	\chi_{12} = \lim_{u\uparrow 1} \prob{F_1(W_1)>u|F_2(W_2)>u}  \]
 \citep{coles2001}.
 $\chi_{12}$ provides information about the distribution of extremes for the variable $W_1$
 given that $W_2$ is very large.  When $\chi_{12}>0$, $W_1$ and $W_2$ 
 are said to
 be asymptotically dependent, otherwise they are asymptotically
 independent. The following result provides the asymptotic dependence coefficient for two components of $\bm{Z}$. 
-\begin{prop} \label{ppchi}
+\begin{prop}\label{ppchi}
 Suppose that $\bm{Z} = R\bm{V}$ with $R\sim Pa(1)$,
-$\text{Pr}[V_i>0] = 1$ and $E(V_i)$ exists ,
+$\prob{V_i > 0} = 1$ and $\expect{V_i}$ exists ,
 $i=1, \ldots ,d$, then
 \begin{equation}
-	\chi_{ij} = E\left(\frac{V_i}{E(V_i)} \wedge 
-\frac{V_j}{E(V_j)}\right).
+	\chi_{ij} = \expect{\frac{V_i}{\expect{V_i}} \wedge \frac{V_j}{\expect{V_j}}}
 \end{equation}
 \end{prop}
 {\em Proof:}
 Denote as $F_i$ the marginal distribution of $Z_i$. To obtain $\chi_{ij}$ we need $Pr(Z_1>z_1,Z_2>z_2)$, where $z_i =
-F_i^{-1}(u) = E(V_i)/(1 - u), \;i=1,\dots, d$.
+F_i^{-1}(u) = \expect{V_i}/(1 - u), \;i=1,\dots, d$.
 Using the fact that
 $V_i>0, \forall i$ almost surely, we have that the former is equal to
-\[	\text{Pr}\left[R>\frac{z_i}{V_i}\vee\frac{z_2}{V_j}\right] =
-E\left(1\wedge\left(\frac{z_i}{V_i}\vee\frac{z_j}{V_j}\right)
-^{-1} \right)
-= E\left( \frac{V_i}{z_i}\wedge\frac{V_j}{z_j}
-\right) = (1 - u)E\left(
-\frac{V_i}{EV_i}\wedge\frac{V_j}{EV_j}
-\right) ,
-\]
+\begin{equation*}
+\prob{R>\frac{z_i}{V_i}\vee\frac{z_2}{V_j}}
+    = \expect{1\wedge\left(\frac{z_i}{V_i}\vee\frac{z_j}{V_j}\right)^{-1}}
+    = \expect{\frac{V_i}{z_i}\wedge\frac{V_j}{z_j}}
+    = (1 - u)\expect{\frac{V_i}{\expect{V_i}}\wedge\frac{V_j}{\expect{V_j}}},
+\end{equation*}
 where the second identity is justified by the fact that $V_i$ is
 bounded and $z_i\rightarrow\infty$. The proof is completed by noting
-that $Pr(F_i(Z_i)>u ) = 1 - u.\hfill\Box$
+that $\prob{F_i(Z_i)>u} = 1 - u.\hfill\Box$
 
+\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
 For the analysis of extreme values it is of interest to calculate the multivariate conditional survival function. The following result provides the relevant expression, as a function of the angular measure.
 \begin{prop}
 Assume the same conditions of Proposition \ref{ppchi}. 
@@ -247,7 +248,7 @@ Let $\alpha \subset \{1, \ldots ,p\}$ be a collections of indexes.
 Then     
 \begin{equation} \label{eqn:condsurv2df}
     \text{Pr}\left[\bigcap_{l \in \alpha} Z_l > z_l \right|\left. \bigcap_{l\not\in\alpha} Z_l > z_l\right] =
-      \frac{E\left(\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}\right)}{E\left(\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}\right)}.
+      \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
   \end{equation}
 \end{prop}  
 The proof uses a similar approach to the proof of Proposition \ref{ppchi}.
