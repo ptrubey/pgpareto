@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+% \usepackage{setspace}
+% \linespread{1.8}
+
+\begin{document}
+\paragraph{DP mixture of normals with pooled variance}
+\begin{equation}
+    \begin{aligned}
+        y_i\mid\mu_i,\sigma^2 &\sim \mathcal{N}(y_i\mid\mu_i,\sigma^2)\\
+        \mu_i &\sim G\\
+        G &\sim \mathcal{DP}\left(\eta,G_0\right)\\
+        &\hspace{0.5cm}dG_0 = \mathcal{N}\left(\mu_j\mid\mu_0,\tau^2\right)
+    \end{aligned}
+    ~\hspace{0.5cm}
+    \begin{aligned}
+        \mu_0 &\sim \mathcal{N}\left(\mu_0\mid m,s^2\right)\\
+        \sigma^2 &\sim \mathcal{IG}\left(\sigma^2\mid a, b\right)\\
+        \tau^2 &\sim \mathcal{IG}\left(\tau^2\mid c,d\right)
+    \end{aligned}
+\end{equation}
+Let $\delta_i$ indicate the cluster identifier for observation $i$, $n_j^{-i}$ the number of observations in cluster $j$ (not including observation $i$); and $J^{-i}$ the current number of extant clusters (not including any singletons observation $i$ is in).  Then the probability of cluster membership is proportional to
+\begin{equation}
+    \text{P}\left(\delta_i = j\mid\ldots\right) \propto \begin{cases}
+        n_j^{-i}\mathcal{N}(y_i\mid\mu_j,\sigma^2) &\text{~for }j = 1,\ldots,J^{-i}\\
+        \eta\int\mathcal{N}(y_i\mid\mu,\sigma^2)\mathcal{N}(\mu\mid\mu_0,\tau^2)d\mu &\text{~for }j = J^{-i} + 1.\\
+        ~\hspace{0.5cm}= \eta\mathcal{N}(y_i\mid\mu_0,\sigma^2 + \tau^2)
+        \end{cases}
+\end{equation}
+Let $n_j$ indicate the number of observations in cluster $j$, and $J$ indicate the current extant number of clusters.  Let $\bar{y}_j = \frac{1}{n_j}\sum_{i:\delta_i = j}y_i$.  Then the full conditional for $\mu_i$ is proportional to
+\begin{equation*}
+    \begin{aligned}
+        f(\mu_j\mid\ldots) &\propto \prod_{i:\delta_i = j}\mathcal{N}\left(y_i\mid\mu_j,\sigma^2\right)\times \mathcal{N}\left(\mu_j\mid\mu_0,\tau^2\right)\\
+        &\propto \mathcal{N}\left(\mu_j\mid\left(\frac{n_j}{\sigma^2} + \frac{1}{\tau^2}\right)^{-1}\left(\frac{n_j\bar{y}_j}{\sigma^2} + \frac{\mu_0}{\tau^2}\right), \left(\frac{n_j}{\sigma^2} + \frac{1}{\tau^2}\right)^{-1}\right).
+    \end{aligned}
+\end{equation*}
+Let $\bar{\mu} = \frac{1}{J}\sum_{j = 1}^J\mu_j$.  Then the full conditional for $\mu_0$ is proportional to
+\begin{equation*}
+    \begin{aligned}
+        f(\mu_0\mid\ldots) &\propto \prod_{j = 1}^J\mathcal{N}\left(\mu_j\mid\mu_0,\tau^2\right)\times \mathcal{N}\left(\mu_0\mid m, s^2\right)\\
+        &\propto \mathcal{N}\left(\mu_0\mid \left(\frac{J}{\tau^2} + \frac{1}{s^2}\right)^{-1}\left(\frac{J\bar{\mu}}{\tau^2} + \frac{m}{s^2}\right), \left(\frac{J}{\tau^2} + \frac{1}{s^2}\right)^{-1}\right)
+    \end{aligned}
+\end{equation*}
+The full conditional for $\sigma^2$, the within-cluster variance, is proportional to
+\begin{equation*}
+    \begin{aligned}
+        f(\sigma^2\mid\ldots) &\propto \prod_{i = 1}^n\mathcal{N}\left(y_i\mid\mu_i,\sigma^2\right)\times\mathcal{IG}\left(\sigma^2\mid a, b\right)\\
+        &\propto \mathcal{IG}\left(\sigma^2\mid \frac{n}{2} + a, \frac{\sum_{i = 1}^n (y_i - \mu_i)^2}{2} + b\right).
+    \end{aligned}
+\end{equation*}
+The full conditional for $\tau^2$, the hierarchical variance, is proportional to
+\begin{equation*}
+    \begin{aligned}
+        f(\tau^2\mid\ldots) &\propto \prod_{j = 1}^J\mathcal{N}\left(\mu_j\mid\mu_0,\tau^2\right)\times \mathcal{IG}\left(\tau^2\mid c,d\right)\\
+        &\propto \mathcal{IG}\left(\tau^2\mid\frac{J}{2} + c, \frac{\sum_{j = 1}^J(\mu_j - \mu_0)^2}{2} + d\right)
+    \end{aligned}
+\end{equation*}
+
+\end{document}
+
+% EOF

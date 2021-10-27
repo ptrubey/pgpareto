@@ -1,218 +1,106 @@
-\section{Scores for distributions in ${\mathbb S}_\infty^{d-1}$\label{sec:evaluation}}
+\section{Scoring criteria for distributions in ${\mathbb S}_\infty^{d-1}$\label{sec:evaluation}}
 
-As explained in~\ref{subsubsec:norm}, we can not establish a \emph{density} on ${\mathbb S}_{\infty}^{d-1}$, restricting our ability to construct model selection criteria to sample-based approaches.  In \cite{gneiting2007}, Theorem~4 states that a score,
+In order to assess and compare the estimation of a distribution on ${\mathbb S}_\infty^{d-1}$ we consider the theory of proper scoring rules developed in \cite{gneiting2007}.
+As mentioned in Section~\ref{subsubsec:norm}, our approach does not provide a density on ${\mathbb S}_{\infty}^{d-1}$, restricting our ability to construct model selection criteria to sample-based approaches.  In this manner, we consider two methods of scoring:  \emph{posterior predictive loss} (PPL) introduced in \cite{gelfand1998}, and \emph{energy score} (ES) introduced in \cite{gneiting2007}.
+
+\subsection{Posterior predictive loss}
+The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  When we
+  assume a squared error loss function, then for the $i$th observation, the posterior predictive
+  loss criterion is computed as
+  \begin{equation}
+    \label{eq:ppl}
+      S_{\text{PPL}}^k\left(P,x_i\right) = \text{Var}_P\left(X_i\right) + \frac{k}{k+1}\left(\text{E}_P\left[X_{i}\right] - x_i\right)^2
+  \end{equation}
+  where $X_i$ is a random variable from the posterior predictive distribution for $x_i$.  The
+  scalar $k$ is a weighting factor by which we can scale the importance of goodness of fit
+  relative to precision.  In our analysis, we take the limit as $k\to\infty$, weighting both
+  equally.  Interpreting this criterion, a smaller $\text{Var}(X_{i})$ indicates a higher
+  precision, and a smaller $(\text{E}[X_{i}] - x_{i})^2$  indicates a better fit.  Thus,
+  smaller is better.  Note that this is defined for a univariate distribution.  As we are dealing
+  with a multivariate distribution, we will be taking the posterior predictive loss
+  summed over all dimensions.  That is,
+  \begin{equation}
+    \label{eq:ppl2}
+      S_{\text{PPL}}\left(P,\bm{x}_i\right) = \frac{1}{d}\sum_{\ell = 1}^d\left[\text{Var}_P\left(X_{i\ell}\right) + \left(\text{E}_P\left[X_{i\ell}\right] - x_{i\ell}\right)^2\right]
+  \end{equation}
+  Then we report the average $S$, taken over all $i$.
+
+\subsection{Energy score}
+We focus on \emph{energy scores} defined for a general probability distribution $P$, with finite expectation, as 
     \begin{equation}
     \label{eq:es}
-    \text{S}\left(P, \bm{x}_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) -
+    \text{S}_{\text{ES}}\left(P, \bm{x}_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) -
                                     \frac{1}{2}\text{E}_p g\left(\bm{X}_i,\bm{X}_i^{\prime}\right),
     \end{equation}
-where $g(\cdot)$ is a negative definite kernel, is a \emph{proper} scoring rule.  A real valued function $g$ is a negative definite kernel if it is symmetric in its arguments, and $\sum_{i=1}^n\sum_{j=1}^na_ia_jg(x_i,x_j)\leq 0$ for all positive integers $n$, $a_1,\ldots,a_n\in{\mathbb R}$, and $\sum_{i = 1}^na_i = 0$. \cite{gneiting2007} introduces this quantity as the \emph{energy score}.  
+where $g$ is a given kernel. The score defined in Equation \eqref{eq:es} can be evaluated using samples from $P$, with the help of the law of large numbers.
+Moreover, Theorem~4 in \cite{gneiting2007}, states that if $g(\cdot,\cdot)$ is a negative definite kernel, then $\text{S}(P,\bm{x})$ is a \emph{proper} scoring rule.  Recall that a real valued function $g$ is a negative definite kernel if it is symmetric in its arguments, and $\sum_{i=1}^n\sum_{j=1}^na_ia_jg(x_i,x_j)\leq 0$ for all positive integers $n$, and any collection $a_1,\ldots,a_n\in{\mathbb R}$ such that  $\sum_{i = 1}^na_i = 0$.  
 
-In Euclidean space, the conditions for a negative definite kernel are satisfied by Euclidean distance.  On ${\mathbb S}_{\infty}^{d-1}$, however, Euclidean distance will tend to under-estimate actual distance required for travel between two points.  Developing terminology, consider ${\mathbb C}_{\ell}^{d-2} = \lbrace x : x_{\ell} = 1\rbrace$ the \emph{$\ell$th face}.  Then for points on the same face, Euclidean distance will report the length of the shortest path.  For points on different faces, Euclidean distance will under-report that length.
+In an Euclidean space, the conditions for a negative definite kernel are satisfied by the Euclidean distance. However, the Euclidean distance between two points will likely under-estimate the actual distance required to connect those points fully within ${\mathbb S}_{\infty}^{d-1}$.  Let
+\begin{equation*}
+    {\mathbb C}_{\ell}^{d-1} = \lbrace \bm{x} : \bm{x} \in {\mathbb S}_{\infty}^{d-1}, x_{\ell} = 1\rbrace
+\end{equation*}
+comprise the $\ell$th \emph{face}.  For points on the same face, Euclidean distance corresponds to the length of the shortest possible path in ${\mathbb S}_{\infty}^{d-1}$.  For points on different faces, the Euclidean distance is a lower bound for that length.
 
-The space, ${\mathbb S}_{\infty}^{d-1}$ exists as the limit of a sequence of manifolds, ${\mathbb S}_p^{d-1}$ for $p\to\infty$.  For a given manifold, the length of the shortest path between two points is a \emph{geodesic}; as the length of the geodesic is symmetric, and by definition satisfies the triangle inequality, we call it a \emph{distance} in that manifold.  Ideally, we would want to establish such a distance in ${\mathbb S}_{\infty}^{d-1}$, but as the surface is not differentiable, routines for establishing geodesics are not available.  However, as ${\mathbb S}_{\infty}^{d-1}$ is a portion of of a $d$-cube, we can borrow a result from geometry \citep{pappas1989} in that the length of the shortest path between 2 points on a geometric figure corresponds to the length of a straight line drawn between the points on an appropriate unfolding, rotation, or \emph{net} of the figure from $d$-dimensional to $d-1$-dimensional space.  The optimal net will have the shortest straight line between the points, so long as that line does not exit the net. As ${\mathbb S}_{\infty}^{d-1}$ has $d$ faces---each face pairwise adjacent, there are $d!$ possible nets.  However, as we are only interested in nets that begin and end on the source and destination faces respectively, and are not concerned with divergence after the destination face.  That reduces the number of nets for consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still computationally burdensome for a large number of dimensions.  
+For a finite $p$, the shortest connecting path between two points in 
+${\mathbb S}_p^{d-1}$ is the minimum geodesic; its length satisfying 
+the definition of a distance.  Thus its length can be used as a negative definite kernel for the purpose of defining an energy score. Unfortunately as $p\to\infty$ the resulting surface ${\mathbb S}_{\infty}^{d-1}$ is not differentiable, implying that routines to calculate geodesics are not readily available.  However, as ${\mathbb S}_{\infty}^{d-1}$ is a portion of of a $d$-cube, we can borrow a result from geometry \citep{pappas1989} stating that the length of the shortest path between two points on a geometric figure corresponds to the length of a straight line drawn between the points on an appropriate unfolding, rotation, or \emph{net} of the figure from a $d$-dimensional to a $d-1$-dimensional space.  The optimal net will have the shortest straight line between the points, as long as that line is fully contained within such net. As ${\mathbb S}_{\infty}^{d-1}$ has $d$ faces---each face pairwise adjacent, there are $d!$ possible nets.  However, we are only interested in nets that begin and end on the source and destination faces respectively.  That reduces the number of nets under consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still computationally burdensome for a large number of dimensions.  
 
-Instead, we develop as our kernel an upper bound on distance between points on separate faces as the length of the path from the source point, to an optimal point on the intersection between faces, to the destination point.
-\begin{prop}
-For points $a,b \in {\mathbb S}_{\infty}^{d-1}$ a valid negative definite kernel can be formed as
+To reduce the computations needed to calculate the energy score we define a kernel as {\bf Please write a clearer description here.} our kernel an upper bound on distance between points on separate faces as the length of the path from the source point, to an optimal point on the intersection between faces, to the destination point.
+\begin{prop}\label{prop:g}
+For points $a,b \in {\mathbb S}_{\infty}^{d-1}$ the kernel defined as  
   \begin{equation}
     g(\bm{a},\bm{b}) = \begin{cases}
         \pnorm{\bm{b}-\bm{a}}{2} &\text{ if }\argmax_{\ell}\bm{a} = \argmax_{\ell}\bm{b}\\
         \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} &\text{ otherwise}
-    \end{cases}
+    \end{cases} ,
   \end{equation}
-  where $\bm{c}$ resides on the intersection between the faces of $\bm{a}$ and $\bm{b}$, and minimizes $g(\bm{a},\bm{b})$.
+  where $\bm{c}$ is in the intersection of the faces corresponding to $\bm{a}$ and $\bm{b}$, and minimizes $g(\bm{a},\bm{b})$, is negative definite.
 \end{prop}
 
 {\em Proof:}
-In the first case, where $\bm{a}$ and $\bm{b}$ reside on the same face, then that is trivially a
-  negative definite kernel.  In the second case, where $\bm{a}$ and $\bm{b}$ reside on separate
-  faces, we can be assured of symmetry in the arguments as $\bm{c}$ is unique, and $\pnorm{\bm{c} - \bm{a}}{2} = \pnorm{\bm{a} - \bm{c}}{2}$.  Then for the other property of negative definiteness,
+When $\bm{a}$ and $\bm{b}$ are on the same face, then $g$ is the Euclidean distance, which is a 
+  negative definite kernel.  When $\bm{a}$ and $\bm{b}$ are on separate
+  faces, we have that $g(\bm{a}, \bm{b}) = g(\bm{b}, \bm{a})$ due to the uniqueness of $\bm{c}$ and the symmetry of the Euclidean distance. Additionally, given $n$ and  collection $\alpha_1,\ldots,\alpha_n\in{\mathbb R}$ such that  $\sum_{i = 1}^n\alpha_i = 0$, then
   \begin{equation*}
     \begin{aligned}
       \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j g(\bm{x}_1,\bm{x}_2) &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j \bigg[\pnorm{\bm{c} - \bm{x}_1}{2} + \pnorm{\bm{x}_2 - \bm{c}}{2}\bigg]\\
-      &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{c} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{c}}{2},
+      &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{c} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{c}}{2} \leq0,
     \end{aligned}
   \end{equation*}
-  which is less than $0$ in both terms.$\hfill\Box$
-
-Evaluating $g$ as described requires optimization of the interim point $\bm{c}$; a $d-2$-dimensional optimization problem.  However, let us consider a computationally easier analogue: the aforementioned \emph{net}, where we move directly from the source face to the target face in one jump. Let $\bm{a} \in {\mathbb C}_{\ell}^{d-2}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-2}$.  The rotation required to move the $\jmath$th face along the $\ell$th axis is
-\begin{equation}
-    \bm{b}^{\prime} = 
+  as the Euclidean norm is a negative definite kernel.$\hfill\Box$
+Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a $d-2$-dimensional 
+  optimization problem in order to obtain $\bm{c}$.  However, a computationally easier \makenote{rewrite sentence} method exists.
+\begin{prop}
+    Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$.  The 
+  rotation $P_{\jmath\ell}(\cdot)$ required to move the $\jmath$th face along the $\ell$th axis 
+  produces the vector $\bm{b}^\prime$, where
+  \begin{equation}
+    \label{eqn:rotation}
+    P_{\jmath\ell}(\bm{b}) = \bm{b}^{\prime}_i = 
     \begin{cases}
         b_{i} &\text{for }i\neq \jmath,\ell\\
         1 &\text{for }i = \ell\\
         2 - b_{\ell} &\text{for }i = \jmath
-    \end{cases}
-\end{equation}
-where $\cdot^{\prime}$ indicates a rotated point.  Then $g(\bm{a},\bm{b}) = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}$.  By fitting the straight line between $\bm{a}$ and $\bm{b}^{\prime}$, the optimization of $\bm{c}$ is accomplished \emph{en passant}.
+    \end{cases}.
+  \end{equation}
+  Then $g(\bm{a},\bm{b}) = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}$.
+\end{prop}
+{\em Proof:}
+Note that for 
+  $\bm{c} \in {\mathbb C}_{\jmath\ell}^{d-2} = {\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}$,
+  $P_{\jmath\ell}(\bm{c}) = \bm{c}$.  Then
+  \begin{equation*}
+     \pnorm{\bm{b} - \bm{c}}{2} = \pnorm{P_{\jmath\ell}(\bm{b} - \bm{c})}{2} = \pnorm{\bm{b}^{\prime} - \bm{c}}{2},
+  \end{equation*}
+  as rotations preserve Euclidean norms.  Then,
+  \begin{equation*}
+    \begin{aligned}
+    g(\bm{a}, \bm{b}) &= \pnorm{\bm{a} - \bm{c}}{2} + \pnorm{\bm{b} - \bm{c}}{2}\\
+    &= \pnorm{\bm{a} - \bm{c}}{2} + \pnorm{\bm{b}^{\prime} - \bm{c}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}
+    \end{aligned}
+  \end{equation*}
+  when $\bm{c} \in \overrightarrow{\bm{a}\bm{b}^{\prime}}$, as the lower bound of the triangle inequality.  We have already declared $\bm{c}\in{\mathbb C}_{\jmath\ell}^{d-2}$, so it must reside at $\overrightarrow{\bm{a}\bm{b}^{\prime}}\cap{\mathbb C}_{\jmath\ell}^{d-2}$.  Because the straight line between $\bm{a}$ and $\bm{b}^{\prime}$ passes through this point without further analysis, the optimization of $\bm{c}$ is accomplished \emph{en passant}.$\hfill\Box$
+  
 
-% {\bf After a sentence or two motivating the need for scoring distributions in ${\mathbb S}_\infty^{d-1}$ that can be calculated with a sample-based approach, mention the paper of \cite{gneiting2007} on proper scoring rules, and introduce the energy score. Cite the result in that paper that gives conditions for the energy score to be a proper scoring rule. Then discuss the problem of finding a metric in ${\mathbb S}_\infty^{d-1}$ that corresponds to a negative definite kernel. That is, the material in Section 4.3. Introduce and discuss the idea, the write the proposition, with its proof. I don't know if the example in the 3-dimensional cube is needed or not. Finally, say how the score will be calculated in our case.
-% }
-% It is not immediately obvious what criteria to use to judge these models and decide which best
-%   represents the data's generating distribution.  As the task resides on ${\mathbb S}_{\infty}^{d-1}$,
-%   our options are somewhat limited in terms of what model criteria we can use.  Because of the aforementioned
-%   difficulty in evaluating a density directly in this space, we choose to use model evaluation
-%   criteria that can operate on samples from the posterior predictive distribution.  For this reason,
-%   we have opted to use the \emph{posterior predictive loss} criterion of \cite{gelfand1998} and the
-%   \emph{energy score} criterion of \cite{gneiting2007}.  Both of these metrics require calculating
-%   some distance in the target space, and this section will be devoted to that end.  As both these
-%   metrics operate on the posterior predictive distribution for each observation, we will also be
-%   including a metric operating on the overall posterior predictive distribution, in the form of a
-%   modified Kullbeck-Liebler divergence.
-
-% \subsection{Posterior Predictive Loss Criterion}
-% The posterior predictive loss criterion, \emph{PPL} is introduced in \cite{gelfand1998}.  When we
-%   assume a squared error loss function, then for the $i$th observation, the posterior predictive
-%   loss criterion is computed as
-%   \begin{equation}
-%     \label{eq:ppl}
-%     D_{k}^{(i)} = \text{Var}\left(X_i\right) + \frac{k}{k + 1}\left(\text{E}[X_i] - x_i\right)^2,
-%   \end{equation}
-%   where $X_i$ is a random variable from the posterior predictive distribution for $x_i$.  The
-%   scalar $k$ is a weighting factor by which we arbitrarily scale the importance of goodness of fit
-%   relative to precision.  In our analysis, we take the limit as $k\to\infty$, weighting both
-%   parts equally.  Interpreting this criterion, a smaller $\text{Var}(\bm{X}_{\ell})$ indicates a higher
-%   precision, and a smaller $(\text{E}[\bm{X}_{\ell}] - \bm{x}_{\ell})^2$  indicates a better fit.  Thus,
-%   smaller is better.  Note that this is defined for a univariate distribution.  As we are dealing
-%   with a multivariate distribution, we will be taking the posterior predictive loss
-%   summed over all dimensions.  That is,
-%   \begin{equation}
-%     \label{eq:ppl2}
-%     D_k^{(i)} = \frac{1}{d}\sum_{\ell = 1}^{d}\left[\text{Var}(X_{i,\ell}) +
-%                   \frac{k}{k+1}\left(\text{E} [X_{i,\ell}] - x_{i,\ell}\right)^2\right]
-%   \end{equation}
-%   Then we report the average $D_k$, taken over all $i$.
-
-% \subsection{Energy Score}
-% The energy score of Gneiting, et al\cite{gneiting2007}, is a generalization of the continuous ranked
-%   probability score, or \emph{crps}, defined for a multi-dimensional random variable.
-%   \begin{equation}
-%     \text{ES}\left(P, \bm{x}_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) -
-%                                     \frac{1}{2}\text{E}_p g\left(\bm{X}_i,\bm{X}_i^{\prime}\right)
-%   \end{equation}
-%   where $g(\cdot)$ identifies a negative definite kernel, and $\bm{X}_i^{\prime}$ represents another
-%   replicate from the posterior predictive distribution of $\bm{x}_i$. A function $g$ is a negative definite kernel if it is symmetric in its arguments, $g(x_1,x_2) = g(x_2,x_1)$, and for which
-%   $\sum_{i =1}^n\sum_{j=1}^n\alpha_i\alpha_jg(\bm{x}_1,\bm{x}_2) \leq 0$ for all positive integers n, with the
-%   restriction that $\sum_{i=1}^n\alpha_i = 0$.  Euclidean distance is one example of a negative definite kernel,
-%   and the one most often used.  However, on ${\mathbb S}_p^{d-1}$ for $p > 1$, Euclidean distance
-%   can under-report the actual distance required for travel between two points. That distortion is
-%   maximized on ${\mathbb S}_{\infty}^{d-1}$.
-
-% \subsection{Distance on the positive orthant of the Hypercube}
-%   \label{subsec:distance}
-% The positive orthant of the unit hypercube, defined in Euclidean geometry, is that structure for
-%   which, in a given point on the hypercube, all dimensions of that point are between 0 and 1, and
-%   at least one dimension must be 1.  Developing terminology, we can consider observations for which
-%   the $j$th dimension is equal to 1, to be on the $j$th \emph{face}.  The intersection of the $i$th
-%   and $j$th face is a $d-2$ dimensional cube, and observations in this space have dimensions $i,j$
-%   equal to 1.
-
-% A \emph{distance} in this space is a \emph{geodesic} on this space. From geometry, we know that
-%   the geodesic, or shortest path between 2 points along the surface of a $d$ dimensional figure
-%   corresponds to at least one \emph{unfolding}, or \emph{rotation} of the $d$-dimensional
-%   figure into a $d-1$ dimensional space.  The appropriate term for the structure generated by this
-%   unfolding is a \emph{net}.  For the appropriate net, a line segment connecting the two points and
-%   staying within the boundaries of the net corresponds to the shortest path between those points\citep{pappas1989}, and is thus a geodesic.  The length of that line segment is properly
-%   defines the distance required for travel between those points.
-
-% Consider a 3-dimensional cube.  Consider 2 points on this 3-dimensional cube,
-%   $\bm{a}_1 = (x_1,y_1,z_1)$, and $\bm{a}_2 = (x_2,y_2,z_2)$. Let's say that the two points are
-%   on the same face.  Then the distance between those two points, the distance one has to travel
-%   along the space to move from one point to the other, is calculated by Euclidean norm.  Now,
-%   consider two points on separate faces.  All faces are pairwise adjacent, as we have stated, so
-%   in order to move to the other point, we must \emph{at least} move to the intersection between the
-%   faces, then to the other point.  Let $\bm{a}_1$ lie on the $x$ face, and $\bm{a}_2$ lie on the
-%   $y$ face.  That is, $\bm{a}_1 = (1, y_1, z_1)$, $\bm{a}_2 = (x_2, 1, z_2)$.  Then traveling
-%   between these points we must at least pass through the intersection of faces $x,y$.  One possible
-%   net representation of this is unfolding the $y$ face alongside the $x$ face.  We accomplish this
-%   by applying a rotation and translation to $a_2$, corresponding to the following:
-%   \begin{equation}
-%     \label{eq:1drotation}
-%     a_2^{\prime} = \begin{bmatrix}
-%     1 \\
-%     2 \\
-%     0
-%     \end{bmatrix}
-%     +
-%     \begin{bmatrix}
-%     0  & 0 & 0 \\
-%     -1 & 0 & 0 \\
-%     0  & 0 & 1
-%     \end{bmatrix}
-%     \begin{bmatrix}
-%     x_2 \\
-%     1 \\
-%     z_2 \\
-%     \end{bmatrix} = \begin{bmatrix}
-%     1 \\
-%     2 - x_2 \\
-%     z_2
-%     \end{bmatrix}
-%   \end{equation}
-%   Then, if this is the appropriate net, the distance from $\bm{a}$ to $\bm{b}$ becomes
-%   $\lVert \bm{a}_1 - \bm{a}_2^{\prime}\rVert_2$. However, there
-%   is another possible net we must consider, travelling first through the $z$ face then to the
-%   $y$ face.  The rotation for that becomes:
-%   \begin{equation}
-%     \label{eq:2drotation}
-%     a_2^{\prime} = \begin{bmatrix}
-%     1 \\
-%     2 \\
-%     2
-%     \end{bmatrix}
-%     +
-%     \begin{bmatrix}
-%     0 & 0 & 0  \\
-%     0 & 0 & -1 \\
-%     -1 & 0 & 0
-%     \end{bmatrix}
-%     \begin{bmatrix}
-%     x_2 \\
-%     1 \\
-%     z_2
-%     \end{bmatrix} = \begin{bmatrix}
-%     1 \\
-%     2 - z_2 \\
-%     2 - x_2
-%     \end{bmatrix}
-%   \end{equation}
-% Every successive rotation is relative to the last face.  So, as the number of dimensions grows, the
-%   number of possible rotations grows as well.  As we have $d$ faces, if 2 observations are on
-%   different faces, then there are $\sum_{j = 1}^{d-2}\binom{d-2}{j} + 1$ possible rotations to
-%   consider\footnote{There are truly $d!$ possible nets, but when we consider starting and ending
-%   faces fixed, and that portions of the net that diverge after the ending face are irrelevant,
-%   we arrive at that number of rotations that we need consider}.  While this is not
-%   insurmountable, it is computationally costly. However, for a valid energy score, a true distance
-%   is not necessary.  What is needed is a negative definite kernel.
-
-% \begin{prop}
-% For points $a,b \in {\mathbb S}_{\infty}^{d-1}$ a valid negative definite kernel can be formed as
-%   \begin{equation}
-%     g(\bm{a},\bm{b}) = \begin{cases}
-%         \pnorm{\bm{b}-\bm{a}}{2} &\text{ if }\argmax_{\ell}\bm{a} = \argmax_{\ell}\bm{b}\\
-%         \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} &\text{ otherwise}
-%     \end{cases}
-%   \end{equation}
-%   where $\bm{c}$ resides on the intersection between the faces of $\bm{a}$ and $\bm{b}$, and minimizes $g(\bm{a},\bm{b})$.
-% \end{prop}
-
-% In the first case, where $\bm{a}$ and $\bm{b}$ reside on the same face, then that is trivially a
-%   negative definite kernel.  In the second case, where $\bm{a}$ and $\bm{b}$ reside on separate
-%   faces, we can be assured of symmetry in the arguments as $\bm{c}$ is unique, and $\pnorm{\bm{c} - \bm{a}}{2} = \pnorm{\bm{a} - \bm{c}}{2}$.  Then for the other property of negative definiteness,
-%   \begin{equation*}
-%     \begin{aligned}
-%       \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j g(\bm{x}_1,\bm{x}_2) &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j \bigg[\pnorm{\bm{c} - \bm{x}_1}{2} + \pnorm{\bm{x}_2 - \bm{c}}{2}\bigg]\\
-%       &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{c} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{c}}{2}
-%     \end{aligned}
-%   \end{equation*}
-%   which is less than $0$ in both terms by definition.
-
-% To compute this energy score as described would require optimization of the interim point $\bm{c}$.
-%   If we again consider the one-dimensional rotation in Equation~\ref{eq:1drotation}---we
-%   can view that as a numerically easier analogue accomplishing the same goal: the distance from
-%   the starting point, to some optimal point along the intersection between the starting and
-%   ending faces, to the ending point.  The strait line will pass through the optimal point, so
-%   the optimization of the interim point is accomplished \emph{en passant}.
 
 % EOF

@@ -3,7 +3,7 @@
 
 The statistical analysis of extreme values focuses on inference for
 rare events that correspond to the tails of probability distributions.
-As such, it is a key ingredient in the assessment of the risk of
+As such, it is a key ingredient in the risk assessment of
 phenomena that can have strong societal impacts like floods, heat waves,
 high concentration of pollutants, crashes in the financial markets,
 among others. The fundamental challenge of extreme value theory (EVT) is
@@ -15,7 +15,7 @@ possible thanks to theoretical results that give asymptotic descriptions
 of the probability distributions of extreme values. 
 
 Inferential methods for the extreme values of univariate observations
-are well established and software is widely available \cite[see, for example,][]{coles2001}. For variables in one dimension the application of EVT methods consider the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameters. Likelihood-based approaches to inference can be readily implemented in both cases.
+are well established and software is widely available \cite[see, for example,][]{coles2001}. For variables in one dimension the application of EVT methods considers the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameters. Likelihood-based approaches to inference can be readily implemented in both cases.
 In the multivariate case the GEV theory is well developed \citep[see, for example][]{dehaan2006}, but the inferential problem is more complicated, as there is no parametric representation of the GEV. This problem is inherited by the PoT approach and compounded by the fact that there is no unique definition of an exceedance of a multivariate threshold, as there is an obvious dependence on the norm that is used to measure the size of a vector. 
 
 During the last decade or so much work has been done in the exploration of the definition and properties of an
@@ -34,7 +34,7 @@ During the last decade or so much work has been done in the exploration of the d
   Our focus on the  angular measure is similar to that in \cite{SaNa2014} and \cite{HaCaCh2017}, that consider Bayesian non-parametric approaches. Yet, our approach avoids the problem of dealing with the so called moment constraint by considering a constructive definition of the multivariate GP based on the infinity norm.
   
   The reminder of this paper is outlined as follows. Section~\ref{sec:multivariatepot} comprises a brief review of multivariate PoT, detailing the separation of the radial measure from the angular measure.
-  Section~\ref{sec:methodology} details our routine for estimating the angular measure, where~\ref{subsec:projection} elaborates the process of projecting an arbitrary distribution supported in ${\mathbb R}_+^d$ onto an a series of manifolds ${\mathbb S}_p^{d-1}$, $p = 1,2,\ldots$ approaching the support of the angular measure, on to which~\ref{subsec:projgamma} builds to develop a \emph{projected Gamma} family of distributions.  Section~\ref{sec:evaluation} is concerned with developing criteria for model selection in the support of the angular measure.  Section~\ref{sec:results} details the efficacy of the projected gamma model in recovering the distribution of data on the support of the angular measure---in~\ref{subsec:simulated}, this is done on simulated data, and in~\ref{subsec:ivt}, acknowledging the relevance of of extreme value theory to climatological events~\citep{jentsch2007,vousdoukas2018,li2019}, we estimate the extremal dependence structure for the integrated vapor transport---a measure of water vapor in the atmosphere, used for identifying atmospheric rivers.  Inferences from the dependence structure detailed in~\ref{subsec:ped} and~\ref{subsec:condsurv} are applied.  Finally, Section~\ref{sec:conclusion} concludes.
+  Section~\ref{sec:methodology} details our approach for estimating the angular measure, based on projecting an arbitrary distribution supported in ${\mathbb R}_+^d$ onto unit hyper-spheres defined for $p$-norms. Section~\ref{sec:evaluation} develops criteria for model selection in the support of the angular measure.  Section~\ref{sec:results} explores the efficacy of the proposed approach on a set simulated data, and, acknowledging the relevance of of extreme value theory to climatological events~\citep{jentsch2007,vousdoukas2018,li2019}, estimates the extremal dependence structure for a measure of water vapor flow in the atmosphere, used for identifying atmospheric rivers.  Finally, Section~\ref{sec:conclusion} presents our conclusions and discussion.
 
 % Extreme value theory bears strong relevance to climate analysis, as climatological events of interest occur at the tail of the distribution, both in terms of magnitude and frequency.  We motivate our proposed model with an analysis of the integrated vapor transport data for observing atmospheric rivers---high concentrations of water vapor that lead to extreme precipitation events.
 
@@ -169,7 +169,7 @@ where the inequality and the interval are taken componentwise.
 In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ in extreme regions, and it is referred to as the
   \emph{exponent measure}. Under this condition $\mu$ features the homogeneity property $\mu(tA) = \frac{1}{t}\mu(A)$. 
 Define  $R = \max_{i} Z_i$, and assume that $R>1$ with probability one. Also, define $V_i = Z_i/\max_i Z_i$, and assume that $E(V_i)>0$.
-These two assumption together with the homogeneity of $\mu$ correspond to the second condition in Theorem 2.1 of
+These two assumptions together with the homogeneity of $\mu$ correspond to the second condition in Theorem 2.1 of
 \cite{ferreira2014}, applied to the finite-dimensional case.
 Thus, we have the factorization $\bm{Z} =  R\bm{V}$, where $R$ and $\bm{V}$  are independent. Moreover,
 for some measure $\Phi$, $\mu(\cdot)$ is factorized as
@@ -206,7 +206,7 @@ follows a multivariate GP, according to Theorem 6.  Then, using Proposition 4,
 $\bm{Z} = e^{Y}$ is also a multivariate GP. Notice that $R = e^E$ is distributed as 
 a standard Pareto random variable.
 
-\subsection{Pairwise Extremal Dependence\label{subsec:ped}}
+%\subsection{Pairwise Extremal Dependence\label{subsec:ped}}
 A measure that is used to characterize the strength of the dependence,
 in the tail, for two random variables $W_1$ and $W_2$, with marginal
 distributions $F_1$ and $F_2$ is given by
@@ -240,7 +240,7 @@ where the second identity is justified by the fact that $V_i$ is
 bounded and $z_i\rightarrow\infty$. The proof is completed by noting
 that $\prob{F_i(Z_i)>u} = 1 - u.\hfill\Box$
 
-\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
+%\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
 For the analysis of extreme values it is of interest to calculate the multivariate conditional survival function. The following result provides the relevant expression, as a function of the angular measure.
 \begin{prop}
 Assume the same conditions of Proposition \ref{ppchi}. 

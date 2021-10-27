@@ -21,301 +21,80 @@
       \times \frac{\Gamma({\textstyle\sum}_{\ell = 1}^d\alpha_{\ell})}{\left({\textstyle\sum}_{\ell = 1}^d
                     \beta_{\ell}y_{\ell}\right)^{{\scriptstyle\sum_{\ell = 1}^d \alpha_{\ell}}}}
   \end{equation}
-  defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for any $p>0$. To avoid idetifiability problems when estimating the shape and scale parameters, we set $\beta_1 = 1$.
+  defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for any $p>0$. To avoid identifiability problems when estimating the shape and scale parameters, we set $\beta_1 = 1$.
   \cite{nunez2019} obtain the density in Equation (\ref{eqn:projgamma})
   for $p=2$ as a multivariate distribution for directional data, using spherical coordinates.
-  For $\bm{ y}\in {\mathbb S}_1^{d-1}$, and $\beta_{\ell} = \beta, \forall\ell$, the density in Equation (\ref{eqn:projgamma}) corresponds to that of a Dirichlet distribution.
+  For $\bm{ y}\in {\mathbb S}_1^{d-1}$, and $\beta_{\ell} = \beta$ for all $\ell$, the density in Equation (\ref{eqn:projgamma}) corresponds to that of a Dirichlet distribution.
   
   The projected gamma family is simple to specify and has very tractable computational properties. Thus, we use it as a building block for the angular measure $\Phi$ models. To build a flexible family of distributions in ${\mathbb S}_p^{d-1}$ we consider mixtures of projected gamma densities defined as
   \begin{equation} \label{eqn:PGmix}     
-     f(\bm{y}) = \int_\Theta \text{PG}(\bm{y}|\bm{\theta}) dG(\bm{\theta}), 
+     f(\bm{y}) = \int_\Theta \mathcal{PG}(\bm{y}|\bm{\theta}) dG(\bm{\theta}), 
   \end{equation} 
-  where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian non-parametric approach \citep{Ferguson74,Antoniak1974} we assume that $G$ is drawn from a random measure. In particular, assuming a Dirichlet process prior, we have a hierarchical formulation of the mixture model given by
-  \[    \bm{y} \sim \text{PG}(\bm{y}|\bm{\theta}) , \;\;\; \bm{\theta} \sim G, \;\;\; G \sim \text{DP}(\eta, G_0),\]
-  where DP denotes a Dirichlet process, $\eta$ is the precision parameter, and $G_0$ is the centering distribution. 
+  where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian non-parametric approach \citep{Ferguson74,Antoniak1974} we assume that $G$ is drawn from a random measure. In particular, assuming a Dirichlet process prior, we have a hierarchical formulation of the mixture model that, for a vector of observations $\bm{y}_i$, is given by
+  \begin{equation}\label{eqn:dppg}    \bm{y}_i \sim \text{PG}(\bm{y}_i|\bm{\theta}_i) , \;\;\; \bm{\theta}_i \sim G, \;\;\; G \sim \mathcal{DP}(\eta, G_0),
+  \end{equation}
+  where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision parameter, and $G_0$ is the centering distribution. 
   
-  Our strategy consists of describing the angular distribution $\Phi$ using a sample based approach with the following steps: (i) Apply the transformation in Equation (\ref{eqn:standardization}) to the original data; (ii) Obtain the subsample of the standardized observations that satisfy $R>1$; (iii) Take a finite $p$ and project the observations onto ${\mathbb S}_p^{d-1}$; (iv) Fit the model in Equation (\ref{PGmix}) to the resulting data and obtain samples from the fitted model; (v) Project the resulting samples onto ${\mathbb S}_\infty^{d-1}$.
+  Our strategy consists of describing the angular distribution $\Phi$ using a sample based approach with the following steps: (i) Apply the transformation in Equation (\ref{eqn:standardization}) to the original data; (ii) Obtain the subsample of the standardized observations that satisfy $R>1$; (iii) Take a finite $p$ and project the observations onto ${\mathbb S}_p^{d-1}$; (iv) Fit the model in Equation (\ref{eqn:PGmix}) to the resulting data and obtain samples from the fitted model; (v) Project the resulting samples onto ${\mathbb S}_\infty^{d-1}$.
   For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo that is described in the next section. 
-  {\bf Instead of the olf Figure 1, it would be nice to add a figure where you illustrate this procedure. Give it a try.}
-%  The full conditional for $r$ takes the form
-%  \begin{equation}
-%    \label{eqn:rfullcond}
-%    r\mid\bm{ \alpha},\bm{ \beta}, y \sim \text{Ga}\left(r\mid{\textstyle\sum}_{\ell = 1}^d
-%                    \alpha_{\ell}, {\textstyle\sum}_{\ell = 1}^d \beta_{\ell}y_{\ell}\right).
-%  \end{equation}
+  {\bf Instead of the old Figure 1, it would be nice to add a figure where you illustrate this procedure. Give it a try.}
 
 \subsubsection{Inference for the projected Gamma mixture model}
-A sample-based method of inference for the Dirichlet process 
-
-Introducing $\bm{\pi}$, $\sum_j\pi_j = 1$ as the mixture weighting, Equation~\ref{eqn:PGmix} can be recomposed as
+The Dirichlet process mixture model groups observations into stochastically assigned \emph{clusters}.  Building out the methods of inference for Equation~\ref{eqn:dppg}, let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be the number of extant observations, not including any singleton that observation $i$ is in. Under this model, the probability of cluster membership is proportional to
 \begin{equation*}
-    f(\bm{y}\mid\bm{\alpha},\bm{\beta},\bm{\pi}) = \int_{\Omega}\sum_{j = 1}^{\infty}\left[\pi_j\text{PG}(\bm{y}\mid\bm{\theta}_j)\right]dG_0(\bm{\theta}_j)dF(\bm{\pi}),
+    \text{P}\left[\delta_i = j\mid\ldots\right] \propto \begin{cases}
+        n_j^{-i}\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)\hspace{0.5cm} &\text{~for~}j \in \lbrace 1,\ldots,J^{-i}\rbrace\\
+        \eta\int\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)dG_0(\bm{\alpha}_j,\bm{\beta}_j)\hspace{0.5cm} &\text{~for~}j = J^{-i} + 1.
+        \end{cases}
 \end{equation*}
-which in turn can be further recomposed as
+Of course, if $G_0$ is not a conjugate prior for the kernel distribution, then the integral is difficult.  Instead, using algorithm 8 from \cite{neal2000}, we draw $m$ candidate clusters, $\bm{\alpha}_j,\bm{\beta}_j$ for $j = J^{-i} + 1,\ldots, J^{-i} + m$ from $G_0$. Then, the probability of cluster membership is proportional to
 \begin{equation}
-    \label{eqn:dppgmix}
-    f(\bm{y}\mid\bm{\alpha},\bm{\beta},\bm{\pi}) = {\int\int}_{\Omega} \prod_{j = 1}^{\infty}\left[\pi_j\text{PG}\left(\bm{y}\mid\alpha_j,\beta_j\right)\right]^{(\delta = j)}dG_0(\bm{\theta}_j)dF(\bm{\delta})dF(\bm{\pi}).
+    \text{P}\left[\delta_i = j\mid\ldots\right] \propto \begin{cases}
+        n_j^{-i}\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)\hspace{0.5cm} &\text{~for~}j \in \lbrace 1,\ldots,J^{-i}\rbrace\\
+        \frac{\eta}{m}\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)\hspace{0.5cm} &\text{~for~}j \in \lbrace J^{-i} + 1,\ldots, J^{-i} + m\rbrace.
+        \end{cases}
 \end{equation}
-Thus, by sampling the latent parameter $\delta$ as a mixture component identifier, we can break the mixture into components and perform inference on components.  By integrating out $\bm{\pi}$ from Equation~\ref{eqn:dppgmix}, we arrive at the collapsed sampler formulation of the Dirichlet process\needcite.  Under this interpretation, for extant clusters the probability of cluster membership is proportional to
-\begin{equation*}
-    \prob{\delta_i = j\mid \bm{y}_i, \bm{\theta}_j} \propto \frac{n_j^{\neg i}}{\sum_{k = 1}^{J}n_k^{\neg i} + \eta}\text{PG}\left(\bm{y}_i\mid\bm{\theta}_j\right),
-\end{equation*}
-where $n_j^{\neg i}$ is the size of cluster $j$ not counting observation $i$, and $J$ the number of extant clusters.  Formation of new clusters is controlled by $\eta$, the concentration parameter for the Dirichlet process. Ideally, the probability of a new cluster is proportional to
-\begin{equation*}
-    \prob{\delta_i = J + 1\mid\theta_j,\eta} \propto \int\frac{\eta}{\sum_{k = 1}^{J}n_j^{\neg i} + \eta}\text{PG}\left(y_i\mid\bm{\theta}\right)dG_0(\bm{\theta}).
-\end{equation*}
-Unfortunately, in a model where $G_0(\bm{\theta})$ is not conjugate to the kernel distribution, this integral is not directly tractable (and a method for sampling the new cluster parameters given a single observation not obvious).  Instead, following Algorithm 8 from~\cite{neal2000}, we compute this integral implicitly (and find samples for the new cluster parameters) by sampling $m$ \emph{candidate clusters} from $dG_0(\bm{\theta})$.  Then the probability of cluster membership in any of these candidate clusters is proportional to
-\begin{equation*}
-    \prob{\delta_i = j^{*}\mid\theta_{j^*}, \eta} \propto \frac{\eta / m}{\sum_{k = 1}^{J}n_k^{\neg i} + \eta}\text{PG}\left(\bm{y}_i\mid\theta_{j^*}\right),
-\end{equation*}
-where $j^*$ specifies the index for a candidate cluster.  Upon sampling $\delta$ from extant and candidate clusters, if a candidate cluster is selected, then its cluster parameters are saved.
+Of course, if a candidate cluster is selected, then $\delta_j = J + 1$, and $J = J^{-i} + 1$.
 
-As stated before, the projected Gamma model offers very tractable computational properties.  After breaking the mixture, the likelihood for the $j$th cluster is proportional to
+A key feature of the the projected Gamma distribution is its computational properties.  With respect to the distributional parameters $\bm{\alpha}_i,\bm{\beta}_i$, the projected Gamma density is proportional to
+\begin{equation*}
+    \mathcal{PG}(\bm{y}\mid\bm{\alpha}_i,\bm{\beta}_i) \propto \int\prod_{\ell = 1}^d\mathcal{G}\left(ry_{i\ell}\mid\alpha_{i\ell},\beta_{i\ell}\right)r^{d-1}dr,
+\end{equation*}
+which implies that, by reintroducing the latent radial component $r_i$ via sampling from its full conditional,
 \begin{equation}
-    \label{eqn:pglikelihood}
-    L(\bm{\theta}_j\mid \bm{Y},\bm{\delta}) = \prod_{i:\delta_i = j}\text{PG}\left(\bm{y}_i\mid \bm{\theta_j}\right) \propto \prod_{i:\delta_i = j}\int_0^{\infty}\prod_{\ell = 1}^d\text{Ga}\left(r_iy_{i\ell}\mid\theta_{j\ell}\right)r_i^{d-1}dr_i.
+    r_i\mid\bm{\alpha}_i,\bm{\beta}_i \sim \mathcal{G}\left(\sum_{\ell = 1}^d\alpha_{i\ell}, \sum_{\ell = 1}^d\beta_{\ell} y_{i\ell}\right),
 \end{equation}
-By reintroducing the latent parameter $r$, the likelihood with respect to the distributional parameters becomes independent between dimensions.  An appropriately chosen centering distribution that preserves that independence between dimensions will enable us to perform inference on each dimension independently.
+the likelihood for $\bm{\alpha},\bm{\beta}$ becomes separable by dimension.  We stress this point: \emph{given} $r$, the distributional parameters $(\alpha_j,\beta_j)_{\ell}$ are independent in the likelihood.
 
-The form of centering distribution $G_0$ deserves further mention.  In the Gibbs sampler, for inference on $\bm{\theta}_j$, the centering distribution acts as a prior.  Given $r$, the conjugate prior for $\beta_{j\ell}$ is another Gamma distribution---this allows us to sample it directly, and integrate it out for inference on $\alpha_{j\ell}$.  A conjugate prior for $\alpha_{j\ell}$ exists, though sampling from it is not straightforward.  Instead, a logical prior for $\alpha_{j\ell}$ is another Gamma distribution, and exploring the posterior of $\alpha_{j\ell}$ is accomplished with a Metropolis-within-Gibbs step.  This logic develops the \emph{Gamma} form for the centering distribution:
-\begin{equation*}
-    G_0(\bm{\alpha}_j,\bm{\beta}_j) =
-    \prod_{\ell = 1}^d\text{Ga}\left(\alpha_{j\ell}\mid\xi_\ell,\tau_\ell\right) \times \prod_{\ell = 2}^d\text{Ga}\left(\beta_{j\ell}\mid\zeta_\ell,\sigma_\ell\right),
-\end{equation*}
-with Gamma priors for $\xi_\ell$, $\tau_\ell$, $\zeta_\ell$, and $\sigma_\ell$.  Under this model, given $r$, inference is independent between dimensions.
-
-A slightly different choice of centering distribution also presents promise when we consider how the DP forms new clusters, in the algorithm we are using.  As stated, at each iteration the algorithm generates $m$ new candidate clusters from $G_0$.  A form of centering distribution that forces independence between dimensions may have detrimental effects on performance in the formation of new clusters.  Instead, we might choose a centering distribution that shares information between dimensions in a covariance structure.  This logic develops the \emph{log-normal} form for the centering distribution:
+The full conditional for $\bm{\alpha}_j,\bm{\beta}_j$ is then proportional to
 \begin{equation}
-    G_0(\bm{\alpha}_j,\bm{\beta}_j) = \mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\Sigma\right)\prod_{\ell = 2}^d\text{Ga}\left(\beta_{j\ell}\mid\zeta_\ell,\sigma_\ell\right)
+    f(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{Y},\bm{r},\bm{\delta},\ldots) \propto \prod_{i:\gamma_i = j}\prod_{\ell = 1}^d\mathcal{G}\left(r_iy_{i\ell}\mid\alpha_{j\ell},\beta_{j\ell}\right) \times dG_0(\alpha_{\ell},\beta_{\ell})
 \end{equation}
-with a normal prior for $\bm{\mu}$, an inverse-Wishart prior for $\Sigma$, and Gamma priors for $\zeta_{\ell}$ and $\sigma_{\ell}$.  This form enables us to integrate out $\beta_{j\ell}$ for $\ell = 2,\ldots, d$ to perform inference on $\bm{\alpha}_j$.  Inference on $\bm{\alpha}_j$ can be accomplished with a $d$-dimensional Metropolis step.
+The first form of the centering distribution we explore is a product of independent Gammas.
+\begin{equation}
+    G_0(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{\xi},\bm{\tau},\bm{\zeta},\bm{\sigma}) = \prod_{\ell = 1}^d\mathcal{G}(\alpha_{j\ell}\mid \xi_{\ell},\tau_{\ell})\times\prod_{\ell = 2}^d\mathcal{G}(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell})
+\end{equation}
+This model is completed with Gamma priors on $\xi_{\ell}$, $\tau_{\ell}$, $\zeta_{\ell}$, $\sigma_{\ell}$.  Optionally, placing a Gamma prior on $\eta$ allows updating via the procedure outlined in \cite{escobar1995}.  In further analysis, we refer to this model as the \emph{projected Gamma--Gamma} (PG--G) model.  An advantage to using a Gamma centering distribution for the rate parameter is, as a conjugate prior, the rate parameters can easily be integrated out for inference on $\bm{\alpha}_j$.  After doing so, the full conditional for $\alpha_{j\ell}$ takes the form
+\begin{equation}
+    \pi(\alpha_{j\ell}\mid \bm{r},\bm{Y},\bm{\gamma},\xi_\ell,\tau_\ell,\zeta_\ell,\sigma_\ell) \propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i\ell}\right)^{\alpha_{j\ell} - 1}\alpha_{j\ell}^{\xi_\ell - 1}e^{-\tau_\ell \alpha_{j\ell}}\times\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\Gamma^{n_j}(\alpha_{j\ell})\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
+\end{equation}
+for $\ell = 2,\ldots,d$.  For $\ell = 1$, as $\beta_{1} := 1$, the full conditional takes the form
+\begin{equation}
+    \label{eqn:alpha1update}
+    \pi(\alpha_{j1}\mid\bm{r},\bm{Y},\bm{\gamma},\xi_1,\tau_1) \propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}\alpha_{j1}^{\zeta_1 - 1}e^{-\tau_1\alpha_{j1}}}{\Gamma^{n_j}(\alpha_{j1})}.
+\end{equation}
+Updating these parameters can be done via a simple Metropolis-within-Gibbs step.  In our analysis, we first transform $\alpha_{j\ell}$ to log scale, and use a normal proposal density.
+The full conditional for $\beta$ is then
+\begin{equation}
+    \beta_{j\ell}\mid\bm{r},\bm{Y},\alpha,\zeta_{\ell},\sigma_{\ell} \sim \mathcal{G}\left(\beta_{j\ell}\mid n_j\alpha_{j\ell} + \zeta_\ell, \sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right),
+\end{equation}
+for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters $\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar Gamma-Gamma update relationships.  We also explore a restricted form of this model, where $\beta_{\ell} = 1$ for all $\ell$.  Under this model, we use the full conditional in Equation~\ref{eqn:alpha1update} for all $\ell$, and omit inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the \emph{projected restricted Gamma--Gamma} (PRG--G) model.
 
-The \emph{restricted} form for the projected Gamma model holds $\beta_{j\ell} := 1$ for all $\ell$.  This simplifies inference for both the Gamma and log-normal models.
-
-
-
-% {\bf Our focus is on model (\ref{eqn:PGmix}). Describe how you build a sample based approach to fitting that model. How you introduce latent variables, both to break the mixture and to produce the PG. You can then discuss variations that essentially consists on different priors. So, basically, you need to condense the next three pages in about a page.}
-
-% We consider a basic model that assumes all observations are generated by a single projected Gamma
-%   distribution.  The shape and rate parameters for the latent \text{Gamma} random variables,
-%   $\alpha_{\ell},\beta_{\ell}$, must be greater than 0, so a logical prior to use would be a Gamma prior for
-%   each parameter, excepting for $\beta_1 := 1$.
-%   \begin{equation}
-%     \label{eqn:vanillap}
-%     \begin{aligned}
-%       \bm{ y}\mid\alpha,\beta &\sim \text{PG}(\bm{ y}\mid\alpha,\beta)\\
-%       \bm{ \alpha},\bm{\beta} &\sim {\textstyle \prod}_{\ell = 1}^d \text{Ga}(\alpha_{\ell} \mid \xi_{\ell},\tau_{\ell})
-%               \times {\textstyle \prod}_{\ell = 2}^d \text{Ga}(\beta_{\ell}\mid \zeta_{\ell},\sigma_{\ell}).
-%     \end{aligned}
-%   \end{equation}
-%   A useful property of the Projected Gamma family is the latent independent Gammas assumption.  Recall
-%   in Eqn.~\ref{eqn:protopg}, we have a density defined as a product of independent Gamma densities,
-%   multiplied by a factor of $r^{d-1}C$, where $C$ is constant with respect to the parameters
-%   $\alpha,\beta$, as well as $r$.  If we conduct inference via a Gibbs sampler, then by simulating
-%   this latent $r$ we are able to perform inference of $(\alpha_{\ell},\beta_{\ell})$ independent of
-%   that of $(\alpha_k,\beta_k)$.  The full conditional for $r$ is described in Eqn.~\ref{eqn:rfullcond}.
-%   The full conditional for $\beta_{\ell}$, $l = 2,\ldots,d$ then becomes
-%   \begin{equation}
-%     \label{eqn:betafc}
-%     \beta_{\ell}\mid \bm{ y}, r, \alpha_{\ell} \sim \text{Ga}\left(n + \alpha_{\ell} + \zeta_{\ell},
-%                                       {\textstyle \sum}_{i = 1}^nr_iy_{il} + \sigma_{\ell}\right).
-%   \end{equation}
-%   That is, given $\alpha_{\ell}$, $r$, we can sample $\beta_{\ell}$ directly as a Gamma random
-%   variable.  In the sampling for $\alpha_{\ell}$, we can integrate $\beta_{\ell}$ out leaving us a
-%   quantity proportional to a density, which we can sample via the Metropolis Hastings
-%   algorithm\citep{hastings1970}.  For $\alpha_{\ell}$, $\ell = 2,\ldots, d$, This takes the form
-%   \begin{equation}
-%     \label{eqn:alphafc}
-%     f(\alpha_{\ell} \mid \bm{ y}, r) \propto
-%     \frac{\left({\textstyle \prod}_{i = 1}^nr_iy_{il}\right)^{\alpha_{\ell} - 1}}{\Gamma^n(\alpha_{\ell})} \times
-%     \alpha_{\ell}^{\xi_{\ell} - 1}\exp\{-\tau_{\ell}\alpha_{\ell}\} \times
-%     \frac{\Gamma(n\alpha_{\ell} + \zeta_{\ell})}{
-%         \left({\textstyle\sum}_{i = 1}^n r_iy_{il} + \sigma_{\ell}\right)^{(n * \alpha_{\ell} + \zeta_{\ell})}}.
-%   \end{equation}
-%   For $\alpha_1$, as we do not integrate out $\beta_1$ as it is defined to be $1$, this takes the
-%   slightly simpler form
-%   \begin{equation}
-%     \label{eqn:alphafc1}
-%     f(\alpha_1 \mid \bm{ y}, r) \propto
-%       \frac{{\textstyle\prod}_{i = 1}^n ry_{i1}^{\alpha_1 - 1}}{\Gamma^n(\alpha_1)} \times
-%       \alpha_1^{\xi_1 - 1}\exp\{-\tau_1\alpha_1\}.
-%   \end{equation}
-%   The \emph{projected restricted Gamma} model sets $\beta_{\ell} := 1 \forall \ell \in \lbrace 1,\ldots,d\rbrace$,
-%   so in that model inference on all $\alpha_{\ell}$ will use the simpler form.
-
-% \subsubsection{Finite Mixture Model}
-% The projected Gamma distribution offers a flexible model for describing direction.  However, it is
-%   conceivable that a single Projected Gamma distribution will not sufficiently capture the
-%   variability of real data.  In that case, a logical extension to make to the above model is to
-%   assume the data, $\bm{ y}$, are generated from a mixture of projected Gammas.  We consider a finite
-%   mixture,
-%   \begin{equation}
-%     \label{eqn:fmixp}
-%     \begin{aligned}
-%       \bm{ y}_i &\sim \sum_{j = 1}^J\pi_j\text{PG}\left(\bm{ y}\mid \bm{ \alpha}_j, \bm{ \beta}_j\right)\\
-%       \bm{ \alpha}_j &\sim {\textstyle \prod}_{\ell = 1}^d \text{Ga}\left(\alpha_{\ell}\mid\xi_{\ell},\tau_{\ell}\right)\\
-%       \bm{ \beta}_j &\sim {\textstyle \prod}_{\ell = 2}^d \text{Ga}\left(\beta_{\ell}\mid\zeta_{\ell},\sigma_{\ell}\right)
-%     \end{aligned}
-%     \hspace{2cm}
-%     \begin{aligned}
-%       \bm{ \xi},\bm{\tau} &\sim {\textstyle \prod}_{\ell = 1}^d \text{Ga}(\xi_{\ell}\mid a,b) \times \text{Ga}(\tau_{\ell}\mid c,d)\\
-%       \bm{ \zeta},\bm{\sigma} &\sim {\textstyle\prod}_{\ell = 2}^d\text{Ga}(\zeta_{\ell} \mid a,b)\times \text{Ga}(\sigma_{\ell}\mid c,d)\\
-%       \bm{ \pi} &\sim \text{Dir}(\pi_0)
-%     \end{aligned}
-%   \end{equation}
-%   In addition to allowing multiple mixture components, we assume those mixture components themselves
-%   descend from a product of independent Gamma densities. The standard method for sampling from a
-%   mixture distribution includes a data augmentation step, generating a
-%   $\delta_i \in \lbrace 1,\ldots, J\rbrace$ indicating to which mixture component a
-%   particular observation comes from, with
-%   \begin{equation*}
-%     \text{P}\left[\delta_i = j\mid\alpha_j,\beta_j\right] \propto \pi_j\text{PG}\left(\bm{ y}_i\mid \bm{ \alpha}_j,\bm{ \beta}_j\right).
-%   \end{equation*}
-%   By sampling and conditioning on $\delta_i$, we end up with very similar semi-conjugate forms for
-%   inference of $\bm{ \alpha}_j$, $\bm{ \beta}_j$ that were used in the basic model.  The changes made
-%   to Equations~\ref{eqn:betafc},\ref{eqn:alphafc},\ref{eqn:alphafc1} are such that we're conducting inference
-%   on a mixture component given the mixture component identifiers $\bm{ \delta}$, so instead of indexing
-%   $i$ over the whole data set, we're indexing $i$ over the set $\{i :\delta_i = j\}$, with $n = n_j$,
-%   the cardinality of that set. Inference on $\bm{ \xi,\tau,\zeta,\sigma}$ follows a similar form as
-%   that of $\bm{ \alpha,\beta}$---they are Gamma-Gamma relationships, so rate parameters have a conjugate
-%   Gamma posterior, and we can integrate them out to perform inference on the shape parameters via
-%   Metropolis Hastings.
-
-% Additionally, we investigate a finite mixture extension of the \emph{Projected Restricted Gamma} model,
-%   where we define all $\beta_{\ell} := 1$, for $l = 1,\ldots,d$, for $j = 1,\ldots,J$.  This affects the above
-%   model by removing inference steps for $\bm{ \beta},\bm{ \zeta},\bm{ \sigma}$.  The inference for
-%   $\alpha_{\ell}$ for all $\ell = 1,\ldots,d$ follows the form in Equation~\ref{eqn:alphafc1}; inference on
-%   $\bm{ \xi,\tau}$ follows the same form as the unrestricted model.  The impetus for the restricted
-%   gamma model is that in the context of a mixture model, the additional flexibility offered by the
-%   unrestricted Gamma model may be better represented with additional clusters.
-
-% \subsubsection{Dirichlet Process Mixture Model}
-% A logical extension to the finite mixture model described in Equation~\ref{eqn:fmixp} would be to assume the
-%   $\bm{ y}$'s descending from an infinite mixture model.  This to some extent solves the issue of
-%   selecting the number of mixture components, as that will effectively be done so in the model.
-%   \begin{equation}
-%     \label{eqn:infmixp}
-%     \begin{aligned}
-%       \bm{ y}_i &\sim \sum_{j = 1}^J\pi_j\text{PG}\left(\bm{ y}\mid \bm{ \alpha}_i, \bm{ \beta}_i\right)\\
-%       (\alpha_i,\beta_i) &\sim \text{DP}\left(\eta, G_0\right)\\
-%       &~\hspace{-2cm}G_0 = {\textstyle\prod}_{\ell = 1}^d\text{Ga}\left(\alpha_{jl}\mid\xi_{l},\tau_{l}\right)
-%                     \times{\textstyle\prod}_{\ell = 2}^d\text{Ga}\left(\beta_{jl}\mid\zeta_{l}\tau_{l}\right)
-%     \end{aligned}
-%     \hspace{1cm}
-%     \begin{aligned}
-%       \bm{ \xi},\bm{ \tau} &\sim {\textstyle \prod}_{\ell = 1}^d \text{Ga}(\xi_{\ell}\mid a,b)\times \text{Ga}(\tau_{\ell}\mid c,d)\\
-%       \bm{ \zeta},\bm{\sigma} &\sim {\textstyle\prod}_{\ell = 2}^d\text{Ga}(\zeta_{\ell} \mid a,b)\times \text{Ga}(\sigma_{\ell}\mid c,d)\\
-%       \bm{ \eta} &\sim \text{Ga}(\eta \mid 2, 0.1).
-%     \end{aligned}
-%   \end{equation}
-%   To fit the Dirichlet process, we use a variant of the collapsed Gibbs sampler detailed as
-%   Algorithm~8 in \citet{neal2000}.  In this algorithm, we perform a data augmentation to create a
-%   cluster identifier, $\delta_i$, for each observation. Let $J$ indicate the number of extant clusters.
-%   Under the collapsed sampler scheme, for existing clusters, the probability of cluster membership is
-%   calculated as
-%   \begin{equation}
-%     \label{eqn:dpdelta}
-%     \text{P}\left(\delta_i = j\mid r, \bm{ y_i} \bm{ \alpha}, \bm{ \beta}\right) \propto
-%         \frac{n_j^{\not i}}{\sum_{k = 1}^{J} n_k + \eta}
-%         {\textstyle\prod}_{\ell = 1}^d\text{Ga}\left(r_iy_{il}\mid\alpha_{jl},\beta_{jl}\right).
-%   \end{equation}
-%   where $n_j^{\not i} = {\textstyle\sum}_{k\neq i}1_{k == j}$.  Effectively, if the observation under review is a
-%   singleton, its existing cluster is destroyed.  For new clusters, ostensibly we would integrate out
-%   cluster parameters to achieve a posterior predictive density; though doing so in a
-%   non-conjugate model may be difficult.  Instead, the impetus for using this specific DP fitting algorithm
-%   is it simulates the posterior predictive density by generating $m$ new candidate clusters from
-%   their respective priors given $\bm{ \xi,\tau,\zeta,\sigma}$.  Then the probability of $y_i$
-%   belonging to a particular candidate cluster is calculated as
-%   \begin{equation}
-%     \label{eqn:dpdeltanew}
-%     \text{P}\left[\delta_i = k\mid r, \bm{ \alpha}_k^{\prime}, \bm{ \beta}_k^{\prime}\right] \propto
-%         \frac{\eta / m}{\sum_{j = 1}^{J} n_j + \eta}
-%         {\textstyle\prod}_{\ell = 1}^d\text{Ga}\left(r_iy_{il}\mid\alpha_{kl}^{\prime},\beta_{kl}^{\prime}\right),
-%   \end{equation}
-%   where $(\cdot)^{\prime}$ indicates a value as belonging to a new candidate cluster, and $k$ indexes
-%   along candidate clusters.  If a new cluster is selected, then
-%   $(\bm{\alpha}_{J+1},\bm{\beta}_{J+1}) = (\bm{\alpha}_k^{\prime},\bm{\beta}_k^{\prime})$, and $J = J + 1$.
-
-% Inference upon $\bm{ \alpha}_j,\bm{ \beta}_j$ operates in the same manner as with the finite mixture
-%   model.  For $\bm{ \xi,\tau,\zeta,\sigma}$, we have $J$ cluster components, indicating $J$
-%   observations that again are under a gamma-gamma model.  The rate parameters have a previously
-%   described conjugate posterior, that we can integrate out to more directly sample the shape
-%   parameters.  As before, we will be looking at this model, and the restricted gamma form of this model, where
-%   $\beta_{\ell} := 1$ for $\ell = 1,\ldots,d$.  This removes inference steps for $\bm{ \zeta},\bm{ \sigma}$
-%   as well.
-
-% \subsubsection{A Log-Normal Prior for Shape Parameters}
-% A final extension we can make to this model is to allow for some structure, or dependence, in the prior
-%   for shape parameters within a cluster.  The impetus for this approach is from recognizing that the
-%   algorithm we are using for sampling the DP may not adequately represent the posterior density for
-%   a new cluster, as it is assuming sampling from an independent prior.  If we account for dependence
-%   between dimensions within the prior, then we may be able to more efficiently sample new clusters.
-%   As shape parameters must be greater than 0, it is logical to assume a log normal prior, as that
-%   allows us the familiar forms of a mean vector and covariance matrix for representing the source of
-%   cluster parameters. So,
-%   \begin{equation}
-%     \label{eqn:dpln}
-%     \begin{aligned}
-%       \bm{ y}_i &\sim \sum_{j = 1}^J\pi_j\text{PG}\left(\bm{ y}\mid \bm{ \alpha}_i, \bm{\beta}_i\right)\\
-%       (\bm{\alpha}_i, \bm{\beta}_i) &\sim \text{DP}\left(\eta, G_0\right)\\
-%         &~\hspace{-1cm}G_0 = \mathcal{N}\left(\log\bm{ \alpha}_{j}\mid\mu,\Sigma\right)\times
-%             {\textstyle\prod}_{\ell = 2}^d\text{Ga}\left(\beta_{j,\ell}\mid\zeta_{\ell},\sigma_{\ell}\right)
-%     \end{aligned}
-%     \hspace{1cm}
-%     \begin{aligned}
-%       \mu,\Sigma &\sim \mathcal{N}\left(\mu\mid\mu_0,\Sigma_0\right) \times \text{IG}\left(\nu,\Psi\right)\\
-%       \bm{ \zeta},\bm{\sigma} &\sim {\textstyle\prod}_{\ell = 2}^d\text{Ga}(\zeta_{\ell} \mid a,b) \times \text{Ga}(\sigma_{\ell} \mid c,d) \\
-%       \bm{ \eta} &\sim \text{Ga}(\eta \mid 2, 0.1).
-%     \end{aligned}
-%   \end{equation}
-%   We hope that this will allow us to better incorporate the relationship between dimensions in
-%   sampling new clusters, allowing for better mixing of the model.  The downside is one of computational
-%   complexity---this introduces a $d$-dimensional normal distribution into the model, requiring a
-%   $d$-dimensional matrix inversion step.  As matrix inversion is computationally costly, this limits
-%   the potential number of dimensions possible.  The posterior inference strategies for $\beta,\zeta,\sigma$
-%   are the same as for prior models and have been described.  For inference on $\alpha_j$ given
-%   $r, \mu,\Sigma$, we rely on a $d$-dimensional Metropolis Hastings step, where the log-posterior
-%   density is proportional to
-%   \begin{equation}
-%     \label{eqn:dplnlp}
-%     \begin{aligned}
-%     f(\bm{\alpha}_j\mid\bm{\delta},\bm{y},\mu,\Sigma,\zeta,\sigma) &\propto
-%     \frac{\left(\prod_{i:\delta_i = j}y_{i,\ell}\right)^{\alpha_{j,\ell} - 1}}{\Gamma(\alpha_{j,\ell})^{n_j}}
-%         \prod_{\ell = 2}^d\left[\frac{\left(\prod_{i:\delta_i = j}y_{i,\ell}\right)^{\alpha_{j,\ell} - 1}
-%         \Gamma(n_j\alpha_{j,\ell} + \zeta)}{\Gamma(\alpha_{j,\ell})^{n_j}\left(\sum_{i:\delta_i = j}y_{i,\ell}
-%         + \sigma\right)^{n_j\alpha_{j,\ell} + \zeta}}\right]\\
-%         &\hspace{1cm}\times
-%         \lvert \Sigma\rvert^{-\frac{1}{2}}\prod_{\ell = 1}^d\alpha_{j,\ell}^{-1}\exp\left\lbrace
-%           -\frac{1}{2}(\log\alpha_j - \mu)^T\Sigma^{-1}(\log\alpha_j - \mu)\right\rbrace.
-%     \end{aligned}
-%   \end{equation}
-%   Updating $\beta_j$ is accomplished with a conjugate Gibbs step, using the full conditional detailed
-%   in Equation~\ref{eqn:betafc}, again subsetting $i$ such that $\delta_i = j$.  Note that we offer this
-%   model for completeness---in practice, attempting to learn $\beta$ with $\alpha$ having a log-normal
-%   prior resulted in extremely poor model performance.  We thus used the restricted gamma likelihood,
-%   assuming $\beta_{j,\ell} = 1$ for all $j,\ell$.  This simplifies Equation~\ref{eqn:dplnlp} into
-%   \begin{equation}
-%     \label{eqn:dplnlpr}
-%     \begin{aligned}
-%     f(\bm{\alpha}_j\mid\bm{\delta},\bm{y},\mu,\Sigma) &\propto
-%     \prod_{\ell = 1}^d\left[\frac{\left(\prod_{i:\gamma_i = j}
-%         y_{i,\ell}\right)^{\alpha_{j,\ell} - 1}}{\alpha_{j,\ell}\Gamma(\alpha_{j,\ell})^{n_j}} \right]
-%         \times\lvert\Sigma\rvert^{-\frac{1}{2}}
-%       \exp\left\lbrace-\frac{1}{2}(\log\alpha_j - \mu)^T\Sigma^{-1}(\log\alpha_j - \mu)\right\rbrace.
-%     \end{aligned}
-%   \end{equation}
-%   This model is conjugate for $\mu,\Sigma$, allowing simple Gibbs step updating.  The full
-%     conditional distributions for $\mu$, $\Sigma$ take the form
-%   \begin{equation}
-%     \begin{aligned}
-%     \mu\mid\Sigma,\alpha &\sim \mathcal{N}\left((n^*\Sigma^{-1} + S^{-1})^{-1}(n^*\overline{\log\alpha}^T\Sigma^{-1}
-%       + \mu_0^TS^{-1}),(n^{*}\Sigma^{-1} + S^{-1})^{-1}\right)\\
-%     \Sigma\mid\mu,\alpha &\sim \mathcal{IW}\left(
-%         n^* + \nu, {\textstyle\sum}_{j = 1}^{n^*}(\log\alpha_j - \mu)(\log\alpha_j - \mu)^T + \Psi\right),
-%     \end{aligned}
-%   \end{equation}
-%   where $n^*$ specifies the number of extant clusters.  Removing $\beta$ additionally removes the
-%   inference steps for $\zeta,\sigma$.
+The second form of centering distribution we explore is a multivariate log-normal distribution on the shape parameters $\bm{\alpha}_j$, with independent Gamma $\beta_{j\ell}$ rate parameters.  
+\begin{equation}
+    G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right) = \mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right)
+\end{equation}
+This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  We also explore a restricted Gamma form of this model as above, where $\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the \emph{projected restricted Gamma--log-normal} (PRG--LN) model.  in the interest of brevity, we omit the inferential forms for this model, sufficing to say that updating $\bm{\alpha}_j$ is accomplished with a joint Metropolis-within-Gibbs step; the normal prior for $\mu$ is conjugate for the log-normal $\log\bm{\alpha}_j$, and updated via a Gibbs step; and an inverse Wishart prior for $\Sigma$ is again conjugate to the log-normal $\bm{\alpha}_j$, meaning it too can be updated via a Gibbs step.
 
 \subsubsection{Choice of Norm\label{subsubsec:norm}}
 In the extreme value case, we have defined our task on ${\mathbb S}_{\infty}^{d-1}$, the positive orthant
