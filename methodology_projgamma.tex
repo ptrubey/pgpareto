@@ -54,27 +54,28 @@ Of course, if $G_0$ is not a conjugate prior for the kernel distribution, then t
         \frac{\eta}{m}\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)\hspace{0.5cm} &\text{~for~}j \in \lbrace J^{-i} + 1,\ldots, J^{-i} + m\rbrace.
         \end{cases}
 \end{equation}
-Of course, if a candidate cluster is selected, then $\delta_j = J + 1$, and $J = J^{-i} + 1$.
+Of course, if a candidate cluster is selected, then $\delta_j = J = J^{- i} + 1$, and the associated cluster parameters are saved.
 
 A key feature of the the projected Gamma distribution is its computational properties.  With respect to the distributional parameters $\bm{\alpha}_i,\bm{\beta}_i$, the projected Gamma density is proportional to
 \begin{equation*}
-    \mathcal{PG}(\bm{y}\mid\bm{\alpha}_i,\bm{\beta}_i) \propto \int\prod_{\ell = 1}^d\mathcal{G}\left(ry_{i\ell}\mid\alpha_{i\ell},\beta_{i\ell}\right)r^{d-1}dr,
+    \mathcal{PG}(\bm{y}\mid\bm{\alpha}_i,\bm{\beta}_i) = \int\prod_{\ell = 1}^d\mathcal{G}\left(ry_{i\ell}\mid\alpha_{i\ell},\beta_{i\ell}\right)r^{d-1}\left[y_d +
+            {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(y_d^p\right)^{\frac{1}{p} - 1}\right]dr,
 \end{equation*}
 which implies that, by reintroducing the latent radial component $r_i$ via sampling from its full conditional,
 \begin{equation}
     r_i\mid\bm{\alpha}_i,\bm{\beta}_i \sim \mathcal{G}\left(\sum_{\ell = 1}^d\alpha_{i\ell}, \sum_{\ell = 1}^d\beta_{\ell} y_{i\ell}\right),
 \end{equation}
-the likelihood for $\bm{\alpha},\bm{\beta}$ becomes separable by dimension.  We stress this point: \emph{given} $r$, the distributional parameters $(\alpha_j,\beta_j)_{\ell}$ are independent in the likelihood.
+the likelihood for $\bm{\alpha},\bm{\beta}$ becomes separable by dimension.  We stress this point: \emph{given} $r$, the dimensions of the distributional parameters $\bm{\alpha}_j,\bm{\beta}_j$ are independent in the likelihood.
 
 The full conditional for $\bm{\alpha}_j,\bm{\beta}_j$ is then proportional to
 \begin{equation}
     f(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{Y},\bm{r},\bm{\delta},\ldots) \propto \prod_{i:\gamma_i = j}\prod_{\ell = 1}^d\mathcal{G}\left(r_iy_{i\ell}\mid\alpha_{j\ell},\beta_{j\ell}\right) \times dG_0(\alpha_{\ell},\beta_{\ell})
 \end{equation}
-The first form of the centering distribution we explore is a product of independent Gammas.
+The first form of the centering distribution we explore is a product of independent Gammas:
 \begin{equation}
-    G_0(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{\xi},\bm{\tau},\bm{\zeta},\bm{\sigma}) = \prod_{\ell = 1}^d\mathcal{G}(\alpha_{j\ell}\mid \xi_{\ell},\tau_{\ell})\times\prod_{\ell = 2}^d\mathcal{G}(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell})
+    G_0(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{\xi},\bm{\tau},\bm{\zeta},\bm{\sigma}) = \prod_{\ell = 1}^d\mathcal{G}(\alpha_{j\ell}\mid \xi_{\ell},\tau_{\ell})\times\prod_{\ell = 2}^d\mathcal{G}(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}).
 \end{equation}
-This model is completed with Gamma priors on $\xi_{\ell}$, $\tau_{\ell}$, $\zeta_{\ell}$, $\sigma_{\ell}$.  Optionally, placing a Gamma prior on $\eta$ allows updating via the procedure outlined in \cite{escobar1995}.  In further analysis, we refer to this model as the \emph{projected Gamma--Gamma} (PG--G) model.  An advantage to using a Gamma centering distribution for the rate parameter is, as a conjugate prior, the rate parameters can easily be integrated out for inference on $\bm{\alpha}_j$.  After doing so, the full conditional for $\alpha_{j\ell}$ takes the form
+This model is completed with Gamma priors on $\xi_{\ell}$, $\tau_{\ell}$, $\zeta_{\ell}$, $\sigma_{\ell}$.  We also placed a Gamma prior on $\eta$, updating via the procedure outlined in \cite{escobar1995}.  In further analysis, we refer to this model as the \emph{projected Gamma--Gamma} (PG--G) model.  An advantage to using a Gamma centering distribution for the rate parameter is, as a conjugate prior, the rate parameters can easily be integrated out for inference on $\bm{\alpha}_j$.  After doing so, the full conditional for $\alpha_{j\ell}$ takes the form
 \begin{equation}
     \pi(\alpha_{j\ell}\mid \bm{r},\bm{Y},\bm{\gamma},\xi_\ell,\tau_\ell,\zeta_\ell,\sigma_\ell) \propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i\ell}\right)^{\alpha_{j\ell} - 1}\alpha_{j\ell}^{\xi_\ell - 1}e^{-\tau_\ell \alpha_{j\ell}}\times\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\Gamma^{n_j}(\alpha_{j\ell})\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
 \end{equation}

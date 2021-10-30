@@ -27,10 +27,23 @@ We have introduced this projected gamma distribution existing on $\mathcal{S}_{\
   The choice of generation routine for $\beta$ is $\beta\sim\text{Unif}(\beta\mid 0.25, 2.5)$.
   This choice was made to ensure that $\beta$ does not approach 0 in the generation routine.
 
+% \begin{figure}[ht]
+%   \caption{Simulation Energy Score versus Column Count, by Mixture Component Count. Lower is better.\label{fig:simes}}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{./images/simulation_es}
+% \end{figure}
+
 \begin{figure}[ht]
-  \caption{Simulation Energy Score versus Column Count, by Mixture Component Count. Lower is better.\label{fig:simes}}
-  \centering
-  \includegraphics[width=0.8\textwidth]{./images/simulation_es}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{./images/simulation_ppl}
+    \caption{Posterior Predictive Loss\label{fig:simppl}}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{./images/simulation_es}
+    \caption{Energy Score\label{fig:simes}}
+  \end{subfigure}
+  \caption{Simulation PPL (left) and ES (left) versus column count, by mixture component count.}
 \end{figure}
 
 In Figure~\ref{fig:simes}, we fit DP Mixtures of the various models presented and plot the resulting
@@ -43,11 +56,11 @@ In Figure~\ref{fig:simes}, we fit DP Mixtures of the various models presented an
   Gamma and the other gamma-based models tends to shrink as the number of columns increases.
   Alternatively, that difference appears to grow as the number of mixture components increases.
 
-\begin{figure}[ht]
-  \caption{Simulation posterior predictive loss versus column count, by mixture component count.\label{fig:simppl}}
-  \centering
-  \includegraphics[width=0.8\textwidth]{./images/simulation_ppl}
-\end{figure}
+% \begin{figure}[ht]
+%   \caption{Simulation posterior predictive loss versus column count, by mixture component count.\label{fig:simppl}}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{./images/simulation_ppl}
+% \end{figure}
 
 The posterior predictive loss criterion in Figure~\ref{fig:simppl} tells a similar story: the base
   model is inadequate for describing a mixture; and the DP mixture of projected restricted gammas
@@ -74,7 +87,7 @@ The \emph{integrated vapor transport} (IVT) tracks the total water volume in a c
   rivers---elongated areas of high local concentration of water vapor in the atmosphere that moves with
   wind patterns.  Extreme behavior in IVT can lead to extreme precipitation events, causing flooding; 
   but in California, those same events are responsible for the bulk of precipitation that inland 
-  California recieves---water necessary for agriculture and household consumption.  Thus it becomes 
+  California receives---water necessary for agriculture and household consumption.  Thus it becomes 
   necessary to manage precipitation to prevent inundation and support agriculture.  To this end, 
   understanding the dependence structure of extreme events in the IVT is useful---for instance, for 
   hydrological engineers in planning the capacity of groundwater systems to capture precipitation before 
@@ -82,30 +95,8 @@ The \emph{integrated vapor transport} (IVT) tracks the total water volume in a c
   the coast of California into grid cells, with two spatial resolutions of 8 and 47 cells, respectively 
   \citep{guan2015}.
 
-Fitting our models to this data requires some pre-processing. First, we subset the data to the rainy
-  season, which appears from November to March.  The marginal distributions of the
-  IVT data appear naturally log-normal, which falls into the domain of attraction of a Gumbel
-  distribution.  Given that, we can apply a high threshold, and exceedances over that threshold can
-  be modelled as Generalized Pareto.  Our modelling begins with that assessment.  As estimating
-  the Pareto parameters is not yet our focus in this analysis, we choose to apply the threshold
-  using the empirical CDF.  That is, for a given $t$, let $b_{t,\ell} = \hat{F}_{\ell}^{-1}(1 - t^{-1})$.  For
-  this analysis, we set $t = 20$, indicating the marginal $95$ percentile.  The other parameters of the
-  generalized Pareto---the scale parameter $\alpha_{\ell}$ and the extremal index $\chi_{\ell}$---are set via
-  maximum likelihood.  A fully Bayesian model formulation will allow their varying within a
-  distribution, but such a model formulation will not be conducive to fitting by Markov-chain Monte
-  Carlo methods.
-
-After the thresholding and maximum likelihood estimation of the parameters of the Pareto, we scale
-  the data to the standard multivariate Pareto.  Dividing each standardized observation by its
-  $\mathcal{L}_{\infty}$ norm, we project the standardized data onto $\mathcal{S}_{\infty}^{d-1}$.
-  Data in sequence represents observations in time, and these are heavily correlated.  As such, we
-  choose to \emph{decluster} the observations, such that, by observing a sequence of observations
-  $\bm{ z}$ for which $\inorm{z_i} > 1$ for each observation in sequence, we keep only the observation
-  with the greatest observed $\mathcal{L}_{\infty}$ norm.  The complete procedure is outlined in
-  Algorithm~\ref{algo:processing}.
-
-\begin{algorithm}
-  \KwResult{$\bm{ r},\bm{v} : r_i \sim \text{Pareto}(1)$, $\bm{ v}_i \in \mathcal{S}_{\infty}^{d-1}$}
+\begin{algorithm}[h]
+  \KwResult{$\bm{ r},\bm{v} : r_i \sim \text{Pareto}(1)$, $\bm{ v}_i \in {\mathbb S}_{\infty}^{d-1}$}
   \For{$\ell = 1,\ldots,d$}{
     Set $b_{t,\ell} = \hat{F}_{\ell}^{-1}\left(1 - \frac{1}{t}\right)$.\\
     With $\bm{ x}_{\ell} > b_{t,\ell}$, fit $a_{\ell}$, $\chi_{\ell}$ via MLE according to generalized Pareto likelihood.\\
@@ -114,7 +105,7 @@ After the thresholding and maximum likelihood estimation of the parameters of th
     Define $z_{i,\ell} = \left(1 + \xi_{\ell}\frac{x_{i,\ell} - b_{t,\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}$\\
     Define $r_i = \pnorm{\bm{ z}_i}{\infty}$, $\bm{ v}_i = \frac{\bm{ z}_i}{\pnorm{\bm{ z}_i}{\infty}}$\\
     }
-  Subset $\bm{ r},\bm{ v}$ such that $r_i \geq 1$ for all $r_i\in \bm{r}$.\\
+  Subset $\bm{ r},\bm{ v}$ such that $r_i \geq 1$\\
   \If{declustering}{
     \For{$i = 1,\ldots,n$}{
       If $r_i \geq 1$ and $r_{i-1} \geq 1$, drop the lesser (and associated $v_i$) from data set.\\
@@ -125,15 +116,29 @@ After the thresholding and maximum likelihood estimation of the parameters of th
    portion is relevant if data is correlated in time.\label{algo:processing}}
 \end{algorithm}
 
-We have, at our disposal, two data sets from the IVT model, totalling approximately 30 years of daily
-  values omitting leap days.  One records data from 8 grid cells, covering
-  generally the coast of California.  The other, with a higher resolution, records data from 47 grid
-  cells covering the same area.  For the 8-cell data, after subsetting to the rainy season, we have
-  $5587$ observations.  After the data processing steps in Algorithm~\ref{algo:processing}, where we
-  omit observations not extreme in any dimension, and decluster temporally correlated data, we are left
-  with $511$ observations.  For the 47-cell data, after subsetting to the rainy season, we have $6342$
-  observations.  After the same data processing, we are left with
-  $532$ observations.  We fit our models to both data sets.
+Fitting our models to this data requires some pre-processing. First, we subset the data to the rainy
+  season, which appears from November to March.  The marginal distributions of the
+  IVT data appear naturally log-normal, which falls into the domain of attraction of a Gumbel
+  distribution.  Given that, we can apply a high threshold, and exceedances over that threshold can
+  be modelled as Generalized Pareto.  Our modelling begins with that assessment.  As estimating
+  the Pareto parameters is not yet our focus in this analysis, we choose to apply the threshold
+  using the empirical CDF.  That is, for a given $t$, let $b_{t,\ell} = \hat{F}_{\ell}^{-1}(1 - t^{-1})$.  For
+  this analysis, we set $t = 20$, indicating the marginal $95$ percentile.  The other parameters of the
+  generalized Pareto---the scale parameter $\alpha_{\ell}$ and the extremal index $\chi_{\ell}$---are set via
+  maximum likelihood. 
+
+After the thresholding and maximum likelihood estimation of the parameters of the Pareto, we scale
+  the data to the standard multivariate Pareto following Equation~\ref{eqn:standardization}.  
+  Dividing each standardized observation by its $\mathcal{L}_{\infty}$ norm, we project the 
+  standardized data onto $\mathcal{S}_{\infty}^{d-1}$. Data in sequence represents observations
+  in time, which for this application are temporally correlated.  As such, we
+  choose to \emph{decluster} the observations, such that, by observing a sequence of observations
+  $\bm{ z}$ for which $\inorm{z_i} > 1$ for each observation in sequence, we keep only that observation
+  with the greatest observed $\mathcal{L}_{\infty}$ norm.  The complete procedure is outlined in
+  Algorithm~\ref{algo:processing}.  In the 8-cell data, after subsetting to the rainy season we 
+  have $5587$ observations, which reduces to $511$ observations after processing and declustering.  
+  In the 47 cell data, after subsetting we have $6342$ observations, which reduces to $532$ after 
+  processing and declustering.  We fit PG--G, PRG--G, PG--LN, and PRG--LN models to both datasets.
 
 \begin{table}[ht]
   \centering
@@ -143,11 +148,37 @@ We have, at our disposal, two data sets from the IVT model, totalling approximat
   \include{./tables/table_dev}
 \end{table}
 
-In Table~\ref{tab:dev} we see the same model preference towards the projected restricted gamma models
-  that we saw in Figures~\ref{fig:simes}.  The unrestricted gamma model is penalized much
-  more strongly on real data than we saw with our simulation, performing comparably to the probit-normal
-  model.  We also see the restricted gamma model with the log-normal prior performing significantly
-  better than the restricted gamma model with the gamma prior on the higher dimensional data, a reversal
+In Table~\ref{tab:dev} we see the same model preference towards the projected restricted 
+  gamma models that we saw in Figures~\ref{fig:simes}.  The unrestricted gamma model is 
+  penalized much more strongly on real data than we saw with our simulation.  We also see
+  the restricted gamma model with the log-normal prior performing significantly better 
+  than the restricted gamma model with the gamma prior on the higher dimensional data, a reversal
   of what we saw on the low dimensional data and indeed from what we saw in the simulation study.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Pairwise extremal dependence coefficients for IVT data, from fitted PRG--G.  
+    The left corresponds to the 8-cell data, the right the 47-cell data.\label{fig:chi_ij}}
+    \begin{minipage}{.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{./images/chi_ij_8}
+    \end{minipage}
+    \begin{minipage}{.49\textwidth}
+      \centering
+      \includegraphics[width=0.99\linewidth]{./images/chi_ij_46}
+    \end{minipage}
+\end{figure}
+
+Figure~\ref{fig:chi_ij} shows our implementation of Equation~\ref{eqn:chi_ij}, plotting the 
+  pairwise extremal dependence coefficients for the IVT data computed from PRG--G models 
+  fitted to the 8 (left) and 47 (right) cell data.  
+  That we see a higher extremal dependence between neighboring columns is not unexpected, as
+  neighboring columns correspond to neighboring cells.  We recognize that pairwise asymptotic
+  dependence coefficients tell a limited story, as a particular dependence may structure may include
+  more than two columns.   We can, however, glean some information from the patterns that emerge in
+  two dimensions.  On the 8-cell data, we see a stronger association between cells 5-8, indicating a
+  greater dependence among these cells.  On the 47 cell data, we see at least 3 groupings of columns,
+  indicating greater asymptotic dependence among these groups.
+
  
 % EOF

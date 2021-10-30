@@ -68,6 +68,7 @@ When $\bm{a}$ and $\bm{b}$ are on the same face, then $g$ is the Euclidean dista
     \end{aligned}
   \end{equation*}
   as the Euclidean norm is a negative definite kernel.$\hfill\Box$
+ 
 Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a $d-2$-dimensional 
   optimization problem in order to obtain $\bm{c}$.  However, a computationally easier \makenote{rewrite sentence} method exists.
 \begin{prop}
@@ -99,8 +100,8 @@ Note that for
     &= \pnorm{\bm{a} - \bm{c}}{2} + \pnorm{\bm{b}^{\prime} - \bm{c}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}
     \end{aligned}
   \end{equation*}
-  when $\bm{c} \in \overrightarrow{\bm{a}\bm{b}^{\prime}}$, as the lower bound of the triangle inequality.  We have already declared $\bm{c}\in{\mathbb C}_{\jmath\ell}^{d-2}$, so it must reside at $\overrightarrow{\bm{a}\bm{b}^{\prime}}\cap{\mathbb C}_{\jmath\ell}^{d-2}$.  Because the straight line between $\bm{a}$ and $\bm{b}^{\prime}$ passes through this point without further analysis, the optimization of $\bm{c}$ is accomplished \emph{en passant}.$\hfill\Box$
-  
+  when $\bm{c} \in \overrightarrow{\bm{a}\bm{b}^{\prime}}$, as the lower bound of the triangle inequality.  We have already declared $\bm{c}\in{\mathbb C}_{\jmath\ell}^{d-2}$, so it must reside at $\overrightarrow{\bm{a}\bm{b}^{\prime}}\cap{\mathbb C}_{\jmath\ell}^{d-2}$.  Because the straight line between $\bm{a}$ and $\bm{b}^{\prime}$ passes through this point without further analysis, the optimization of $\bm{c}$ is accomplished \emph{en~passant}.$\hfill\Box$
 
+Interpretation of the energy score as we have formulated it here is the same as that of posterior predictive loss: smaller is better.
 
 % EOF
