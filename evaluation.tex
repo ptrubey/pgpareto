@@ -1,7 +1,7 @@
 \section{Scoring criteria for distributions in ${\mathbb S}_\infty^{d-1}$\label{sec:evaluation}}
 
 In order to assess and compare the estimation of a distribution on ${\mathbb S}_\infty^{d-1}$ we consider the theory of proper scoring rules developed in \cite{gneiting2007}.
-As mentioned in Section~\ref{subsubsec:norm}, our approach does not provide a density on ${\mathbb S}_{\infty}^{d-1}$, restricting our ability to construct model selection criteria to sample-based approaches.  In this manner, we consider two methods of scoring:  \emph{posterior predictive loss} (PPL) introduced in \cite{gelfand1998}, and \emph{energy score} (ES) introduced in \cite{gneiting2007}.
+As mentioned in Section~\ref{subsec:projgamma}, our approach does not provide a density on ${\mathbb S}_{\infty}^{d-1}$, restricting our ability to construct model selection criteria to sample-based approaches.  We consider two scoring methods:  \emph{posterior predictive loss} (PPL) introduced in \cite{gelfand1998}, and \emph{energy score} (ES) introduced in \cite{gneiting2007}.
 
 \subsection{Posterior predictive loss}
 The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  When we
@@ -12,18 +12,16 @@ The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  Wh
       S_{\text{PPL}}^k\left(P,x_i\right) = \text{Var}_P\left(X_i\right) + \frac{k}{k+1}\left(\text{E}_P\left[X_{i}\right] - x_i\right)^2
   \end{equation}
   where $X_i$ is a random variable from the posterior predictive distribution for $x_i$.  The
-  scalar $k$ is a weighting factor by which we can scale the importance of goodness of fit
-  relative to precision.  In our analysis, we take the limit as $k\to\infty$, weighting both
-  equally.  Interpreting this criterion, a smaller $\text{Var}(X_{i})$ indicates a higher
-  precision, and a smaller $(\text{E}[X_{i}] - x_{i})^2$  indicates a better fit.  Thus,
-  smaller is better.  Note that this is defined for a univariate distribution.  As we are dealing
+  scalar $k$ is a weighting factor that scales the importance of goodness of fit
+  relative to precision.  In fact a small $\text{Var}(X_{i})$ indicates high
+  precision, and a small $(\text{E}[X_{i}] - x_{i})^2$  indicates a good fit.  In our analysis, we take the limit as $k\to\infty$, weighting both
+  equally. Overall, the smaller the score, the better.  Note that the PPLC score is defined for a univariate distribution.  As we are dealing
   with a multivariate distribution, we will be taking the posterior predictive loss
   summed over all dimensions.  That is,
   \begin{equation}
     \label{eq:ppl2}
-      S_{\text{PPL}}\left(P,\bm{x}_i\right) = \frac{1}{d}\sum_{\ell = 1}^d\left[\text{Var}_P\left(X_{i\ell}\right) + \left(\text{E}_P\left[X_{i\ell}\right] - x_{i\ell}\right)^2\right]
+      S_{\text{PPL}}\left(P,\bm{x}_i\right) = \frac{1}{d}\sum_{\ell = 1}^d\left[\text{Var}_P\left(X_{i\ell}\right) + \left(\text{E}_P\left[X_{i\ell}\right] - x_{i\ell}\right)^2\right] .
   \end{equation}
-  Then we report the average $S$, taken over all $i$.
 
 \subsection{Energy score}
 We focus on \emph{energy scores} defined for a general probability distribution $P$, with finite expectation, as 
@@ -73,11 +71,11 @@ Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a
   optimization problem in order to obtain $\bm{c}$.  However, a computationally easier \makenote{rewrite sentence} method exists.
 \begin{prop}
     Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$.  The 
-  rotation $P_{\jmath\ell}(\cdot)$ required to move the $\jmath$th face along the $\ell$th axis 
+  rotation $P_{\jmath\ell}(\cdot)$ required to rotate the $\jmath$th face along the $\ell$th axis 
   produces the vector $\bm{b}^\prime$, where
   \begin{equation}
     \label{eqn:rotation}
-    P_{\jmath\ell}(\bm{b}) = \bm{b}^{\prime}_i = 
+     \bm{b}^{\prime}_i = P_{\jmath\ell}(\bm{b}) = 
     \begin{cases}
         b_{i} &\text{for }i\neq \jmath,\ell\\
         1 &\text{for }i = \ell\\
@@ -102,6 +100,6 @@ Note that for
   \end{equation*}
   when $\bm{c} \in \overrightarrow{\bm{a}\bm{b}^{\prime}}$, as the lower bound of the triangle inequality.  We have already declared $\bm{c}\in{\mathbb C}_{\jmath\ell}^{d-2}$, so it must reside at $\overrightarrow{\bm{a}\bm{b}^{\prime}}\cap{\mathbb C}_{\jmath\ell}^{d-2}$.  Because the straight line between $\bm{a}$ and $\bm{b}^{\prime}$ passes through this point without further analysis, the optimization of $\bm{c}$ is accomplished \emph{en~passant}.$\hfill\Box$
 
-Interpretation of the energy score as we have formulated it here is the same as that of posterior predictive loss: smaller is better.
+We report the average Interpretation of the energy score as we have formulated it here is the same as that of posterior predictive loss: smaller is better.
 
 % EOF
