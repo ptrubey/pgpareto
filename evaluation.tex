@@ -14,14 +14,17 @@ The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  Wh
   where $X_i$ is a random variable from the posterior predictive distribution for $x_i$.  The
   scalar $k$ is a weighting factor that scales the importance of goodness of fit
   relative to precision.  In fact a small $\text{Var}(X_{i})$ indicates high
-  precision, and a small $(\text{E}[X_{i}] - x_{i})^2$  indicates a good fit.  In our analysis, we take the limit as $k\to\infty$, weighting both
-  equally. Overall, the smaller the score, the better.  Note that the PPLC score is defined for a univariate distribution.  As we are dealing
+  precision, and a small $(\text{E}[X_{i}] - x_{i})^2$  indicates a good fit.  In our analysis,
+  we take the limit as $k\to\infty$, weighting both
+  equally. Overall, the smaller the score, the better.  Note that the PPLC score is defined 
+  for a univariate distribution.  As we are dealing
   with a multivariate distribution, we will be taking the posterior predictive loss
   summed over all dimensions.  That is,
   \begin{equation}
     \label{eq:ppl2}
       S_{\text{PPL}}\left(P,\bm{x}_i\right) = \frac{1}{d}\sum_{\ell = 1}^d\left[\text{Var}_P\left(X_{i\ell}\right) + \left(\text{E}_P\left[X_{i\ell}\right] - x_{i\ell}\right)^2\right] .
   \end{equation}
+  We report the average $S_{\text{PPL}}$ taken from all observed data.
 
 \subsection{Energy score}
 We focus on \emph{energy scores} defined for a general probability distribution $P$, with finite expectation, as 
@@ -30,48 +33,65 @@ We focus on \emph{energy scores} defined for a general probability distribution 
     \text{S}_{\text{ES}}\left(P, \bm{x}_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) -
                                     \frac{1}{2}\text{E}_p g\left(\bm{X}_i,\bm{X}_i^{\prime}\right),
     \end{equation}
-where $g$ is a given kernel. The score defined in Equation \eqref{eq:es} can be evaluated using samples from $P$, with the help of the law of large numbers.
-Moreover, Theorem~4 in \cite{gneiting2007}, states that if $g(\cdot,\cdot)$ is a negative definite kernel, then $\text{S}(P,\bm{x})$ is a \emph{proper} scoring rule.  Recall that a real valued function $g$ is a negative definite kernel if it is symmetric in its arguments, and $\sum_{i=1}^n\sum_{j=1}^na_ia_jg(x_i,x_j)\leq 0$ for all positive integers $n$, and any collection $a_1,\ldots,a_n\in{\mathbb R}$ such that  $\sum_{i = 1}^na_i = 0$.  
+where $g$ is a kernel function. The score defined in Equation \eqref{eq:es} can be evaluated
+  using samples from $P$, with the help of the law of large numbers.
+  Moreover, Theorem~4 in \cite{gneiting2007}, states that if $g(\cdot,\cdot)$ is a negative 
+  definite kernel, then $\text{S}(P,\bm{x})$ is a \emph{proper} scoring rule.  Recall that a 
+  real valued function $g$ is a negative definite kernel if it is symmetric in its arguments, 
+  and $\sum_{i=1}^n\sum_{j=1}^na_ia_jg(x_i,x_j)\leq 0$ for all positive integers $n$, and any 
+  collection $a_1,\ldots,a_n\in{\mathbb R}$ such that  $\sum_{i = 1}^na_i = 0$.  
 
-In an Euclidean space, the conditions for a negative definite kernel are satisfied by the Euclidean distance. However, the Euclidean distance between two points will likely under-estimate the actual distance required to connect those points fully within ${\mathbb S}_{\infty}^{d-1}$.  Let
+In a Euclidean space, these conditions are satisfied by the Euclidean distance. However, in
+  ${\mathbb S}_{\infty}^{d-1}$, Euclidean distance will tend to under-estimate the actual 
+  distance required to travel between two points.  Let
 \begin{equation*}
     {\mathbb C}_{\ell}^{d-1} = \lbrace \bm{x} : \bm{x} \in {\mathbb S}_{\infty}^{d-1}, x_{\ell} = 1\rbrace
 \end{equation*}
-comprise the $\ell$th \emph{face}.  For points on the same face, Euclidean distance corresponds to the length of the shortest possible path in ${\mathbb S}_{\infty}^{d-1}$.  For points on different faces, the Euclidean distance is a lower bound for that length.
+comprise the $\ell$th \emph{face}.  For points on the same face, Euclidean distance 
+  corresponds to the length of the shortest possible path in ${\mathbb S}_{\infty}^{d-1}$.  
+  For points on different faces, the Euclidean distance is a lower bound for that length.
 
-For a finite $p$, the shortest connecting path between two points in 
-${\mathbb S}_p^{d-1}$ is the minimum geodesic; its length satisfying 
-the definition of a distance.  Thus its length can be used as a negative definite kernel for the purpose of defining an energy score. Unfortunately as $p\to\infty$ the resulting surface ${\mathbb S}_{\infty}^{d-1}$ is not differentiable, implying that routines to calculate geodesics are not readily available.  However, as ${\mathbb S}_{\infty}^{d-1}$ is a portion of of a $d$-cube, we can borrow a result from geometry \citep{pappas1989} stating that the length of the shortest path between two points on a geometric figure corresponds to the length of a straight line drawn between the points on an appropriate unfolding, rotation, or \emph{net} of the figure from a $d$-dimensional to a $d-1$-dimensional space.  The optimal net will have the shortest straight line between the points, as long as that line is fully contained within such net. As ${\mathbb S}_{\infty}^{d-1}$ has $d$ faces---each face pairwise adjacent, there are $d!$ possible nets.  However, we are only interested in nets that begin and end on the source and destination faces respectively.  That reduces the number of nets under consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still computationally burdensome for a large number of dimensions.  
+For a finite $p$, the shortest connecting path between two points in ${\mathbb S}_p^{d-1}$
+  is the minimum geodesic; its length satisfying the definition of a distance.  Thus its
+  length can be used as a negative definite kernel for the purpose of defining an energy
+  score. Unfortunately as $p\to\infty$ the resulting surface ${\mathbb S}_{\infty}^{d-1}$
+  is not differentiable, implying that routines to calculate geodesics are not readily
+  available.  However, as ${\mathbb S}_{\infty}^{d-1}$ is a portion of of a $d$-cube, we
+  can borrow a result from geometry \citep{pappas1989} stating that the length of the
+  shortest path between two points on a geometric figure corresponds to the length of a
+  straight line drawn between the points on an appropriate unfolding, rotation, or \emph{net} of the figure from a $d$-dimensional to a $d-1$-dimensional space.  The optimal net will have the shortest straight line between the points, as long as that line is fully contained within such net. As ${\mathbb S}_{\infty}^{d-1}$ has $d$ faces---each face pairwise adjacent, there are $d!$ possible nets.  However, we are only interested in nets that begin and end on the source and destination faces respectively.  That reduces the number of nets under consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still computationally burdensome for a large number of dimensions.  
 
 To reduce the computations needed to calculate the energy score we define a kernel as {\bf Please write a clearer description here.} our kernel an upper bound on distance between points on separate faces as the length of the path from the source point, to an optimal point on the intersection between faces, to the destination point.
 \begin{prop}\label{prop:g}
-For points $a,b \in {\mathbb S}_{\infty}^{d-1}$ the kernel defined as  
-  \begin{equation}
-    g(\bm{a},\bm{b}) = \begin{cases}
-        \pnorm{\bm{b}-\bm{a}}{2} &\text{ if }\argmax_{\ell}\bm{a} = \argmax_{\ell}\bm{b}\\
-        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} &\text{ otherwise}
-    \end{cases} ,
-  \end{equation}
-  where $\bm{c}$ is in the intersection of the faces corresponding to $\bm{a}$ and $\bm{b}$, and minimizes $g(\bm{a},\bm{b})$, is negative definite.
+Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$, for $\ell, \jmath \in \{1, \ldots , d\}$. Define $g$ as
+\[  
+    g(\bm{a},\bm{b}) = \min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\}.
+\]
+Then $g$  is negative definite kernel.
 \end{prop}
 
 {\em Proof:}
-When $\bm{a}$ and $\bm{b}$ are on the same face, then $g$ is the Euclidean distance, which is a 
-  negative definite kernel.  When $\bm{a}$ and $\bm{b}$ are on separate
-  faces, we have that $g(\bm{a}, \bm{b}) = g(\bm{b}, \bm{a})$ due to the uniqueness of $\bm{c}$ and the symmetry of the Euclidean distance. Additionally, given $n$ and  collection $\alpha_1,\ldots,\alpha_n\in{\mathbb R}$ such that  $\sum_{i = 1}^n\alpha_i = 0$, then
+When $\bm{a}$ and $\bm{b}$ are on the same face, then $\ell = \jmath$, and $g$ is the Euclidean distance between $\bm{a}$ and $\bm{b}$, which is a  negative definite kernel.  When $\bm{a}$ and $\bm{b}$ are on separate
+  faces, let 
+  \[\bm{d} = 
+    \argmin_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\}.
+  \]
+  We have that $g(\bm{a}, \bm{b}) = g(\bm{b}, \bm{a})$ due to the uniqueness of $\bm{d}$ and the symmetry of the Euclidean distance. Additionally, given $n$ and  a collection $\alpha_1,\ldots,\alpha_n\in{\mathbb R}$ such that  $\sum_{i = 1}^n\alpha_i = 0$, then, 
   \begin{equation*}
     \begin{aligned}
-      \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j g(\bm{x}_1,\bm{x}_2) &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j \bigg[\pnorm{\bm{c} - \bm{x}_1}{2} + \pnorm{\bm{x}_2 - \bm{c}}{2}\bigg]\\
-      &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{c} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{c}}{2} \leq0,
+      \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j g(\bm{x}_1,\bm{x}_2) &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j \bigg[\pnorm{\bm{d} - \bm{x}_1}{2} + \pnorm{\bm{x}_2 - \bm{d}}{2}\bigg]\\
+      &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{d} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{d}}{2} \leq0,
     \end{aligned}
   \end{equation*}
   as the Euclidean norm is a negative definite kernel.$\hfill\Box$
  
-Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a $d-2$-dimensional 
-  optimization problem in order to obtain $\bm{c}$.  However, a computationally easier \makenote{rewrite sentence} method exists.
+Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a $(d-2)$-dimensional 
+  optimization problem.  The following proposition provides a straightforward solution.
 \begin{prop}
-    Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$.  The 
-  rotation $P_{\jmath\ell}(\cdot)$ required to rotate the $\jmath$th face along the $\ell$th axis 
+    Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$, for $\ell, \jmath \in \{1, \ldots , d\}$.  For $\ell\neq \jmath$, the 
+  transformation $P_{\jmath\ell}(\cdot)$ required to rotate the $\jmath$th face along the $\ell$th axis 
   produces the vector $\bm{b}^\prime$, where
   \begin{equation}
     \label{eqn:rotation}
@@ -85,21 +105,17 @@ Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a
   Then $g(\bm{a},\bm{b}) = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}$.
 \end{prop}
 {\em Proof:}
-Note that for 
-  $\bm{c} \in {\mathbb C}_{\jmath\ell}^{d-2} = {\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}$,
-  $P_{\jmath\ell}(\bm{c}) = \bm{c}$.  Then
-  \begin{equation*}
-     \pnorm{\bm{b} - \bm{c}}{2} = \pnorm{P_{\jmath\ell}(\bm{b} - \bm{c})}{2} = \pnorm{\bm{b}^{\prime} - \bm{c}}{2},
-  \end{equation*}
-  as rotations preserve Euclidean norms.  Then,
+Notice that for 
+  $\bm{c} \in {\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}$,
+     $\pnorm{\bm{b} - \bm{c}}{2} =  \pnorm{\bm{b}^{\prime} - \bm{c}}{2}$. {\bf This is true just because you do the math, the invariance of Euclidean norms is not needed.} Then, recalling the definition of $\bm{d}$ in the proof of Proposition \ref{prop:g}, we have that
   \begin{equation*}
     \begin{aligned}
-    g(\bm{a}, \bm{b}) &= \pnorm{\bm{a} - \bm{c}}{2} + \pnorm{\bm{b} - \bm{c}}{2}\\
-    &= \pnorm{\bm{a} - \bm{c}}{2} + \pnorm{\bm{b}^{\prime} - \bm{c}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}
+    g(\bm{a}, \bm{b}) &= \pnorm{\bm{a} - \bm{d}}{2} + \pnorm{\bm{b} - \bm{d}}{2}\\
+    &= \pnorm{\bm{a} - \bm{d}}{2} + \pnorm{\bm{b}^{\prime} - \bm{d}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
     \end{aligned}
   \end{equation*}
-  when $\bm{c} \in \overrightarrow{\bm{a}\bm{b}^{\prime}}$, as the lower bound of the triangle inequality.  We have already declared $\bm{c}\in{\mathbb C}_{\jmath\ell}^{d-2}$, so it must reside at $\overrightarrow{\bm{a}\bm{b}^{\prime}}\cap{\mathbb C}_{\jmath\ell}^{d-2}$.  Because the straight line between $\bm{a}$ and $\bm{b}^{\prime}$ passes through this point without further analysis, the optimization of $\bm{c}$ is accomplished \emph{en~passant}.$\hfill\Box$
+  The last equality is due to the fact that $\bm{a}$ and $\bm{b}'$ belong to the same hyperplane.
+  $\hfill\Box$
 
-We report the average Interpretation of the energy score as we have formulated it here is the same as that of posterior predictive loss: smaller is better.
-
+We report the average $S_{\text{ES}}$ taken across all observed data.  In this form, the interpretation of $S_{\text{ES}}$ is similar to that of $S_{\text{PPL}}$: the smaller the score, the better.
 % EOF

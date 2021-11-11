@@ -155,7 +155,7 @@ In Table~\ref{tab:dev} we see the same model preference towards the projected re
   than the restricted gamma model with the gamma prior on the higher dimensional data, a reversal
   of what we saw on the low dimensional data and indeed from what we saw in the simulation study.
 
-\begin{figure}[ht!]
+\begin{figure}[ht]
     \centering
     \caption{Pairwise extremal dependence coefficients for IVT data, from fitted PRG--G.  
     The left corresponds to the 8-cell data, the right the 47-cell data.\label{fig:chi_ij}}
@@ -180,5 +180,26 @@ Figure~\ref{fig:chi_ij} shows our implementation of Equation~\ref{eqn:chi_ij}, p
   greater dependence among these cells.  On the 47 cell data, we see at least 3 groupings of columns,
   indicating greater asymptotic dependence among these groups.
 
- 
+\begin{figure}[ht]
+    \centering
+    \caption{Conditional survival curves for selected dimensions, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv1d}}
+    \includegraphics{./images/condsurv_1d}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \caption{Pairwise conditional survival curves for selected dimensions, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv2d}}
+    \includegraphics[height=5in, width=5in]{./images/condsurv_2d}
+\end{figure}
+
+In Figure~\ref{fig:condsurv1d}, using the PRG--G model on the 8-dimensional data, we implement 
+    the conditional survival curve defined in Equation~\ref{eqn:condsurv}, for one dimension, 
+    conditioned on all other dimensions being greater than their (fitted) $90$th percentile.  
+    On the left, the survival curve is in original units, whereas the right is the same plot 
+    given in standardized units.  
+    Figure~\ref{fig:condsurv2d} implements the same conditional survival equation in pairwise form,
+    conditioning on all other dimensions.  Here we see another representation of extremal dependence,
+    affecting the shape of the conditional survival curves.  The top pair represents the joint survival function between grid zones 1 and 2, which we saw from Figure~\ref{fig:chi_ij} to exhibit strong
+    extremal dependence.  We see that again here, where the joint survival surface in standardized form
+    is strongly convex.  The bottom pair represents the joint survival surface between grid zones 2 and 8, which exhibited low extremal dependence.  We see the effects of that, in the concave pairwise survival surface.
 % EOF
