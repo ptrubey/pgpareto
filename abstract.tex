@@ -1,17 +1,24 @@
 {\bf We need an abstract}
 
-The constructive definition of the multivariate Pareto introduced 
-    in~\cite{ferreira2014} separates the Pareto RV $\bm{z}\in {\mathbb R}^d\not[0,1]^d$
-    into independent radial,  $r \in (1,\infty)$ and angular 
-    $\bm{y} \in {\mathbb S}_{\infty}^{d-1}$ components.
-    This paper proposes a method for inferring a density on ${\mathbb S}_{\infty}^{d-1}$
-    as the limit of a series of manifolds, ${\mathbb S}_{p}^{d-1}$.  We project a
-    distribution in ${\mathbb R}_+^d$ to ${\mathbb S}_p^{d-1}$; then as $p$ grows
-    large, we approach a density on ${\mathbb S}_{\infty}^{d-1}$.
+The constructive definition of the multivariate Pareto separates the Pareto RV into
+    a radial component, following a univariate Pareto distribution, and independently
+    an angular component, defined on the surface of the positive orthant of the unit 
+    hypercube.  In this paper, we 
+    propose a method for inferring the distribution of that angular component.  We  
+    identify its support as the limit of the unit $p$--norm
+    spheres, and describe a means by which we project a distribution onto those spheres.
+    We then introduce a family of \emph{projected Gamma} distributions, defined by the
+    power of the unit norm sphere on which they have support.  This projected Gamma family
+    serves as a building block to a Dirichlet process mixture of projected Gammas model,
+    which we ultimately present.
 
-We discuss model selection criteria appropriate to ${\mathbb S}_{\infty}^{d-1}$.  We
-    use the energy score criterion introduced in \cite{gneiting2007}, incorporating a
-    novel kernel metric we develop suitable to the space.  We use this energy score, along
-    with posterior predictive loss to inform model choice in how well we recover the distribution of simulated data.  We then fit these models to real data
+We discuss model scoring methods appropriate to this space, and develop a kernel metric
+    to be used with the \emph{energy score} criterion for evaluating models.  We compare
+    these results with those obtained using the posterior predictive loss criterion.  
+    We compute model scores
+    on various iterations of the aforementioned model, fitted to simulated data.  We then
+    apply the model to the \emph{integrated vapor transport} (IVT)---a dataset describing 
+    the quantity of water vapor in the atmosphere, used for identifying atmospheric 
+    rivers---to demonstrate the model on \emph{real} data.
 
-%
+% EOF
