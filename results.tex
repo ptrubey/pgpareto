@@ -107,14 +107,22 @@ along the coast of California.  The ERA-Interim data used covers the time period
 1979 through 2014 (37 years) omitting leap days, and provides 8 grid cells.  The ERA5 data
 covers the time period 1979 through 2019 (42 years) with the same restriction, and provides 
 47 grid cells.  This gives us the opportunity to illustrate the performance of our method 
-in multivariate settings of very different dimensions. {\bf Here it will be nice to include a plot showing the location of the grid cells on a map in each one of the cases.}
+in multivariate settings of very different dimensions. Figure~\ref{fig:gridlocs} provides a visual representation of the area these grid cells represent.
 
-
-
-
-
-
-
+\begin{figure}[ht]
+    \begin{center}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering 
+        \includegraphics[height=3in]{./images/erai_grid}
+    \end{subfigure}
+    %
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=3in]{./images/era5_grid}
+    \end{subfigure}
+    \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
+    \end{center}
+\end{figure}
 
 \begin{algorithm}[h]
   \KwResult{$\bm{ r},\bm{v} : r_i \sim \text{Pareto}(1)$, $\bm{ v}_i \in {\mathbb S}_{\infty}^{d-1}$}
@@ -157,7 +165,7 @@ Fitting our models to the IVT data requires some pre-processing. First, we subse
   \include{./tables/table_dev}
 \end{table}
 
-Table~\ref{tab:dev} shows the values of the estimated PPL and energy scores for the different models considered. We observe that, as in the case of the simulation study shown in Figures~\ref{fig:simes}, the preferred model is the projected restricted 
+Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy scores for the different models considered. We observe that, as in the case of the simulation study shown in Figures~\ref{fig:simes}, the preferred model is the projected restricted 
   gamma models.  Penalization for the unrestricted gamma model is 
   stronger for the real data than for the simulated data. We also observe that
   the restricted gamma model with the log-normal prior performs significantly better 
@@ -178,9 +186,14 @@ Table~\ref{tab:dev} shows the values of the estimated PPL and energy scores for 
 \end{figure}
 
 We consider an exploration of the pairwise extremal dependence using Monte Carlo estimates of the 
-coefficients in  Equation~\ref{eqn:chi_ij}. For this we use samples obtained fromn the PRG--G model.
-Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
-The coefficients achieve values between {\bf say the range of values} for the ERA-Interim data and between {\bf say the range here} for the ERA5 data. Distance between locations mostly determines the strength of the pairwise asymptotic dependence. The highest coefficients are {\bf XXX for locations YYY} in the ERA-Interim data and {\bf XXX for locations YYY} in the ERA5 data.  Clearly, pairwise asymptotic
+  coefficients in  Equation~\ref{eqn:chi_ij}. For this we use samples obtained fromn the PRG--G model.
+  Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
+  The coefficients achieve values between $0.286$ and $0.759$ for the ERA-Interim data and 
+  between $0.181$ and $0.840$ for the ERA5 data.  The greater range in dependence scores observed 
+  with the ERA5 data speaks to the greater granularity of the ERA5 data. Distance between locations 
+  mostly determines the strength of the pairwise asymptotic dependence. The highest coefficients 
+  are $0.759$ for locations 4 and 5 in the ERA-Interim data and
+  $0.840$ for locations 1 and 2 in the ERA5 data.  Clearly, pairwise asymptotic
   dependence coefficients tell a limited story, as a particular dependence may include
   more than two locations.   We can, however, glean some information from the patterns that emerge in
   two dimensions.  For the ERA-Interim data, we observe a possible cluster between cells 5-8, indicating a
