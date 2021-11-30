@@ -2,10 +2,9 @@
 \section{Data illustrations\label{sec:results}}
 
 \subsection{Simulations\label{subsec:simulated}}
-We have introduced this projected gamma distribution existing on $\mathcal{S}_{\infty}^{p-1}$.  As a
-  means of evaluating how well we can recover a distribution under the proposed model, we have
-  generated a series of datasets on $\mathcal{S}_{\infty}^{d-1}$, for $d$ ranging between 3 and 20.
-  We generated each dataset from a mixture of projected Gammas, with the number of mixture components
+To evaluate our proposed approach for angular measure estimation 
+we consider simulated datasets on $\mathcal{S}_{\infty}^{d-1}$, for 
+$d$ ranging between 3 and 20. We generated each dataset from a mixture of projected Gammas, with the number of mixture components
   ranging between 3 and 12.  The generation procedure is detailed in Algorithm~\ref{algo:simulated}.
   \begin{algorithm}[ht]
     \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}}
@@ -22,10 +21,10 @@ We have introduced this projected gamma distribution existing on $\mathcal{S}_{\
         }
     }
   \end{algorithm}
-  The choice of generation routine for $\alpha = \alpha_0 + \alpha_1$ where
+Each one of the shape parameters $\alpha$ were generated 
+$\alpha = \alpha_0 + \alpha_1$ where
   $\alpha_0 \sim \text{Unif}(\alpha_0\mid 0,4)$, $\alpha_1\sim \text{Gamma}(\alpha_1\mid 1,1)$.
-  The choice of generation routine for $\beta$ is $\beta\sim\text{Unif}(\beta\mid 0.25, 2.5)$.
-  This choice was made to ensure that $\beta$ does not approach 0 in the generation routine.
+The scale parameters $\beta$ were obtained as $\beta\sim\text{Unif}(\beta\mid 0.25, 2.5)$.
 
 % \begin{figure}[ht]
 %   \caption{Simulation Energy Score versus Column Count, by Mixture Component Count. Lower is better.\label{fig:simes}}
@@ -34,39 +33,41 @@ We have introduced this projected gamma distribution existing on $\mathcal{S}_{\
 % \end{figure}
 
 \begin{figure}[ht]
-  \begin{subfigure}[b]{0.45\textwidth}
+\begin{center}
+  \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{./images/simulation_ppl}
     \caption{Posterior Predictive Loss\label{fig:simppl}}
   \end{subfigure}
   %
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{./images/simulation_es}
     \caption{Energy Score\label{fig:simes}}
   \end{subfigure}
-  \caption{Simulation PPL (left) and ES (left) versus column count, by mixture component count.}
+  \caption{Scores for the simulated datasets calculated using different models:
+  GEN - baseline; PG - mixture of projected gammas; PRG - mixture of projected restricted gamma; PRG--LN - mixture of projected restricted gammas with log-normal prior.}
+\end{center}
 \end{figure}
 
-In Figure~\ref{fig:simes}, we fit DP Mixtures of the various models presented and plot the resulting
-  energy score against the number of columns, grouped by the number of mixture components used in
-  dataset generation.  The \emph{Gen} model refers to a dataset generated
-  in the same manner, from the same parameters as was used to create the original dataset.  Against
-  this generative dataset, we compare DP Mixtures of projected gamma, projected restricted gamma, and
-  projected restricted gamma with a multivariate log-normal prior.  We observe that the projected
+Figure~\ref{fig:simes}, shows two sets of panels that illustrate the comparison
+between four different models used to fit the simulated data. We produced 16 
+different data sets, one for each of four different numbers of mixture components 
+and four different dimensions. We considered three different models: DP mixtures 
+of projected gamma; Projected restricted gamma; and projected restricted gamma 
+with a multivariate log-normal prior. We calculated $S^\infty_{\text{PPL}}$ and 
+$S_{\text{ES}}$ using predictive samples from each of fitted models. To provide 
+a comparative baseline, we calculated the scores using samples from generated 
+directly using the same model and parameters that produced the simulated 
+observations. The results are denoted as \emph{Gen} in the figure. 
+We observe that the projected
   restricted Gamma model dominates in most situations, but the difference between projected restricted
-  Gamma and the other gamma-based models tends to shrink as the number of columns increases.
-  Alternatively, that difference appears to grow as the number of mixture components increases.
+  Gamma and the other gamma-based models tends to shrink as the number of dimensions increases.
+  Alternatively, that difference appears to grow as the number of mixture components increases. The results from both scoring criteria are pretty comparable.
 
 % \begin{figure}[ht]
 %   \caption{Simulation posterior predictive loss versus column count, by mixture component count.\label{fig:simppl}}
 %   \centering
 %   \includegraphics[width=0.8\textwidth]{./images/simulation_ppl}
 % \end{figure}
-
-The posterior predictive loss criterion in Figure~\ref{fig:simppl} tells a similar story: the base
-  model is inadequate for describing a mixture; and the DP mixture of projected restricted gammas
-  performs the best of the presented models in most cases.  Interestingly, under both metrics we see
-  the probit-normal model has the best performance when the number of columns is low.  That is
-  unexpected behavior, as its performance very quickly degrades as the number of columns increases.
 
 We frequently see all of the gamma-based mixture models accomplish a lower energy score than the generative
   distribution.  As \cite{nunez2019} noted, the projected Gamma model is very flexible and can generate
@@ -80,20 +81,40 @@ We frequently see all of the gamma-based mixture models accomplish a lower energ
   believe that the generative distribution for real data followed this form, then such a case could
   be made.  However, we are using projected Gamma as a parametric stand-in for an unknown distribution.
   In this sense, the argument for overfitting is less clear.
+  {\bf This paragraph is not very clear. Please make an effort to tell the story more clearly.}
 
 \subsection{Integrated Vapor Transport\label{subsec:ivt}}
-The \emph{integrated vapor transport} (IVT) tracks the total water volume in a column of air over a given
-  area \citep{ralph2017}.  IVT is the means by which we track the formation and path of atmospheric 
-  rivers---elongated areas of high local concentration of water vapor in the atmosphere that moves with
-  wind patterns.  Extreme behavior in IVT can lead to extreme precipitation events, causing flooding; 
-  but in California, those same events are responsible for the bulk of precipitation that inland 
-  California receives---water necessary for agriculture and household consumption.  Thus it becomes 
-  necessary to manage precipitation to prevent inundation and support agriculture.  To this end, 
-  understanding the dependence structure of extreme events in the IVT is useful---for instance, for 
-  hydrological engineers in planning the capacity of groundwater systems to capture precipitation before 
-  wasteful and destructive flooding occurs.  Our data tracks daily average values for the IVT, dividing 
-  the coast of California into grid cells, with two spatial resolutions of 8 and 47 cells, respectively 
-  \citep{guan2015}.
+The \emph{integrated vapor transport} (IVT) is a two component vector 
+that tracks the flow of the total water volume in a column of air 
+over a given area \citep{ralph2017}.  IVT is increasingly used in the study of atmospheric rivers because of its direct 
+relationship with orographically induced precipitation
+\citep{neiman2009water}. Atmospheric rivers (AR) are elongated areas of high 
+local concentration of water vapor in the atmosphere that transport water
+from the tropics around the world. AR can cause extreme 
+precipitation,  something that usually associated with very large values
+of the IVT magnitude over a whole geographical area. In spite of this, AR
+are fundamental for the water supply of areas like California. Thus the
+importance of understanding the extreme behavior of IVT, including 
+extreme tail dependence. We consider datasets that correspond to IVT
+estimated at two different spatial resolutions. The coarse resolution dataset
+is obtained from the European Centre for Medium-Range Weather Forecasts
+(ECMWF) Interim reanalysis (ERA-Interim) \citep{berrisford2011atmospheric,dee2011era}. 
+The high resolution dataset corresponds to the latest ECMWF 
+observational product, ERA5  \citep{hersbach2020era5}. 
+
+Our data corresponds to daily average values for the IVT magnitude
+along the coast of California.  The ERA-Interim data used covers the time period 
+1979 through 2014 (37 years) omitting leap days, and provides 8 grid cells.  The ERA5 data
+covers the time period 1979 through 2019 (42 years) with the same restriction, and provides 
+47 grid cells.  This gives us the opportunity to illustrate the performance of our method 
+in multivariate settings of very different dimensions. {\bf Here it will be nice to include a plot showing the location of the grid cells on a map in each one of the cases.}
+
+
+
+
+
+
+
 
 \begin{algorithm}[h]
   \KwResult{$\bm{ r},\bm{v} : r_i \sim \text{Pareto}(1)$, $\bm{ v}_i \in {\mathbb S}_{\infty}^{d-1}$}
@@ -113,52 +134,39 @@ The \emph{integrated vapor transport} (IVT) tracks the total water volume in a c
   }
  \caption{Data preprocessing to isolate and transform data exhibiting extreme behavior.  $r_i$
    represents the radial component, and $\bm{v}_i$ the angular component.  The declustering
-   portion is relevant if data is correlated in time.\label{algo:processing}}
+   portion is relevant for data correlated in time.\label{algo:processing}}
 \end{algorithm}
 
-Fitting our models to this data requires some pre-processing. First, we subset the data to the rainy
-  season, which appears from November to March.  The marginal distributions of the
-  IVT data appear naturally log-normal, which falls into the domain of attraction of a Gumbel
-  distribution.  Given that, we can apply a high threshold, and exceedances over that threshold can
-  be modelled as Generalized Pareto.  Our modelling begins with that assessment.  As estimating
-  the Pareto parameters is not yet our focus in this analysis, we choose to apply the threshold
-  using the empirical CDF.  That is, for a given $t$, let $b_{t,\ell} = \hat{F}_{\ell}^{-1}(1 - t^{-1})$.  For
-  this analysis, we set $t = 20$, indicating the marginal $95$ percentile.  The other parameters of the
-  generalized Pareto---the scale parameter $\alpha_{\ell}$ and the extremal index $\chi_{\ell}$---are set via
-  maximum likelihood. 
+Fitting our models to the IVT data requires some pre-processing. First, we subset the data to the rainy
+  season, which in California runs roughly from November to March.  Following the approach described in Section \ref{sec:methodology} we estimate the shape and scale parameters of a univariate GP, in each dimension, using maximum likelihood. We set the threshold in each dimensions $\ell$ as  $b_{t,\ell} = \hat{F}_{\ell}^{-1}(1 - t^{-1})$, where $\hat{F}$ is the empirical CDF and $t=20$, that corresponds to the $95$ percentile. We then use the transformation in Equation \eqref{eqn:standardization} to standardize the observations.
+  Dividing each standardized observation by its $\mathcal{L}_{\infty}$ 
+  norm, we obtain a projection onto $\mathcal{S}_{\infty}^{d-1}$. As the data correspond to a daily time series, the observations are temporally correlated.  For each group of consecutive standardized vectors $z_i$ such  that  $\inorm{z_i} > 1$, we retain only the vector 
+  with the largest $\mathcal{L}_{\infty}$ norm.  The complete procedure is outlined in
+  Algorithm~\ref{algo:processing}.  After subsetting the ERA-Interim data to the rainy season we 
+  have $5587$ observations. This reduces to $511$ observations after processing and declustering.  
+  For the ERA5 data, after subsetting we have $6342$ observations, which reduces to $532$ observations after 
+  processing and declustering.  We fit the PG--G, PRG--G, PG--LN, and PRG--LN models to both datasets.
+  {\bf At this point it would be nice to include a figure with a plot of the data after all the pre-processing. You show a couple of panels for the ERA-Iterim and a couple of the ERA5.}
+  \makenote{Do you mean marginal histograms, or, like, a couple selected ternary scatter-plots?}
 
-After the thresholding and maximum likelihood estimation of the parameters of the Pareto, we scale
-  the data to the standard multivariate Pareto following Equation~\ref{eqn:standardization}.  
-  Dividing each standardized observation by its $\mathcal{L}_{\infty}$ norm, we project the 
-  standardized data onto $\mathcal{S}_{\infty}^{d-1}$. Data in sequence represents observations
-  in time, which for this application are temporally correlated.  As such, we
-  choose to \emph{decluster} the observations, such that, by observing a sequence of observations
-  $\bm{ z}$ for which $\inorm{z_i} > 1$ for each observation in sequence, we keep only that observation
-  with the greatest observed $\mathcal{L}_{\infty}$ norm.  The complete procedure is outlined in
-  Algorithm~\ref{algo:processing}.  In the 8-cell data, after subsetting to the rainy season we 
-  have $5587$ observations, which reduces to $511$ observations after processing and declustering.  
-  In the 47 cell data, after subsetting we have $6342$ observations, which reduces to $532$ after 
-  processing and declustering.  We fit PG--G, PRG--G, PG--LN, and PRG--LN models to both datasets.
-
-\begin{table}[ht]
+\begin{table}[t]
   \centering
-  \caption{Model comparison metrics: Posterior Predictive Loss and Energy Score criteria from fitted
-    models against the IVT data.  Lower is better.
-  \label{tab:dev}}
+  \caption{Model comparison metrics: Posterior~Predictive~Loss~($S_{\text{PPL}}$) and 
+    Energy~Score~($S_{\text{ES}}$) criteria from fitted models against the IVT data.  
+    Lower is better. \label{tab:dev}}
   \include{./tables/table_dev}
 \end{table}
 
-In Table~\ref{tab:dev} we see the same model preference towards the projected restricted 
-  gamma models that we saw in Figures~\ref{fig:simes}.  The unrestricted gamma model is 
-  penalized much more strongly on real data than we saw with our simulation.  We also see
-  the restricted gamma model with the log-normal prior performing significantly better 
-  than the restricted gamma model with the gamma prior on the higher dimensional data, a reversal
-  of what we saw on the low dimensional data and indeed from what we saw in the simulation study.
+Table~\ref{tab:dev} shows the values of the estimated PPL and energy scores for the different models considered. We observe that, as in the case of the simulation study shown in Figures~\ref{fig:simes}, the preferred model is the projected restricted 
+  gamma models.  Penalization for the unrestricted gamma model is 
+  stronger for the real data than for the simulated data. We also observe that
+  the restricted gamma model with the log-normal prior performs significantly better 
+  than the restricted gamma model with the gamma prior on the higher dimensional data. This is the opposite of the result obtained in the simulation example.
 
 \begin{figure}[ht]
     \centering
-    \caption{Pairwise extremal dependence coefficients for IVT data, from fitted PRG--G.  
-    The left corresponds to the 8-cell data, the right the 47-cell data.\label{fig:chi_ij}}
+    \caption{Pairwise extremal dependence coefficients for IVT data using the PRG--G model.  
+    The left panel corresponds to the ERA-Interim data, the right panel to the ERA5 data.\label{fig:chi_ij}}
     \begin{minipage}{.49\textwidth}
       \centering
       \includegraphics[width=0.99\linewidth]{./images/chi_ij_8}
@@ -169,37 +177,35 @@ In Table~\ref{tab:dev} we see the same model preference towards the projected re
     \end{minipage}
 \end{figure}
 
-Figure~\ref{fig:chi_ij} shows our implementation of Equation~\ref{eqn:chi_ij}, plotting the 
-  pairwise extremal dependence coefficients for the IVT data computed from PRG--G models 
-  fitted to the 8 (left) and 47 (right) cell data.  
-  That we see a higher extremal dependence between neighboring columns is not unexpected, as
-  neighboring columns correspond to neighboring cells.  We recognize that pairwise asymptotic
-  dependence coefficients tell a limited story, as a particular dependence may structure may include
-  more than two columns.   We can, however, glean some information from the patterns that emerge in
-  two dimensions.  On the 8-cell data, we see a stronger association between cells 5-8, indicating a
-  greater dependence among these cells.  On the 47 cell data, we see at least 3 groupings of columns,
-  indicating greater asymptotic dependence among these groups.
+We consider an exploration of the pairwise extremal dependence using Monte Carlo estimates of the 
+coefficients in  Equation~\ref{eqn:chi_ij}. For this we use samples obtained fromn the PRG--G model.
+Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
+The coefficients achieve values between {\bf say the range of values} for the ERA-Interim data and between {\bf say the range here} for the ERA5 data. Distance between locations mostly determines the strength of the pairwise asymptotic dependence. The highest coefficients are {\bf XXX for locations YYY} in the ERA-Interim data and {\bf XXX for locations YYY} in the ERA5 data.  Clearly, pairwise asymptotic
+  dependence coefficients tell a limited story, as a particular dependence may include
+  more than two locations.   We can, however, glean some information from the patterns that emerge in
+  two dimensions.  For the ERA-Interim data, we observe a possible cluster between cells 5-8, indicating a
+  strong dependence among these cells.  Analogously, for the ERA5 data, we observe three possible groups  of locations.
 
 \begin{figure}[ht]
     \centering
-    \caption{Conditional survival curves for selected dimensions, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv1d}}
+    \caption{Conditional survival curves for selected locations, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv1d}. The left panel uses original units. Right panel uses standardized units.}
     \includegraphics{./images/condsurv_1d}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
-    \caption{Pairwise conditional survival curves for selected dimensions, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv2d}}
+    \caption{Pairwise conditional survival curves for selected locations, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv2d} {\bf The numbers in the plots do not correspond to the number in the text}}
     \includegraphics[height=5in, width=5in]{./images/condsurv_2d}
 \end{figure}
 
-In Figure~\ref{fig:condsurv1d}, using the PRG--G model on the 8-dimensional data, we implement 
+Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG--G model,  
     the conditional survival curve defined in Equation~\ref{eqn:condsurv}, for one dimension, 
-    conditioned on all other dimensions being greater than their (fitted) $90$th percentile.  
-    On the left, the survival curve is in original units, whereas the right is the same plot 
-    given in standardized units.  
-    Figure~\ref{fig:condsurv2d} implements the same conditional survival equation in pairwise form,
-    conditioning on all other dimensions.  Here we see another representation of extremal dependence,
-    affecting the shape of the conditional survival curves.  The top pair represents the joint survival function between grid zones 1 and 2, which we saw from Figure~\ref{fig:chi_ij} to exhibit strong
-    extremal dependence.  We see that again here, where the joint survival surface in standardized form
-    is strongly convex.  The bottom pair represents the joint survival surface between grid zones 2 and 8, which exhibited low extremal dependence.  We see the effects of that, in the concave pairwise survival surface.
+    conditioned on all other dimensions being greater than their (fitted) $90$th percentile. 
+    Figure~\ref{fig:condsurv2d} presents the bi-variate conditional survival function,
+    conditioning on all other dimensions.  These results illustrate quantitatively how extremal dependence
+    affects the shape of the conditional survival curves.  The two top panels represent the joint survival function 
+    between grid locations 1 and 2, which are shown in Figure~\ref{fig:chi_ij} to exhibit strong
+    extremal dependence.  We observe that the joint survival surface 
+    is strongly convex.  The bottom panels represent the joint survival surface between grid locations 2 and 8, 
+    which exhibited low extremal dependence.  In this case the shape of the contours tend to be concave, quite different from the shapes observed in the top panels.
 % EOF

@@ -1,12 +1,13 @@
 
 \begin{tabular}{ccccc}
 \toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{dim = 8} & \multicolumn{2}{c}{dim = 47} \\
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{ERA-Interim} & \multicolumn{2}{c}{ERA5} \\
 \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
-Model & PPL & ES & PPL & ES\\
+Model & $S_{\text{PPL}}$ & $S_{\text{ES}}$ & $S_{\text{PPL}}$ & $S_{\text{ES}}$\\
 \midrule
-PRG & 0.195 & 0.170 & 1.623 & 0.675\\
-PRG-LN & 0.232 & 0.192 & 1.400 & 0.582\\
-PG & 0.787 & 0.418 & 5.040 & 1.374\\
+PG-G   & 0.787      & 0.418       & 5.040       & 1.374\\
+PRG-G  & {\bf0.195} & {\bf 0.170} & 1.623       & 0.675\\
+PRG-LN & 0.232      & 0.192       & {\bf 1.400} & {\bf 0.582}\\
+
 \bottomrule
 \end{tabular}

@@ -40,6 +40,21 @@
   For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo that is described in the next section. 
   {\bf Instead of the old Figure 1, it would be nice to add a figure where you illustrate this procedure. Give it a try.}
 
+\begin{figure}[ht]
+    \centering
+  \begin{subfigure}[b]{0.47\textwidth}
+    \includegraphics[width=\textwidth]{./images/p_sphere}
+    \caption{${\mathbb S}_p^1$ for $p = 1,\ldots, 10$\label{fig:psphere}}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.47\textwidth}
+    \includegraphics[width=\textwidth]{./images/p_project}
+    \caption{Projection of data on ${\mathbb S}_{\infty}^1$ onto ${\mathbb S}_p^1$\label{fig:pproject}}
+  \end{subfigure}
+\end{figure}
+
+
+
 \subsubsection{Inference for the projected Gamma mixture model}
 The Dirichlet process mixture model groups observations into stochastically assigned \emph{clusters}.  Building out the methods of inference for Equation~\ref{eqn:dppg}, let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be the number of extant 
 % {\bf (remaining?)} observations
@@ -94,7 +109,7 @@ The second form of centering distribution we explore is a multivariate log-norma
 \begin{equation}
     G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right) = \mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right).
 \end{equation}
-This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  We also explore a restricted Gamma form of this model as above, where $\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the \emph{projected restricted Gamma--log-normal} (PRG--LN) model.  In the interest of brevity, we omit the inferential forms for this model, sufficing to say that the Gamma prior for $\beta_{j\ell}$ means it can again be integrated out, improving mixing on sampling $\bm{\alpha}_j$ with a joint Metropolis step; the normal prior for $\mu$ is conjugate for the log-normal $\log\bm{\alpha}_j$, and updated via a Gibbs step; and an inverse Wishart prior for $\Sigma$ is again conjugate to the log-normal $\bm{\alpha}_j$, implying that it can also be updated via a Gibbs step.
+This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  We also explore a restricted Gamma form of this model as above, where $\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the \emph{projected restricted Gamma--log-normal} (PRG--LN) model.  In the interest of brevity, we omit the inferential forms for this model, sufficing to say that the Gamma prior for $\beta_{j\ell}$ means it can again be integrated out, improving mixing on sampling $\bm{\alpha}_j$ with a joint Metropolis step; the normal prior for $\mu$ is conjugate for the log-normal $\bm{\alpha}_j$, and sampled via a Gibbs step; and an inverse Wishart prior for $\Sigma$ is again conjugate to the log-normal $\bm{\alpha}_j$, implying that it can also be sampled via a Gibbs step.
 
 %\subsubsection{Choice of Norm\label{subsubsec:norm}}
 %In the extreme value case, we have defined our task on ${\mathbb S}_{\infty}^{d-1}$, the positive orthant

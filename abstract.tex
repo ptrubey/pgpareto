@@ -1,24 +1,20 @@
-{\bf We need an abstract}
 
-The constructive definition of the multivariate Pareto separates the Pareto RV into
-    a radial component, following a univariate Pareto distribution, and independently
-    an angular component, defined on the surface of the positive orthant of the unit 
-    hypercube.  In this paper, we 
-    propose a method for inferring the distribution of that angular component.  We  
-    identify its support as the limit of the unit $p$--norm
-    spheres, and describe a means by which we project a distribution onto those spheres.
-    We then introduce a family of \emph{projected Gamma} distributions, defined by the
-    power of the unit norm sphere on which they have support.  This projected Gamma family
-    serves as a building block to a Dirichlet process mixture of projected Gammas model,
-    which we ultimately present.
-
-We discuss model scoring methods appropriate to this space, and develop a kernel metric
-    to be used with the \emph{energy score} criterion for evaluating models.  We compare
-    these results with those obtained using the posterior predictive loss criterion.  
-    We compute model scores
-    on various iterations of the aforementioned model, fitted to simulated data.  We then
-    apply the model to the \emph{integrated vapor transport} (IVT)---a dataset describing 
-    the quantity of water vapor in the atmosphere, used for identifying atmospheric 
-    rivers---to demonstrate the model on \emph{real} data.
+We consider a constructive definition of the multivariate Pareto that factorizes the 
+random vector into a radial component and an independent angular component. The former
+follows a univariate Pareto distribution. The latter is defined on the surface of the 
+positive orthant of the unit  hypercube.  In this paper, we  propose a method for
+inferring the distribution of the angular component.  We   identify its support 
+as the limit of the positive orthant of the unit $p$--norm spheres, 
+and describe a method to project a distribution onto those spheres. To define a 
+distribution in the $p$--norm spheres, we introduce a family of projected Gamma 
+distributions. This family serves as a building block for a flexible family of 
+distributions obtained as  a Dirichlet process mixture of projected Gammas. For 
+model comparison and assessment, we discuss model scoring methods appropriate 
+to distributions on the unit hypercube.  In particular, we develop a kernel metric 
+that produces a proper scoring rule.   We present a simulation study to compare 
+different modeling choices using the proposed  scoring rules. We then apply our 
+approach to study the extreme values of the  magnitude of the integrated vapor 
+transport (IVT), that describes the rate of flow of moisture in the atmosphere 
+along the coast of California for the years of 1979 through 2020.
 
 % EOF

@@ -61,7 +61,8 @@ For a finite $p$, the shortest connecting path between two points in ${\mathbb S
   shortest path between two points on a geometric figure corresponds to the length of a
   straight line drawn between the points on an appropriate unfolding, rotation, or \emph{net} of the figure from a $d$-dimensional to a $d-1$-dimensional space.  The optimal net will have the shortest straight line between the points, as long as that line is fully contained within such net. As ${\mathbb S}_{\infty}^{d-1}$ has $d$ faces---each face pairwise adjacent, there are $d!$ possible nets.  However, we are only interested in nets that begin and end on the source and destination faces respectively.  That reduces the number of nets under consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still computationally burdensome for a large number of dimensions.  
 
-To reduce the computations needed to calculate the energy score we define a kernel as {\bf Please write a clearer description here.} our kernel an upper bound on distance between points on separate faces as the length of the path from the source point, to an optimal point on the intersection between faces, to the destination point.
+To reduce the computations needed to calculate the energy score we define a kernel as 
+in the following proposition.
 \begin{prop}\label{prop:g}
 Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$, for $\ell, \jmath \in \{1, \ldots , d\}$. Define $g$ as
 \[  
@@ -74,15 +75,15 @@ Then $g$  is negative definite kernel.
 {\em Proof:}
 When $\bm{a}$ and $\bm{b}$ are on the same face, then $\ell = \jmath$, and $g$ is the Euclidean distance between $\bm{a}$ and $\bm{b}$, which is a  negative definite kernel.  When $\bm{a}$ and $\bm{b}$ are on separate
   faces, let 
-  \[\bm{d} = 
+  \[\bm{e} = 
     \argmin_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
         \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\}.
   \]
-  We have that $g(\bm{a}, \bm{b}) = g(\bm{b}, \bm{a})$ due to the uniqueness of $\bm{d}$ and the symmetry of the Euclidean distance. Additionally, given $n$ and  a collection $\alpha_1,\ldots,\alpha_n\in{\mathbb R}$ such that  $\sum_{i = 1}^n\alpha_i = 0$, then, 
+  We have that $g(\bm{a}, \bm{b}) = g(\bm{b}, \bm{a})$ due to the uniqueness of $\bm{e}$ and the symmetry of the Euclidean distance. Additionally, given $n$ and  a collection $\alpha_1,\ldots,\alpha_n\in{\mathbb R}$ such that  $\sum_{i = 1}^n\alpha_i = 0$, then, 
   \begin{equation*}
     \begin{aligned}
-      \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j g(\bm{x}_1,\bm{x}_2) &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j \bigg[\pnorm{\bm{d} - \bm{x}_1}{2} + \pnorm{\bm{x}_2 - \bm{d}}{2}\bigg]\\
-      &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{d} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{d}}{2} \leq0,
+      \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j g(\bm{x}_1,\bm{x}_2) &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j \bigg[\pnorm{\bm{e} - \bm{x}_1}{2} + \pnorm{\bm{x}_2 - \bm{e}}{2}\bigg]\\
+      &= \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{e} - \bm{x}_1}{2} + \sum_{i = 1}^n\sum_{j = 1}^n \alpha_i\alpha_j\pnorm{\bm{x}_2 - \bm{e}}{2} \leq0,
     \end{aligned}
   \end{equation*}
   as the Euclidean norm is a negative definite kernel.$\hfill\Box$
@@ -107,11 +108,12 @@ Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a
 {\em Proof:}
 Notice that for 
   $\bm{c} \in {\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}$,
-     $\pnorm{\bm{b} - \bm{c}}{2} =  \pnorm{\bm{b}^{\prime} - \bm{c}}{2}$. {\bf This is true just because you do the math, the invariance of Euclidean norms is not needed.} Then, recalling the definition of $\bm{d}$ in the proof of Proposition \ref{prop:g}, we have that
+     $\pnorm{\bm{b} - \bm{c}}{2} =  \pnorm{\bm{b}^{\prime} - \bm{c}}{2}$. Then, recalling the definition of 
+     $\bm{e}$ in the proof of Proposition \ref{prop:g}, we have that
   \begin{equation*}
     \begin{aligned}
-    g(\bm{a}, \bm{b}) &= \pnorm{\bm{a} - \bm{d}}{2} + \pnorm{\bm{b} - \bm{d}}{2}\\
-    &= \pnorm{\bm{a} - \bm{d}}{2} + \pnorm{\bm{b}^{\prime} - \bm{d}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
+    g(\bm{a}, \bm{b}) &= \pnorm{\bm{a} - \bm{e}}{2} + \pnorm{\bm{b} - \bm{e}}{2}\\
+    &= \pnorm{\bm{a} - \bm{e}}{2} + \pnorm{\bm{b}^{\prime} - \bm{e}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
     \end{aligned}
   \end{equation*}
   The last equality is due to the fact that $\bm{a}$ and $\bm{b}'$ belong to the same hyperplane.
