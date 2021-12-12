@@ -37,8 +37,7 @@
   where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision parameter, and $G_0$ is the centering distribution. 
   
   Our strategy consists of describing the angular distribution $\Phi$ using a sample based approach with the following steps: (i) Apply the transformation in Equation (\ref{eqn:standardization}) to the original data; (ii) Obtain the subsample of the standardized observations that satisfy $R>1$; (iii) Take a finite $p$ and project the observations onto ${\mathbb S}_p^{d-1}$; (iv) Fit the model in Equation (\ref{eqn:PGmix}) to the resulting data and obtain samples from the fitted model; (v) Project the resulting samples onto ${\mathbb S}_\infty^{d-1}$.
-  For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo that is described in the next section. 
-  {\bf Instead of the old Figure 1, it would be nice to add a figure where you illustrate this procedure. Give it a try.}
+  For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo that is described in the next section.
 
 \begin{figure}[ht]
     \centering
@@ -53,8 +52,6 @@
   \end{subfigure}
 \end{figure}
 
-
-
 \subsubsection{Inference for the projected Gamma mixture model}
 The Dirichlet process mixture model groups observations into stochastically assigned \emph{clusters}.  Building out the methods of inference for Equation~\ref{eqn:dppg}, let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be the number of extant 
 % {\bf (remaining?)} observations
@@ -65,7 +62,11 @@ clusters, not including any singleton that observation $i$ is in. Under this mod
         \eta\int\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)dG_0(\bm{\alpha}_j,\bm{\beta}_j)\hspace{0.5cm} &\text{~for~}j = J^{-i} + 1.
         \end{cases}
 \end{equation*}
-If $G_0$ is not a conjugate prior for the kernel, the integral in the above formula can not be obtained in closed form. Using Algorithm 8 from \cite{neal2000}, we draw $m$ candidate clusters, $\bm{\alpha}_j,\bm{\beta}_j$ for $j = J^{-i} + 1,\ldots, J^{-i} + m$ from $G_0$. Then, we sample the cluster indicator $\delta_i$ from extant or candidate clusters, where the probability of cluster membership is proportional to
+If $G_0$ is not a conjugate prior for the kernel, the integral in the above formula may not be
+available in closed form. Using Algorithm 8 from \cite{neal2000}, by Monte Carlo integration, drawing  $m$ candidate
+clusters, $\bm{\alpha}_j,\bm{\beta}_j$ for $j = J^{-i} + 1,\ldots, J^{-i} + m$ from $G_0$. 
+Then, we sample the cluster indicator $\delta_i$ from extant or candidate clusters, where
+the probability of cluster membership is proportional to
 \begin{equation}
     \text{Pr}\left[\delta_i = j\mid\ldots\right] \propto \begin{cases}
         n_j^{-i}\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)\hspace{0.5cm} &\text{~for~}j \in \lbrace 1,\ldots,J^{-i}\rbrace\\

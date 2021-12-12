@@ -22,6 +22,8 @@
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\inorm}[1]{\norm{#1}_{\infty}}
 \newcommand{\pnorm}[2]{\norm{#1}_{#2}}
+\newcommand{\prob}[1]{\text{Pr}\left[#1\right]}
+\newcommand{\expect}[1]{\text{E}\left[#1\right]}
 
 \newtheorem{prop}{Proposition}
 
@@ -50,8 +52,8 @@
 \setcounter{tocdepth}{1}
 
 \title{Inference for multivariate peaks-over-threshold models}
-\author{Peter Trubey \\ Advisor: Bruno Sans{\'o}}
-\institute{UCSC - Statistics Department}
+\author{Peter Trubey}
+\institute{Bruno's Lab Meeting}
 \date[12/6/2021]{Dec. 6, 2021}
 
 \begin{document}
@@ -64,35 +66,37 @@
 \begin{frame}
   \frametitle{Multivariate peaks-over-threshold models}
   \begin{itemize}
-    \item $\bm{Z} \in {\mathbb R}^d_+ = [0,+\infty)^d$\,
+    \item $\bm{Z} \in {\mathbb R}^d_+ = [0,+\infty)^d\backslash[\bm{0},\bm{1}]$,
     \item Assume existence of limiting measure $\mu$ such that
       \[
         \lim\limits_{n\to\infty}n\prob{\frac{1}{n}\bm{Z}\geq \bm{z}} =
          \mu\left([\bm{0},\bm{z}]^c\right),
       \]
-      \begin{itemize}
-        \item $\mu$ is distribution of $\bm{Z}$ in extreme regions
-        \item The \emph{Exponent} measure
-      \end{itemize}
+    %   \begin{itemize}
+    %     \item $\mu$ is distribution of $\bm{Z}$ in extreme regions
+    %     \item The \emph{Exponent} measure
+    %   \end{itemize}
     \pause
     \item We can factorize $\mu$ into
       \[
         \mu\left( \left\lbrace\bm{Z} : \bm{V} \in A , R > r\right\rbrace \right) =
          r^{-1}\Phi(A).
       \]
-      where $R(\bm{Z}) = \max_{\ell}Z_{\ell}$, $V(\bm{Z}) = \frac{\bm{Z}}{R(\bm{Z})}$
-      \begin{itemize}
-        \item $R \in (1,\infty)$ is the radial component, and
-        $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$ the angular component of $\bm{Z}$
-      \end{itemize}
-    \pause
-    \item How do we use this?
-      \begin{enumerate}
+      where $R(\bm{Z}) = \max_{\ell}Z_{\ell}$, \; $V(\bm{Z}) = \frac{\bm{Z}}{R(\bm{Z})} \in {\mathbb S}_{\infty}^{d-1}$
+    %   \begin{itemize}
+    %     \item $R \in (1,\infty)$ is the radial component, and
+    %     $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$ the angular component of $\bm{Z}$
+    %   \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Modelling multivariate PoT}
+    \begin{enumerate}
         \item Standardize marginal components such that $Z_{\ell}\mid Z_{\ell > 1} \sim \text{Pareto}(1)$
         \item Transform $Z$ to independent $R$, $\bm{V}$
         \item distribution of $\bm{V}$ $\longrightarrow$  dependency structure of $\bm{Z}$
-      \end{enumerate}
-  \end{itemize}
+    \end{enumerate}
 \end{frame}
 
 \section{Methodology}
@@ -120,7 +124,7 @@
 
 \subsection{An angular distribution}
 \begin{frame}
-  \frametitle{The Unit Sphere ${\mathbb S}_p^{d-1}$}
+  \frametitle{The Unit $\mathcal{L}_p$ Sphere ${\mathbb S}_p^{d-1}$}
   \begin{figure}
      \includegraphics[width=0.475\textwidth]{./images/p_sphere}
      \hfill
@@ -130,14 +134,12 @@
 
 \begin{frame}
   \frametitle{Projecting a distribution onto the unit sphere}
+  \small
   \begin{itemize}
-    \item the $\mathcal{L}_p$ norm
-      \[
+    \item the $\mathcal{L}_p$ norm \[
         \lVert \bm{s} \rVert_p = \left({\textstyle\sum}_{\ell = 1}^d
           \lvert s_{\ell}\rvert^p\right)^{\frac{1}{p}}
       \]
-      \pause
-    \item We want to project a distribution in ${\mathbb R}^d$ onto ${\mathbb S}_{\infty}^{d-1}$.
     \item Let $y_d = \left(1 - {\textstyle\sum}_{\ell = 1}^{d-
       1}y_{\ell}^p\right)^{\frac{1}{p}}$
     \item Then
@@ -159,6 +161,10 @@
           -1}y_{\ell}^p\right)^{\frac{1}{p}} +
           {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right]
       \]
+      % Incidentally, we can't use this to form a distribution on
+      % S_{\infty}^{d-1} as the transformation is not differentiable.
+      % So -- model on S_p^{d-1} for some large p, then do model evaluation
+      % on S_{\infty}^{d-1}
     \end{itemize}
 \end{frame}
 
@@ -188,7 +194,7 @@
                       \beta_{\ell}y_{\ell}\right)^{{\scriptstyle\sum_{\ell =
                        1}^d \alpha_{\ell}}}}
       \]
-      defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for any $p>0$.
+      defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for finite $p>0$.
   \end{itemize}
 \end{frame}
 
@@ -219,7 +225,7 @@
 \section{Evaluation}
 \subsection{Scoring rules}
 \begin{frame}
-  \frametitle{Scoring Rules on the unit Hypercube}
+  \frametitle{Scoring Rules}
   \begin{itemize}
     \item Posterior Predictive Loss
       \[
@@ -239,20 +245,28 @@
 \end{frame}
 
 \subsection{A Negative Definite Kernel}
+
 \begin{frame}
-  \frametitle{Inadequacy of Euclidean Distance}
-  \begin{center}
-    \includegraphics[width = 0.8\textwidth]{./images/rotation}
-  \end{center}
-  \pause
-  \begin{itemize}
-    \item Euclidean norm will under-report distance between $\bm{a}$ and $\bm{b}$
-    \pause
-    \item Distance is difficult on ${\mathbb S}_{\infty}^{d-1}$
-      \begin{itemize}
-        \item What path is optimal?
-        \item $\sum_{k = 0}^{d-2}\binom{d-2}{k}$ possible paths!
-  \end{itemize}
+    \frametitle{Inadequacy of Euclidean Distance}
+    \begin{columns}[T] % align columns
+    \begin{column}{.60\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{./images/rotation}
+    \end{column}%
+    \hfill
+    \begin{column}{0.4\textwidth}
+    \begin{itemize}
+      \item Euclidean norm will under-report distance between $\bm{a}$ and $\bm{b}$
+      \pause
+      \item Distance is difficult on ${\mathbb S}_{\infty}^{d-1}$
+        \begin{itemize}
+          \item What path is optimal?
+          \item $\sum_{k = 0}^{d-2}\binom{d-2}{k}$ possible paths!
+        \end{itemize}
+      \item A cheaper way?
+    \end{itemize}
+    \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}
@@ -275,12 +289,8 @@
 
 \begin{frame}
   \frametitle{Computationally Easier Analogue}
-  Let \[
-      {\mathbb C}_{\ell}^{d-1} = \lbrace \bm{x} : \bm{x} \in {\mathbb S}_{\infty}^{d-1}, x_{\ell} = 1\rbrace
-    \] comprise the $\ell$th face.  Then,
   \begin{prop}
-    Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and
-    $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$.  The rotation
+    The rotation
     $P_{\jmath\ell}(\cdot)$ required to move the $\jmath$th face
     along the $\ell$th axis produces the vector $\bm{b}^\prime$, where
       \begin{equation}
@@ -294,6 +304,7 @@
       \end{equation}
       Then $g(\bm{a},\bm{b}) = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}$.
   \end{prop}
+  Optimization of that interim $c$ is accomplished en passant
 \end{frame}
 
 \section{Results}
@@ -311,9 +322,9 @@
 \begin{frame}
   \frametitle{Integrated Vapor Transport}
   \begin{center}
-    \includegraphics[width=0.45\textwidth]{./images/grid_8}~
-    \hfill
-    \includegraphics[width=0.45\textwidth]{./images/grid_47}~
+    \includegraphics[width=0.33\textwidth]{./images/erai_grid}~
+    \;\;\;\;\;\;
+    \includegraphics[width=0.33\textwidth]{./images/era5_grid}~
   \end{center}
 \end{frame}
 
