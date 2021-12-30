@@ -41,6 +41,7 @@
 
 \begin{figure}[ht]
     \centering
+    \caption{The positive orthant of the $p$-norm sphere.}
   \begin{subfigure}[b]{0.47\textwidth}
     \includegraphics[width=\textwidth]{./images/p_sphere}
     \caption{${\mathbb S}_p^1$ for $p = 1,\ldots, 10$\label{fig:psphere}}
@@ -53,7 +54,7 @@
 \end{figure}
 
 \subsubsection{Inference for the projected Gamma mixture model}
-The Dirichlet process mixture model groups observations into stochastically assigned \emph{clusters}.  Building out the methods of inference for Equation~\ref{eqn:dppg}, let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be the number of extant 
+The Dirichlet process mixture model groups observations into stochastically assigned clusters.  Building out the methods of inference for Equation~\ref{eqn:dppg}, let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be the number of extant 
 % {\bf (remaining?)} observations
 clusters, not including any singleton that observation $i$ is in. Under this model, the probability of cluster membership for a given observation is proportional to
 \begin{equation*}
@@ -99,7 +100,7 @@ for $\ell = 2,\ldots,d$.  For $\ell = 1$, as $\beta_{1} := 1$, the full conditio
     \label{eqn:alpha1update}
     \pi(\alpha_{j1}\mid\bm{r},\bm{Y},\bm{\gamma},\xi_1,\tau_1) \propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}\alpha_{j1}^{\zeta_1 - 1}e^{-\tau_1\alpha_{j1}}}{\Gamma^{n_j}(\alpha_{j1})}.
 \end{equation}
-Sample of $\alpha_{j\ell}$ can thus be obtained using a Metropolis step. In our analysis, we first transform $\alpha_{j\ell}$ to the log scale, and use a normal proposal density.
+Samples of $\alpha_{j\ell}$ can thus be obtained using a Metropolis step. In our analysis, we first transform $\alpha_{j\ell}$ to the log scale, and use a normal proposal density.
 The full conditional for $\beta$ is 
 \begin{equation}
     \beta_{j\ell}\mid\bm{r},\bm{Y},\alpha,\zeta_{\ell},\sigma_{\ell} \sim \mathcal{G}\left(\beta_{j\ell}\mid n_j\alpha_{j\ell} + \zeta_\ell, \sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right),

@@ -1,20 +1,27 @@
 
 We consider a constructive definition of the multivariate Pareto that factorizes the 
-random vector into a radial component and an independent angular component. The former
-follows a univariate Pareto distribution. The latter is defined on the surface of the 
-positive orthant of the unit  hypercube.  In this paper, we  propose a method for
-inferring the distribution of the angular component.  We   identify its support 
-as the limit of the positive orthant of the unit $p$--norm spheres, 
-and describe a method to project a distribution onto those spheres. To define a 
-distribution in the $p$--norm spheres, we introduce a family of projected Gamma 
-distributions. This family serves as a building block for a flexible family of 
-distributions obtained as  a Dirichlet process mixture of projected Gammas. For 
-model comparison and assessment, we discuss model scoring methods appropriate 
-to distributions on the unit hypercube.  In particular, we develop a kernel metric 
-that produces a proper scoring rule.   We present a simulation study to compare 
-different modeling choices using the proposed  scoring rules. We then apply our 
-approach to study the extreme values of the  magnitude of the integrated vapor 
-transport (IVT), that describes the rate of flow of moisture in the atmosphere 
-along the coast of California for the years of 1979 through 2020.
+random vector into a radial component and an independent angular component; the former
+following a univariate Pareto distribution, and the latter defined on the surface of the 
+positive orthant of the unit hypercube.  In this paper, we  propose a method for
+inferring the distribution of the angular component.  We identify its support 
+as the limit of the positive orthants of the unit $p$--norm spheres.
+To this effect, we introduce a projected gamma family of
+distributions defined as the projection of a vector of independent gamma random variables
+onto the $p$--norm sphere.  This family serves as a building block for a flexible family
+of distributions obtained as a Dirichlet process mixture of projected gammas.  For 
+model assessment and comparison, we discuss model scoring methods appropriate 
+to distributions on the unit hypercube.  In particular, working with the energy score
+criterion, we develop a kernel metric appropriate to the hypercube that produces a 
+proper scoring rule.  We then present a simulation study to compare 
+different modeling choices using the proposed scoring rules.  Finally we apply our 
+approach to describe the dependence structure of the extreme values of the magnitude 
+of the integrated vapor  transport (IVT), a variable that describes the rate of flow 
+of moisture in the atmosphere  along the coast of California for the years of 1979 
+through 2020.  We find a clear but heterogeneous geographical dependence.
+%We present the results 
+%of this analysis to describe the dependence structure of extreme events in IVT using 
+%pairwise extremal dependence coefficients---a summary measure of jointly extreme behavior.
+%We also present conditional survival curves---the survival function for some dimensions
+%conditional on other dimensions.
 
 % EOF
