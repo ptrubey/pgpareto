@@ -9,7 +9,7 @@ The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  Wh
   loss criterion is computed as
   \begin{equation}
     \label{eq:ppl}
-      S_{\text{PPL}}^k\left(P,x_i\right) = \text{Var}_P\left(X_i\right) + \frac{k}{k+1}\left(\text{E}_P\left[X_{i}\right] - x_i\right)^2
+      S_{\text{PPL}}^k\left(P,x_i\right) = \text{Var}_P\left[X_i\right] + \frac{k}{k+1}\left(\text{E}_P\left[X_{i}\right] - x_i\right)^2
   \end{equation}
   where $X_i$ is a random variable from the posterior predictive distribution for $x_i$.  The
   scalar $k$ is a weighting factor that scales the importance of goodness of fit
@@ -22,7 +22,7 @@ The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  Wh
   summed over all dimensions.  That is,
   \begin{equation}
     \label{eq:ppl2}
-      S_{\text{PPL}}\left(P,\bm{x}_i\right) = \frac{1}{d}\sum_{\ell = 1}^d\left[\text{Var}_P\left(X_{i\ell}\right) + \left(\text{E}_P\left[X_{i\ell}\right] - x_{i\ell}\right)^2\right] .
+      S_{\text{PPL}}\left(P,\bm{x}_i\right) = \frac{1}{d}\sum_{\ell = 1}^d\left[\text{Var}_P\left[X_{i\ell}\right] + \left(\text{E}_P\left[X_{i\ell}\right] - x_{i\ell}\right)^2\right] .
   \end{equation}
   We report the average $S_{\text{PPL}}$ taken from all observed data.
 
@@ -30,8 +30,8 @@ The posterior predictive loss criterion is introduced in \cite{gelfand1998}.  Wh
 We focus on \emph{energy scores} defined for a general probability distribution $P$, with finite expectation, as 
     \begin{equation}
     \label{eq:es}
-    \text{S}_{\text{ES}}\left(P, \bm{x}_i\right) =  \text{E}_p g\left(\bm{X}_i, \bm{x}_i\right) -
-                                    \frac{1}{2}\text{E}_p g\left(\bm{X}_i,\bm{X}_i^{\prime}\right),
+    \text{S}_{\text{ES}}\left(P, \bm{x}_i\right) =  \text{E}_p \left[g\left(\bm{X}_i, \bm{x}_i\right)\right] -
+                                    \frac{1}{2}\text{E}_p \left[g\left(\bm{X}_i,\bm{X}_i^{\prime}\right)\right],
     \end{equation}
 where $g$ is a kernel function. The score defined in Equation \eqref{eq:es} can be evaluated
   using samples from $P$, with the help of the law of large numbers.
@@ -90,7 +90,7 @@ When $\bm{a}$ and $\bm{b}$ are on the same face, then $\ell = \jmath$, and $g$ i
  
 Evaluating $g$ as defined in Proposition \ref{prop:g} requires the solution of a $(d-2)$-dimensional 
   optimization problem.  The following proposition provides a straightforward solution.
-\begin{prop}
+\begin{prop}\label{prop:rot}
     Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$, for $\ell, \jmath \in \{1, \ldots , d\}$.  For $\ell\neq \jmath$, the 
   transformation $P_{\jmath\ell}(\cdot)$ required to rotate the $\jmath$th face along the $\ell$th axis 
   produces the vector $\bm{b}^\prime$, where
@@ -119,5 +119,5 @@ Notice that for
   The last equality is due to the fact that $\bm{a}$ and $\bm{b}'$ belong to the same hyperplane.
   $\hfill\Box$
 
-We report the average $S_{\text{ES}}$ taken across all observed data.  In this form, the interpretation of $S_{\text{ES}}$ is similar to that of $S_{\text{PPL}}$: the smaller the score, the better.
+Proposition \ref{prop:rot} provides a computational efficient way to evaluate the proper scoring rule $S_{\text{ES}}$ defined on ${\mathbb S}_\infty^{d-1}$, for each observation. For the purpose of model assessment and comparison, we report the average $S_{\text{ES}}$ taken across all observed data.  In this form, the interpretation of $S_{\text{ES}}$ is similar to that of $S_{\text{PPL}}$: The smaller the score, the better.
 % EOF

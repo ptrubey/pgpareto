@@ -1,12 +1,13 @@
-\documentclass[12pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage[margin=0.5in]{caption}
+\documentclass[12pt,authoryear]{elsarticle}
+%\documentclass[12pt]{article}
+% \usepackage[margin=1in]{geometry}
+% \usepackage[margin=0.5in]{caption}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{natbib}
+%\usepackage{natbib}
 \usepackage{amsthm}
 \usepackage{hyperref}
-\usepackage{graphicx}
+%\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{soul}
@@ -16,6 +17,8 @@
 \usepackage{wrapfig}
 % \usepackage{setspace}
 % \linespread{1.8}
+\usepackage{anysize}
+\marginsize{1in}{1in}{1in}{1in}
 
 \newtheorem{prop}{Proposition}
 \DeclareMathOperator{\tr}{Tr}
@@ -33,19 +36,28 @@
 \newcommand{\expect}[1]{\text{E}\left[#1\right]}
 
 \title{Inference for multivariate peaks over threshold models}
-\author{Peter Trubey and Bruno Sans\'o\\
-Department of Statistics, University of California Santa Cruz\\
-{\tt ptrubey@ucsc.edu, bruno@soe.ucsc.edu}}
+\author{Peter Trubey}
+\ead{ptrubey@ucsc.edu}
+%\address{UC Santa Cruz, 1156 High St., Santa Cruz, CA 95064, USA}
 
+\author{Bruno Sans\'o}
+\ead{bruno@soe.ucsc.edu}
+\address{Department of Statistics, University of California, Santa Cruz,  USA}
 
 \begin{document}
 
 %--------title page
-\maketitle
-\thispagestyle{empty}
+% \thispagestyle{empty}
 \begin{abstract}
   \input{abstract}
 \end{abstract}
+
+\begin{keyword}
+ Multivariate extremes \sep Peak over threshold models \sep
+ Bayesian non-parametric models \sep Dirichlet process mixtures
+\end{keyword}
+
+\maketitle
 
 %--------content
 \input{introduction}
@@ -58,7 +70,7 @@ Department of Statistics, University of California Santa Cruz\\
 
 \input{conclusion}
 
-\bibliographystyle{chicago}
+\bibliographystyle{elsarticle-harv}
 \bibliography{./refs}
 
 \end{document}

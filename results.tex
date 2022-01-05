@@ -1,5 +1,5 @@
 
-\begin{figure}[htb]
+\begin{figure}[tb]
 \begin{center}
     \centering
   \caption{Posterior predictive loss (Left) and energy score (right) for various models on simulated data.  Gen indicates baseline.\label{fig:simpples}}
@@ -83,7 +83,7 @@ We observe that the projected
 
 \subsection{Integrated Vapor Transport\label{subsec:ivt}}
 
-\begin{figure}[htb]
+\begin{figure}[tb]
     \begin{center}
     \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
     \begin{subfigure}[b]{0.48\textwidth}
@@ -201,7 +201,7 @@ Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss 
 \end{figure}
 
 We consider an exploration of the pairwise extremal dependence using Monte Carlo estimates of the 
-  coefficients in  Equation~\ref{eqn:chi_ij}. For this we use samples obtained fromn the PRG--G model.
+  coefficients in  Equation~\ref{eqn:chi_ij}. For this we use samples obtained from the PRG--G model.
   Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
   The coefficients achieve values between $0.286$ and $0.759$ for the ERA-Interim data and 
   between $0.181$ and $0.840$ for the ERA5 data.  The greater range in dependence scores observed 
@@ -218,7 +218,7 @@ We consider an exploration of the pairwise extremal dependence using Monte Carlo
 \begin{figure}[htb]
     \centering
     \caption{Conditional survival curves for selected locations, conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv1d}. The left panel uses original units. Right panel uses standardized units.}
-    \includegraphics{./images/condsurv_1d}
+    \includegraphics[width=\linewidth]{./images/condsurv_1d}
 \end{figure}
 
 \begin{figure}[htb]
@@ -238,12 +238,12 @@ Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG--G mod
     is strongly convex.  The bottom panels represent the joint survival surface between grid locations 1 and 5, 
     which exhibited low extremal dependence.  In this case the shape of the contours tend to be concave, quite different from the shapes observed in the top panels.
 
-We also explored what effect the power of the projection would have---that is, which $p$-norm
-    sphere the data was projected on to for model fitting.  Using the simulated data, coming
-    from a mixture of projected Gammas, we were unable to observe an effect from $p$ when 
-    looking at a range from 1 to 15 for $p$, on our simulated data.  However, when we repeated 
-    this analysis on the IVT data, we were able to observe a drop in the energy score associated 
-    with higher $p$, with diminishing returns, as tested up to $p=15$.  The relative performance
-    between $p=10$, where the modelling for our presented analysis was conducted, and $p=15$, 
-    was not significant.
+Using our proposed scoring criteria, we explored the effect of the choice of $p$ on the final results. Using the simulated data, generated
+    from a mixture of projected Gammas, we were unable to observe sizeable differences in the scores for $p$ 
+    ranging between 1 and 15.   However, 
+    for the IVT data, we observed a drop in the energy score associated 
+    with higher $p$, with diminishing effect as $p$ increased.  
+    We observed no significant differences in the performance
+    of the model that uses $p=10$, which corresponds to the analysis 
+    presented, relative to the one that uses $p=15$.
 % EOF
