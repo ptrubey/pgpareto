@@ -1,0 +1,237 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=2cm]{geometry}
+\usepackage{bm}
+\usepackage{xcolor}
+
+\newcommand{\bruno}[1]{\textcolor{blue}{#1}} % Bruno edits - blue
+\newcommand{\peter}[1]{\textcolor{red}{#1}}  % Peter edits - red
+\newcommand{\handled}[1]{\textcolor{green}{#1}} % mark item as handled.
+
+\begin{document}
+
+\subsection*{Review 1}
+\subsubsection*{Soundness}
+Soundness The presentation of the probabilistic setting for the multivariate POT model (Section 2) and estimation method (Section 3) contains significant inconsistencies and unclear points. I list some of them below.
+\begin{itemize}
+    \item  the variable $Z$ is sometimes seen as the observed variable, sometimes as the unobserved variable following the limit distribution $\mu$ (after suitable restriction and normalization of the latter).
+    
+    \peter{I'm not sure what to say.  $\bm{Z}$ is always a multivariate pareto random vector.  Maybe he's saying I mis-capitalized something when referencing observed data?  I'll check.}
+    
+    \bruno{I have not checked carefully, but I think that we are consistent in using capital letters for random variables or vectors, and bold face for vectors. I think it would be useful to make that explicit at the beginning of the paper.}
+    
+    \item \handled{Also the writing of Equation (1) is confusing: the measure $\mu$ takes as input measurable sets of points, not a random variable $Z$.}
+    
+    \bruno{This comment is really annoying, it seems that he referee did not bother to understand the difference between Z and z. Anyway, making the notation explicitly, as I mentioned before, will help. You could add this in the last paragraph of Section 1.}
+    
+    
+    
+    \item  In the proof of Proposition 1 the ambiguity about the law of Z is quite problematic: It looks like the $Z_{\jmath}$, $Z_{\ell}$ variables are the asymptotic ones but then I cannot make sense of the proof in view of the definition for $\chi_{\jmath\ell}$.
+    
+    \bruno{Boy, this guy did not really make an effort to read the paper! The proposition is very clear, and it is valid for any random vector that be factorized as RV, no asymptotic result needed.}
+    
+    \item  It is not clear what is the link between the variables $w_l$ (beginning of Section 3) and the objects introduced in Section 2. The standardization (5) does not follow from the background material presented in Section 2.
+    
+    \peter{I think this is on me.  I introduced $\bm{w}$ as representing observed data in original scale before standardization, but I don't think that took in the reader's mind.  In equation 6, i'm using $\bm{x}$ as a generic input to the transformation function, and immediatelyu before i'm using $\bm{s}$ as a generic measureable point set.  I should probably standardize notation to use $\bm{s}$ as the generic input; replace $\bm{w}$ with $\bm{x}$ as the original data (removing $\bm{w}$ entirely).  I'm not sure where else I use $\bm{x}$, if at all.  Either that, or use $\bm{z}$ in equation 6.  $\bm{x}$ has a very strong bias in the mind towards being original data, so I should probably use that.}
+    
+    \bruno{I actually think that there is something deeper here. I think the referee is trying to figure out why the limiting behavior in th marginals implies the asymptotic behavior we considered in the previous section. I say we don't get there, we just mention, in the very beginning that we are considering the components of $\bm{Z}$ to be standardized.}
+    
+    \item  The discussion about the non-existence of a density on the infinity sphere is unclear. One may certainly start with a random variable with a density on the infinity sphere. Indeed some transformation is not differentiable so the usual change of variable formula cannot be used but this does not prove the claim. In particular I don’t see why the construction of the Gamma model on the $\mathcal{L}_p$ sphere should not result in a density for $p = \infty$ even though computing the density explicitly may be difficult.
+    
+    \peter{both reviewers had trouble in this point.  The transformation explicitly as described is not recoverable at $p = \infty$ when $\underset{\ell}{\arg\max}z_{\ell} \neq d$.  It's possible to proceed under a conditional transformation (that is, given $\underset{\ell}{\arg\max}z_{\ell} = \jmath$, but a closed form expression then requires the probability of the conditioning statement.  The interesting thing is the density of a point on the $\mathcal{L}_p$ sphere does asymptotically approach some value as $p\to\infty$ (or, at least, the rest of the Jacobian does.  I didn't calculate for the density in general, but the rest of it is just gamma stuff).}
+    
+    \bruno{OK, I am not going to discuss if there is or there is not a density WRT some meausre in some subspace. Let's make it clear that we are considering projected gamma distributions as the building block of our model, and that the transformation that projects from a produjct of independent gammas to the unit hypercube for norm $p$ breaks down for $p=\infty$, due to lack of differentiability. }
+    \item Section 3.2.1: The Dirichlet Process is not properly introduced. It is unclear why and how clusters of observations occur and what are these clusters.
+    
+    \peter{I think this is the sentence which generates this comment: "The Dirichlet process mixture model groups observations into stochastically assigned clusters."  That's \emph{true} for a given sampled set of parameters, but I should probably state that better.  The sentence was used to introduce the full conditionals for the cluster membership identifiers.  Will require a bit of word-smithing.}
+    
+    \bruno{I would not pay much attention to this.}
+    
+\end{itemize}
+\subsubsection*{Vagueness}
+ Many vague formulations, here is a sample
+\begin{itemize}
+    \item What does the first sentence of section 3) mean? [‘Consider a collection of observations $w_{\ell}$ ,$\ell = 1,...,n$ that exhibit extreme behavior’].
+    
+    \peter{This was where I tried to introduce the $\bm{w}$ notation as indicating data at original scale.  I think the issue here is I'm using the subscript $\ell$ rather than $i$ for indexing along observations.  So in this case,  not vague, just wrong notation.  But also, should switch to using $\bm{x}$ for observed data at original scale.}
+    
+    \item  ‘To define an angular measure, we are interested in the direction of vectors in ${\mathbb R}_+^d$ thus, we project them onto [...]’ : The angular variable variable is not really a projection (at least not an orthogonal one)
+    
+    \peter{I'm not really sure I understand what he means here.}
+\end{itemize}
+\subsubsection*{Unclear goals/method assessment}
+It is not clear to me what is the purpose of estimating the angular measure for the infinity norm rather than the $\mathcal{L}_p$ norm. In other words, since the proposed Gamma family on the $\mathcal{L}_p$ sphere has a workable expression, what is the purpose of changing the norm and trying to estimate the $\mathcal{L}_{\infty}$ angular measure? (As I understand from the description of the proposed strategy p.7). On the other hand, There does not \peter{[appear]} to be any theoretical result in the paper supporting the proposed strategy.
+
+\peter{We're not evaluating on the $\mathcal{L}_{\infty}$ norm either. We're trying to approximate geodesic distance on the surface of a sphere defined by the $\mathcal{L}_{\infty}$ norm.  A direct rebuttal to this question would be to ask whether we would use Euclidean distance for evaluating the distance between two cities.}
+
+
+
+\peter{On re-read, I'm not clear whether he's wondering why switch the evaluation regime back to $S_{\infty}^{d-1}$ rather than $S_{p}^{d-1}$.  That seems obvious---the problem is defined on $S_{\infty}^{d-1}$, and if we could do the entire process in that space, we would.  Also, a proper geodesic distance in $\mathbb{S}_p^{d-1}$ is possible, but also difficult.}
+
+
+\peter{Maybe he's suggesting using density-based rather than distance-based metrics, evaluated on $\mathbb{S}_p^{d-1}$?}
+
+\bruno{We can use any norm we want. The problem is that if you use a norm that is not the infinite norm, then you have to deal with a moment restriction on the measure, and that is a pain. We do say that \emph{Our focus on the angular measure is similar to that in Sabourin
+and Naveau (2014) and Hanson et al. (2017), that consider Bayesian non-parametric ap-
+proaches. Yet, our approach avoids the problem of dealing with the so called moment
+constraint by considering a constructive definition of the multivariate GP based on the
+infinity norm.}, but maybe it should be emphasized.}
+\subsubsection*{Organization of the paper}
+The construction of a negative kernel on the infinity sphere for the Energy Score is described at length, whereas this looks to me not to be a central contribution of the paper. I suggest moving some details to some appendix section in order not to interrupt the flow of ideas.
+
+\peter{Really?  I thought it was kind of important, as it makes evaluation feasible; not merely a minor algorithmic detail.}
+
+\bruno{No way!}
+
+\subsubsection*{Comparison with other methods aiming at same goal}
+There is none. One may e.g. think of comparing with the results obtained with the empirical angular measure or smoothed versions of it in terms of extremal dependence and conditional survival probability.
+
+\peter{This is probably a good point.}
+
+\bruno{Sure, this is a good point, and should be on your todo list. There is a suggestion by the other referee in this respect.}
+
+\subsubsection*{Minor Points}
+\begin{itemize}
+    \item (Section 3, p. 5) ‘We are, as yet, unaware of any known distributions with a support in this space’ (that is the positive orthant of the infinity sphere): Even though I guess I see the author’s point the formulation is not appropriate because one may think of many simple distributions on this space which is just a union of hyper-cubes.
+    
+    \item  \handled{(typos): Some confusions between ${\mathbb R}^d$ and $\mathbb{R}^p$.}
+    
+    \peter{Yes, 2 instances of $\mathbb{R}^p$ (line 45 of methodology\_pnorm.tex, line 2 of methodology\_projgamma.tex}
+    
+\end{itemize}
+
+
+\subsection*{Review 2}
+\subsubsection*{Comment 1}
+In the beginning of Section 2, the probability theory underlying multivariate extremes is incorrectly described. In the first stated equation, the event on the left-hand side should be $n^{-1}\bm{Z} \not < \bm{z}$, which, for $d \geq 2$, is different from $n^{-1}\bm{Z}\leq \bm{z}$;
+
+\peter{Yeah.  Looking back through this and the original theory, this is a pretty egregious typo that escaped my notice.}
+
+also, it is worth specifying that $\bm{z}\in (0, \infty]^d$, otherwise the limit $\mu([\bm{0},\bm{z}]^c)$ is infinity. Further, Eq. (1) is not correct: the limit measure $\mu$ does not determine the distribution of $\bm{Z}$ as stated in that formula. The measure $\mu$ has infinite mass and its radial component is not restricted to the set $\lbrace \bm{z} \in {\mathbb R}_+^d : \max(z_1,\ldots,z_d) > 1\rbrace$, in contrast to what the requirement $R > 1$ suggests. 
+
+\peter{Equation 1 which is called out here is a transcription of equation 4 from the Goix et al paper, which in turn comes from Ferreira and de Haan.  Maybe I need to explicitly state that we're considering the measure \emph{within} the support of the standard multivariate Pareto: $[\bm{0},\bm{\infty})\backslash [\bm{0},\bm{1}]$?}
+
+On the bottom of p3, an expectation is taken with respect to $\Phi$: but $\Phi$, but $\Phi$ is a probability measure only if its total mass is equal to one, its total mass being
+\[
+    \Phi(\mathbb{S}_{\infty}^{d-1}) = \lim\limits_{n\to\infty} n\text{Pr}\left[\max(Z_1,\ldots,Z_n) > n\right]
+\]
+The requirement that $\Phi$ is a probability measure and thus that $\Phi(\mathbb{S}_{\infty}^{d-1}) = 1$ is a further assumption on $\bm{Z}$ which does not follow from multivariate regular variation as assumed in the beginning of the section. In (2), since it has already been assumed that $R$ and $\bm{V}$ are independent (one line above (1)), we simply have $\text{Pr}[\bm{V} \in A \mid R > r ] = \text{Pr}[ \bm{V} \in A ]$. A correct way to describe the theory, in line with the authors’ intentions, is that provided $\bm{Z}$ is of the form \[\bm{Z} = R\bm{V}\] with $R$ independent of $\bm{V}$ and if $R$ is unit Pareto while $\bm{V}$ is concentrated on $\mathbb{S}_{\infty}^{d-1}$ and has probability distribution $\Phi$ [in particular, $\Phi(\mathbb{S}_{\infty}^{d-1}$ by assumption], then the convergence to $\mu$ stated in the beginning of the section (to be corrected as above) holds with limit measure $\mu$ determined by
+\[
+    \mu\left(\left\lbrace  \bm{z} \in [0,\infty)^d : \lVert \bm{z} \rVert_{\infty} > r,\;\bm{z}/\lVert\bm{z}\rVert_{\infty} \in A\right\rbrace \right) = r^{-1}\Phi(A)
+\]
+for $r > 0$ and for Borel sets $A\subseteq \mathbb{S}_{\infty}^{d-1}$
+
+\peter{The suggested edit essentially follows the same line: I need to be more explicit about the support of $\bm{Z}$ (along with $A\subseteq{\mathbb S}_{\infty}^{d-1}$).  I was sloppy in the writing because I was assuming a defined support, where I apparently hadn't sufficiently defined the support.}
+
+\bruno{OK, this is complicated. I have agonized with this for a while, and I thought we had it pinned down. The typo did not help, of course, but the referee makes a typo himself! ;-) I thought that, by essentially copying the approach that Goix et al were using, we had killed the issue. Anyway, the referee is being really helpful here, he/she is suggesting how to write things. I propose we actually follow the advice. The only point is that we need a quote for \emph{the convergence to $\mu$ holds}, I mean, why does it hold? There is a quote in Goix et al paper, that one may be helpful.}
+
+\bruno{I think it is obvious that the convergence holds. Define  $R = \max_{i} Z_i$, and assume that $R>1$ with probability one. Also, define $V_i = Z_i/R$, and assume that $E(V_i)>0$. Assume that $ \bm{Z}$ and $R$ are independent and that $R$ is distributed as a Pareto. Then these two assumptions correspond to the third condition in Theorem 2.1 of
+\cite{ferreira2014}, applied to the finite-dimensional case. This is equivalent to the second condition that implies that
+\[
+    Pr(\bm{Z}\in r A) = \frac{1}{r} Pr(\bm{Z} \in A) 
+\]
+Then
+\[
+  \lim_{n\rightarrow\infty} n Pr(\frac{1}{n}\bm{Z} \not < \bm{z}) =  Pr(\bm{Z}\not < \bm{z})
+\]
+}
+\subsubsection*{Comment 2}
+In the review, it is worth mentioning that various parametric models for multivariate generalized Pareto distributions are considered in \cite{kiriliouk2018}.
+
+On p5, the authors write: “We are, as yet, unaware of any known distributions with a support in this space.” Passing to logarithmic coordinates via $\bm{S} = \log\bm{V}$ (component-wise), we can construct $\bm{S}$ via $\bm{S} = \bm{T} - \max_i T_i$  for an arbitrary random vector $\bm{T}$. This is the representation in \cite{rootzen2018mgpd}, for which a wealth of parametric models are proposed in Kiriliouk et al. Generators with independent (log-)Gamma components are proposed in that article, and these are associated to the Dirichlet max-stable distribution. As this model resembles the proposal in the paper, a comparison would be appropriate.
+
+\peter{Adding both to the reading stack.}
+
+\bruno{Good. This is an important one.}
+\subsubsection*{Comment 3}
+On p5, below (5), do the authors mean $r_i = \lVert\bm{z}_i\rVert_{\infty}$? There is no reason why $\lVert \bm{w}_i\rVert_{\infty}$ would exceed 1, since the marginal scales are arbitrary. 
+
+\peter{Yeah.  This is a pretty serious typo; I missed it.}
+
+Note that to make multivariate GP modelling appropriate, the effective sample should consist of those observations for which there exists $\ell = 1,\ldots,d$ such that $w\bm{w}_{i\ell} > b_{t\ell}$, rather than for all $\ell = 1,\ldots,d$ simultaneously. By construction, we automatically have $\lVert \bm{z}_i\rVert_{\infty} > 1$ as soon as there exists $\ell = 1,\ldots,d$ such that $w_{i\ell} > b_{t\ell}$.
+
+\peter{We specify as such in algorithm 2.  I think, fixing that typo, that we effectively say as such in the referenced paragraph.}
+
+\bruno{Fix the typo and make clear what we are doing.}
+
+\subsubsection*{Comment 4}
+p6, below (8): Do you mean $\mathbb{R}_+^d$? 
+
+\peter{same typo referenced by previous reviewer.}
+
+More importantly, it is written that the projected distribution on $\mathbb{S}_{\infty}^{d-1}$ will not have a density. I believe it does, actually. The set $\mathbb{S}_{\infty}^{d-1}$ is the upper boundary of the unit hypercube in $\mathbb{R}^d$, and this boundary is a union of $d$ faces of dimension $d-1$. The projected distribution can be expected to have a density with respect to $(d - 1)$-dimensional Lebesgue measure on each of those faces.
+
+\peter{The other reviewer has a similar comment; I don't think there's a way to create a density in closed form.}
+
+\subsubsection*{Comment 5}
+In Section 3.2.1 on p7, clusters suddenly appear, but I found it hard to follow what they are or where they originate from. Do they form a (random) partition of the observations? Can an observation belong to multiple clusters? What is $\delta_i$? What does it mean to “draw a cluster from $G_0$”? On top of the page, $G_0$ is a distribution of the Gamma parameter $\bm{\theta}$.
+
+\peter{I'm thinking I need a greater discussion to motivate the use of the Dirichlet process prior?  As well as, from what it seems, a small discussion on how the Dirichlet process works?  I thought my explanation of algorithm 8 was fairly straightforward...but reading now it seems only straightforward \emph{assuming} the audience is familiar with the Chinese restaurant process representation of the Dirichlet process.}
+
+\bruno{Yeah, not everybody has taken the BNP class! ;-) I don't know that I would go into more explanation of how the DP works, I would quote papers where it is used as an efficient way to obtain flexible classes of densities. }
+
+\subsubsection*{Comment 6}
+The inference method in Section 3.2.1 focuses on the dependence structure. However, the marginal GP parameters in (5) are uncertain too, while the transformation to the standard Pareto scale from which the angular components are extracted is done using these parameters. Therefore, it also needs to be said how the uncertainty on the marginal GP parameters is incorporated in the procedure.  
+
+In the case study (p14), the marginal parameters are estimated by maximum likelihood and then held fixed. In this way, the true uncertainty is probably underestimated.
+
+\peter{We agreed fairly early on that trying to introduce the uncertainty from the marginal GP parameters would be a \emph{mess}.  I guess we should explicitly state as such?  We side-step the problem using MLE, but as far as I can tell side-stepping the marginalization uncertainty problem is fairly standard practice...}
+
+\subsubsection*{Comment 7}
+The simulation study in Section 5.1 is not conducted in the proper multivariate PoT setting. Given a data-set, we need to choose a high threshold for each variable, select those observations such that there is a threshold excess in at least one of the $d$ variables, transform the margins to a standard scale (using estimated univariate GP parameters or via ranks), and then compute the radial and angular components of the standardized points. Instead, the authors immediately generate the angular components by a mixture of projected Gammas. A simulation study mimicking the procedure in Algorithm 2 would be more appropriate.
+
+\peter{The simulation study was meant to evaluate the efficacy of the model in recovering the distribution of angular data; not specifically in recovering the angular distribution of GP data.  Should we approach this in another manner?}
+
+Moreover, the analysis is based on 16 data-sets only. Each point in Figure 2 represents just a single data-set. In case of 9 mixture components and in dimension 6, the PRG-LN method seems to do much worse than the other methods. Is this a real effect or is it just due to this particular data-set?
+
+\peter{Weirdly enough, I thought the same, and simulated another set of trial datasets to run the models on again.  Same result---same weird spike in log-normal model.  It seems to be a real effect, but I don't understand why.}
+
+Also, as soon as the dimension is not too small, it is in practice not always likely that all variables are large simultaneously. That is, for real-life data, many angular vectors may thus have a large fraction of components that are close to zero. If it is not already the case, it would be informative to allow for this in the simulation study as well.
+
+\peter{Of course.   Gamma with random shape/rate is a pretty unstable distribution.}
+
+\subsubsection*{Minor Comments}
+\begin{itemize}
+    \item Proposition 1 is well-known: see for instance Eq. (47) in Rootzén, Segers and Wadsworth (JMVA 2018) or also Theorem 6 in the main paper. Coles’ $\chi$ is equal to the bivariate tail copula evaluated in the point $(1 , 1)$, i.e., $R(1,1) = 2-\ell(1 , 1)$ (with $\ell$ the stable tail dependence function), which gives the formula in the proposition via Eq. (21) in the cited article and the connection $e^{\bm{S}} = \bm{V}$.
+    
+    Proposition 2 is an immediate consequence of the above representation $\bm{Z} = R\bm{V}$  via \[\text{Pr}[\forall\ell\in \beta:Z_{\ell}>z_{\ell}] = \text{Pr}\left[1/R < \bigwedge_{\ell \in B}V_{\ell}/z_{\ell}\right] = \text{E}\left[1\wedge\bigwedge_{\ell \in \beta}V_{\ell}/z_{\ell}\right]\] for non-empty $\beta\subset\lbrace 1,\ldots, d\rbrace$, since $1 /R$ is uniformly distributed between 0 and 1 and is independent of $\bm{V}$.
+    
+    \item  In (22), note that $\text{Var}_P[X_{i\ell}] + (\text{E}_p[X_{i\ell} - x_{\beta\ell})^2 = \text{E}_P[(X_{i\ell} - x_{i\ell})^2]$
+    \item On p10, could you give a reference confirming that Euclidean distance defines a negative definite kernel?
+    
+    \peter{It's stated as such in the reference for proper scoring rules---I guess mention again?}
+    
+    \item On p10–11, it is argued that the computation of the geodesic distance between two points on different faces of $\mathbb{S}_{\infty}^{d-1}$ is difficult. I wonder if the minimum defined in Proposition 3 doesn’t actually give that geodesic distance. Let $\bm{x} = (x_1,\ldots,x_d)$ and $\bm{y} = (y_1,\ldots,y_d)$ be two such points, with $x_i = 1 = y_j$ for two distinct indices $i,j \in \lbrace1,\ldots,d\rbrace$, whereas the other coordinates of $\bm{x}$ and $\bm{y}$ belong to $[0 , 1)$. Intuitively, it seems obvious that the geodesic connecting $\bm{x}$ and $\bm{y}$ will be the union of two line segments of the form $[\bm{x},\bm{z}]$, and $\bm{z},\bm{y}$, for a certain point $\bm{z} = (z_1,\ldots,z_d)$ on the intersection of the two faces, i.e., $z_i = z_j = 1$.  All that is required is then to find this point $\bm{z}$, 
+    but this is precisely the kernel in Proposition 3 and studied in Proposition 4.
+
+    \peter{Intuitive, but wrong (we got caught in the same idea).  It's easy to consider a 3-dimensional example where this doesn't hold true. In the worst case in said example, the proposed kernel is approaching $\sqrt{2}$ times longer than the "geodesic".  Thinking about it, we may be able to generalize that to $\sqrt{d-1}$ times longer than the "geodesic".  Should we put in this caveat?  I think that upon reading this, the viewer would overestimate the probability of this "worst case scenario".}
+    
+    \item On p14 and in Figure 4, it makes perfect sense that for nearby grid cells, extremal dependence is strong (threshold excesses occur simultaneously and points lie along the diagonal) whereas for grid cells far apart (C1 and C8), extremal dependence is weak (threshold excesses occur rarely simultaneously and points are hugging the two axes). This is typical for spatial data.
+    
+    \peter{Yes...  that's what we expected to see.  It's nice to see that the model bears it out too?}
+    
+    \item In the case study, the pairwise extremal coefficients in Eq. (3) are computed from the fitted parametric models and shown in Figure 5. However, non-parametric estimates of these coefficients may be calculated easily too by counting points with a threshold excess in the two variables simultaneously, given that there is an excess in at least one of the variables (this is the empirical tail copula or the empirical tail dependence coefficient). Comparing parametric and non-parametric estimates would provide a diagnostic for the goodness-of-fit.
+    
+    \peter{True.  Not sure if we can fit such into the paper.}
+    
+    \item Figure 6: the caption should mention which of the two data-sets the figure is about.
+    
+    \peter{Oops.  Yeah, caption etiquette.}
+    
+    \item Writing
+    \begin{itemize}
+        \item p2, top: “a scale parameter”
+        \item p2, middle: the references Renard and Lang (2007) and Falk et al. (2019) are separated by a “;”, even though the sentence continues.
+        \item p2, bottom: “a set of simulated data”
+        \item p3, top: “the relevance of extreme value theory”
+        \item p10, bottom: “a portion of a d-cube”
+        \item p12, beginning of Section 5.1: $\mathbb{S}_{\infty}^{d-1}$ rather than $\mathcal{S}_{\infty}^{d-1}$
+        \item p15, Algorithm 2: $\chi_{\ell}$ should be $\xi_{\ell}$
+    \end{itemize}
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

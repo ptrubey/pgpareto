@@ -15,91 +15,193 @@ possible thanks to theoretical results that give asymptotic descriptions
 of the probability distributions of extreme values. 
 
 Inferential methods for the extreme values of univariate observations
-are well established and software is widely available \cite[see, for example,][]{coles2001}. For variables in one dimension the application of EVT methods considers the asymptotic distribution of either the maxima calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a Generalized Pareto (GP) distribution, that depends on a shape and a scale parameters. Likelihood-based approaches to inference can be readily implemented in both cases.
-In the multivariate case the GEV theory is well developed \citep[see, for example][]{dehaan2006}, but the inferential problem is more complicated, as there is no parametric representation of the GEV. This problem is inherited by the PoT approach and compounded by the fact that there is no unique definition of an exceedance of a multivariate threshold, as there is an obvious dependence on the norm that is used to measure the size of a vector. 
+are well established and software is widely available \cite[see, for example,][]{coles2001}. For variables 
+in one dimension the application of EVT methods considers the asymptotic distribution of either the maxima 
+calculated for regular blocks of data, or the values that exceed a certain threshold. The former leads to
+a Generalized Extreme Value (GEV) distribution, that depends on three parameters. The latter leads to a 
+Generalized Pareto (GP) distribution, that depends on a shape and a scale parameter. Likelihood-based 
+approaches to inference can be readily implemented in both cases.
+In the multivariate case the GEV theory is well developed \citep[see, for example][]{dehaan2006}, but the
+inferential problem is more complicated, as there is no parametric representation of the GEV. This problem
+is inherited by the peaks over threshold (PoT) approach and compounded by the fact that there is no unique definition of an 
+exceedance of a multivariate threshold, as there is an obvious dependence on the norm that is used to
+measure the size of a vector. 
 
-During the last decade or so, much work has been done in the exploration of the definition and properties of an
-  appropriate generalization of the univariate GP distribution 
+During the last decade or so, much work has been done in the exploration of the definition 
+  and properties of an appropriate generalization of the univariate GP distribution 
   to a multivariate setting.  To mention some of the papers on the topic, the work of
   \citep{rootzen2006} defines the generalized Pareto distribution, with further analysis on these classes
   of distributions presented in \cite{falk2008} and \cite{michel2008}.  A recent review of the state
   of the art in multivariate peaks over threshold modelling using generalized Pareto is provided in
-  \cite{rootzen2018} while \cite{RoSeWa2018a} provides insight on the theoretical properties of possible parametrizations. 
+  \cite{rootzen2018} while \cite{RoSeWa2018a} provides insight on the theoretical properties of possible parametrizations. These are use in \cite{KiRoSeWa2019} for likelihood-based models for PoT estimation.
   A frequently used method for describing the dependence
-  in multivariate distributions is to use a copula. \cite{renard2007,falk2019}, provide successful examples of this approach in an EVT framework. \cite{ferreira2014} presents a constructive definition of the Pareto process, that generalizes the GP to an infinite dimensional setting. It consists of decomposing the process into independent radial and angular components. Such approach can be used in the finite dimensional case, where the angular component 
+  in multivariate distributions is to use a copula. \cite{renard2007}, and \cite{falk2019} provide successful examples of this approach in an EVT framework. \cite{ferreira2014} presents a constructive definition of the Pareto process, that generalizes the GP to an infinite dimensional setting. It consists of decomposing the process into independent radial and angular components. Such approach can be used in the finite dimensional case, where the angular component 
   contains the information pertaining to the dependence structure of the random vector.
   Based on this definition, we present a novel approach for modelling  the angular component
   with families of distributions that provide flexibility and can be applied in a moderately large dimensional setting.
   Our focus on the  angular measure is similar to that in \cite{SaNa2014} and \cite{HaCaCh2017}, that consider Bayesian non-parametric approaches. Yet, our approach avoids the problem of dealing with the so called moment constraint by considering a constructive definition of the multivariate GP based on the infinity norm.
   
   The reminder of this paper is outlined as follows. Section~\ref{sec:multivariatepot} comprises a brief review of multivariate PoT, detailing the separation of the radial measure from the angular measure.
-  Section~\ref{sec:methodology} details our approach for estimating the angular measure, based on projecting an arbitrary distribution supported in ${\mathbb R}_+^d$ onto unit hyper-spheres defined for $p$-norms. Section~\ref{sec:evaluation} develops criteria for model selection in the support of the angular measure.  Section~\ref{sec:results} explores the efficacy of the proposed approach on a set simulated data, and, acknowledging the relevance of of extreme value theory to climatological events~\citep{jentsch2007,vousdoukas2018,li2019}, estimates the extremal dependence structure for a measure of water vapor flow in the atmosphere, used for identifying atmospheric rivers.  Finally, Section~\ref{sec:conclusion} presents our conclusions and discussion.
+  Section~\ref{sec:methodology} details our approach for estimating the angular measure, based on projecting an arbitrary distribution supported in ${\mathbb R}_+^d$ onto unit hyper-spheres defined for $p$-norms. Section~\ref{sec:evaluation} develops criteria for model selection in the support of the angular measure.  Section~\ref{sec:results} explores the efficacy of the proposed approach on a set of simulated data, and, acknowledging the relevance of extreme value theory to climatological events~\citep{jentsch2007,vousdoukas2018,li2019}, estimates the extremal dependence structure for a measure of water vapor flow in the atmosphere, used for identifying atmospheric rivers.  Finally, Section~\ref{sec:conclusion} presents our conclusions and discussion.
 
-Throughout the paper, we adopt the operators $\wedge$ to denote minima, and the $\vee$
-  to denote maxima.  Thus $\wedge_i x_i = \min_i x_i$, $\vee_i x_i = \max_i x_i$.  These operators can
-  also be applied component-wise between vectors, such as $\bm{a}\wedge\bm{b} = (a_1\wedge b_1, a_2\wedge b_2,\ldots)$.
+Throughout the paper, we adopt the operators $\wedge$ to denote minima, and 
+    the $\vee$ to denote maxima.  Thus $\wedge_i s_i = \min_i s_i$, and $\vee_i s_i = \max_i s_i$.  
+    These operators can also be applied component-wise between vectors, such as
+    $\bm{a}\wedge\bm{b} = (a_1\wedge b_1, a_2\wedge b_2,\ldots)$.  We use 
+    uppercase to indicate random variables, lowercase to indicate points, and
+    bold-face to indicate vectors or matrices thereof.
   
 \section{A multivariate PoT model\label{sec:multivariatepot}}
-To develop a multivariate PoT model for extreme values consider a $d$-dimensional random vector $\bm{Z} \in {\mathbb R}^d_+ = [0,+\infty)^d$, the positive $d$-dimensional cone. Following the discussion in \cite{goix2017} we assume a form of regular variation, consisting on assuming the existence of a limiting measure $\mu$, such that.
+%To develop a multivariate PoT model for extreme values consider a 
+%$d$-dimensional random vector $\bm{W} = (W_1, \ldots ,W_d)$  with 
+%marginal distributions $F_1(w_1), \dots , F_d(w_d)$, and define its
+%standardization as $\bm{Z} = (Z_1, \ldots , Z_d)$, where $Z_i = 1/ (1 - F_i(W_i)), \; i=1, \ldots , d$.
+%Following the discussion in \cite{goix2017} we assume a form of 
+%regular variation, consisting on assuming the existence of a 
+%limiting measure $\mu$ on $(0,\infty]^d$, such that.
+%\begin{equation}\label{eq:reg-var}
+%        \lim\limits_{n\to\infty}n\prob{\frac{1}{n}\bm{Z}\not\leq \bm{z}} = \mu\left([\bm{0},\bm{z}]^c\right),
+%\end{equation}
+%where the inequality and the interval are taken componentwise. 
+%In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ 
+%in extreme regions, and it is  referred to as the \emph{exponent
+%measure}. In addition, we assume that $\lim_{n\rightarrow\infty} 
+%n\prob{\max\{Z_1, \ldots , Z_d\}>n} = 1$. Equation \ref{eq:reg-var}
+%implies that $\mu$ has the homogeneity property $\mu(t\cdot) = 
+%\frac{1}{t}\mu(\cdot)$i, and it can be shown that  $\mu$ 
+%can be decomposed into a radial and an angular component. In fact, 
+%for $\bm{z} = (z_1, \ldots , z_n) \in (0,\infty]^d$, let $r(\bm{z}) = 
+%||\bm{z}||_\infty$ and $\bm{v}(\bm{z}) = \bm{z}/r(\bm{z})$. Define 
+%$\Phi(B) = \mu(\{\bm{z} : r(\bm{z})>1, \bm{v}(\bm{z}) \in B\})$, for any
+%$B\subset \mathbb{S}_{\infty}^{d-1}$, the positive orthant of the unit 
+%sphere in infinite norm. $\Phi$ is referred to as the {\em angular 
+%measure}. Then 
+%\begin{equation}\label{eq:exp-measure}
+%    \mu\left(\left\lbrace  \bm{z} \in [0,\infty)^d : \lVert \bm{z} \rVert_{\infty} > r,\;\bm{z}/\lVert\bm{z}\rVert_{\infty} \in B\right\rbrace \right) = r^{-1}\Phi(B).
+%\end{equation}
+%Thus, the radial and angular components of the exponent measure are
+%independent. To obtain a multivariate peak over threshold model we 
+%consider the radial and angular component of the random variable $\bm{Z}$
+%denoted, respectively, as $R = \max_{i} Z_i$ and $\bm{V} = \bm{Z}/R$. 
+%Then, using Equations \ref{eq:reg-var} and \ref{eq:exp-measure}, we have
+%that
+
+%To obtain a statistical approach to estimating $\mu$, we follow the approach proposed in .
+%Define  , and assume that it is distributed as a standard Pareto, and thus $R>1$ with probability one. Also, define , and assume that $\bm{V}$ has probability distribution $\Phi$ concentrated in $\mathbb{S}_{\infty}^{d-1}$, the positive orthant of the unit sphere in infinite norm. Also, assume that $E(V_i)>0$, and that $ \bm{Z}$ and $R$ are independent. 
+%We refer to $R$ and $\bm{V}$ as, respectively, the  of $\bm{Z}$. Under those assumptions,  the convergence stated in Equation \ref{eq:reg-var} holds with limit measure $\mu$ determined by
+
+%\citep[e.g.][applied to the finite-dimensional case]{ferreira2014}
+%\[
+%    \mu\left(\left\lbrace  \bm{z} \in [0,\infty)^d : \lVert \bm{z} \rVert_{\infty} > r,\;\bm{z}/\lVert\bm{z}\rVert_{\infty} \in A\right\rbrace \right) = r^{-1}\Phi(A)
+%\]
+%for $r > 0$ and for Borel sets $A\subseteq \mathbb{S}_{\infty}^{d-1}$.
+
+%    $\mu(tA) = \frac{1}{t}\mu(A)$.  Define  $R = \max_{i} Z_i$, and assume that $R>1$ with probability one. 
+%    Also, define $V_i = Z_i/\max_i Z_i$, and assume that $E(V_i)>0$. These two assumptions together with the 
+%    homogeneity of $\mu$ correspond to the second condition in Theorem 2.1 of
+%    \cite{ferreira2014}, applied to the finite-dimensional case.
+%    Thus, we have the factorization $\bm{Z} =  R\bm{V}$, where $R$ and $\bm{V}$  are independent. Moreover,
+%    for some measure $\Phi$, $\mu(\cdot)$ is factorized as
+%    \temp{\begin{equation}\label{mufact}
+%        %\mu\left( \left\lbrace\bm{Z} : V \in A , R > r\right\rbrace \right) = r^{-1}\Phi(A).
+%        \mu\left(\left\lbrace \bm{z}\in \mathbb{R}_+^d : R(\bm{z}) > r, V(\bm{z}) \in A\right\rbrace\right) = r^{-1}\Phi(A)
+%    \end{equation}
+%    for $R(\bm{Z}) > 0$, and Borel sets $A \subseteq \mathbb{S}_{\infty}^{d-1}$.  Hereafter $R$ is referred
+%    to as the radial component, and $\bm{V}$ the angular component of $\bm{Z}$
+%    \st{$R$ describes the radial component, and $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$ the 
+%    angular component of $\bm{Z}$.}}  Here ${\mathbb S}_\infty^{d-1}$ denotes the positive
+%    orthant of the unit sphere in infinite norm.  $\Phi(\cdot)$ is referred to as the \emph{angular measure}.   
+%    From Equation (\ref{mufact}) we see that $R$ is distributed as a standard Pareto random variable. Conditioning on $R$, we have that
+%    \begin{equation} \label{MGP}
+%        \prob{\bm{V} \in B \mid R > r} = \frac{r\prob{\bm{V} \in B, R > r}}{r\prob{R > r}}\hspace{0.2cm}
+%            \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \Phi(B),
+%    \end{equation}
+%as $\lim_{r\rightarrow\infty} r\prob{R>r} = 1$.
+%    Thus, the angular measure corresponds to the distribution of $\bm{V}$, conditional on $R$ being large.
+%    As such, it controls the dependence structure of $\bm{Z}$ in the tails. 
+%    In fact, assuming that $E(V_i)>0$ 
+%    and following \cite{ferreira2014}, in the limit the distribution function of $\bm{Z}$ is given as
+%    \begin{equation*}
+%        \prob{Z_1\leq z_1, \ldots ,Z_d\leq z_d} = \expect{\bigvee_{i=1}^d
+%    \frac{V_i}{z_i\wedge 1}} - \expect{\bigvee_{i=1}^d
+%    \frac{V_i}{z_i}}
+%    \end{equation*}
+%    where the expectation is taken with respect to $\Phi$
+%In view of this, to obtain a PoT model we consider a limiting 
+%distribution for $\bm{Z}$ that corresponds to the distribution
+%of the product of two independent random variables $\tilde{R}$ 
+%and $\tilde{\bm{V}}$, with distributions, respectively, standard 
+%Pareto and $\Phi$. \cite{ferreira2014} refer to such model as a 
+%simple  Pareto process indexed on a finite dimensional set.  We 
+%seek a flexible model for the distribution
+%of $\tilde{\bm{V}} \in {\mathbb S}_{\infty}^{d-1}$.
+
+%An alternative approach to justify the above mentioned limiting
+%distribution, that provides a link to the multivariate GEV and the
+%theory of max-stable distributions, is discussed 
+%in Remark 1 of \cite{RoSeWa2018a}. More specifically, 
+%using the notation in Theorem 6 of \cite{RoSeWa2018a}, define $\bm{S} 
+%=  \log(\tilde{\bm{V}})$.  Then, according to Definition 5, $\bm{S}$ 
+%is a spectral  random vector. Taking  $E \sim \text{Exp}(1)$, 
+%independent of  $\tilde{\bm{V}}$,  we have that $\bm{Y} = \bm{S} + E$  
+%follows a multivariate GP, according  to Theorem 6.  Then, using 
+%Proposition 4,  $\tilde{\bm{V}}\tilde{R} = e^{\bm{Y}}$ will also follow
+%a multivariate GP. Notice that $\tilde{R} = e^E$ is distributed as 
+%a standard Pareto random variable. This is one of several stochastic
+%representations of a multivariate GP presented in \cite{RoSeWa2018a}.
+
+To develop a multivariate PoT model for extreme values consider a 
+$d$-dimensional random vector $\bm{W} = (W_1, \ldots ,W_d)$ with
+cumulative distribution $F$. Following \cite{RoSeWa2018a}, assume 
+that there exists sequences of vectors $\bm{a}_n$ and $\bm{b}_n$,
+and a $d$-variate distribution $G$ such that 
+$\lim_{n\rightarrow\infty} F^n(\bm{a}_n \bm{w} + \bm{b}_n) = 
+G(\bm{w})$. $G$ is a $d$-variate generalized extreme value 
+distribution. It follows that
 \[
-    \lim\limits_{n\to\infty}n\prob{\frac{1}{n}\bm{Z}\geq \bm{z}} = \mu\left([\bm{0},\bm{z}]^c\right),
+    \lim_{n\rightarrow\infty}\prob{\bm{a}^{-1}_n (\bm{W} - \bm{b}_n)
+    \leq \bm{w} | \bm{W} \not\leq \bm{b}_n)} = \frac{\log G(\bm{w} 
+    \wedge \bm{0}) - \log G(\bm{w}) }{\log G(\bm{0})} = H(\bm{w}).
 \]
-where the inequality and the interval are taken componentwise. 
-In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ in extreme regions, and it is referred to as the
-  \emph{exponent measure}. Under this condition $\mu$ features the homogeneity property $\mu(tA) = \frac{1}{t}\mu(A)$. 
-Define  $R = \max_{i} Z_i$, and assume that $R>1$ with probability one. Also, define $V_i = Z_i/\max_i Z_i$, and assume that $E(V_i)>0$.
-These two assumptions together with the homogeneity of $\mu$ correspond to the second condition in Theorem 2.1 of
-\cite{ferreira2014}, applied to the finite-dimensional case.
-Thus, we have the factorization $\bm{Z} =  R\bm{V}$, where $R$ and $\bm{V}$  are independent. Moreover,
-for some measure $\Phi$, $\mu(\cdot)$ is factorized as
-\begin{equation}\label{mufact}
-    \mu\left( \left\lbrace\bm{Z} : V \in A , R > r\right\rbrace \right) = r^{-1}\Phi(A).
-\end{equation}
-$R$ describes the radial component, and $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$ the 
-angular component of $\bm{Z}$.  Here ${\mathbb S}_\infty^{d-1}$ denotes the positive
-orthant of the unit sphere in infinite norm.  $\Phi(\cdot)$ is referred to as the \emph{angular measure}.   
-From Equation (\ref{mufact}) we see that $R$ is distributed as a standard Pareto random variable. Conditioning on $R$, we have that
-\begin{equation} \label{MGP}
-    \prob{\bm{V} \in A \mid R > r} = \frac{r\prob{\bm{V} \in A, R > r}}{r\prob{R > r}}\hspace{0.2cm}
-      \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \frac{\Phi(A)}{\Phi({\mathbb S}_{\infty}^{d-1})}.
-\end{equation}
- Thus, the angular measure corresponds to the distribution of $\bm{V}$, conditional on $R$ being large.
- As such, it controls the dependence structure of $\bm{Z}$ in the tails. In fact, following \cite{ferreira2014} the distribution function of $\bm{Z}$ is given as
-\begin{equation*}
-    \prob{Z_1\leq z_1, \ldots ,Z_d\leq z_d} = \expect{\bigvee_{i=1}^d
-\frac{V_i}{z_i\wedge 1}} - \expect{\bigvee_{i=1}^d
-\frac{V_i}{z_i}}
-\end{equation*}
-where the expectation is taken with respect to $\Phi$.
-In view of this, to obtain a PoT model for $\bm{Z}$, we seek 
-a flexible distribution on $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$.
+$H$ is the multivariate Pareto distribution. \cite{RoSeWa2018a}
+provide a number of stochastic representations for $H$. In particular
+Remark 1 justifies the representation given in \cite{ferreira2014},
+consisting of taking $\bm{W}$, in the limit, as $\bm{W} = \bm{V}R$ 
+where $R$ and $\bm{V}$ are independent. $R = ||\bm{W}||_\infty$ is 
+distributed as a standard Pareto  random variable, and $\bm{V} = 
+\bm{W}/||\bm{W}||_\infty$ is a random vector in  
+$\mathbb{S}_{\infty}^{d-1}$, the positive orthant of the 
+unit  sphere in infinite norm, with distribution $\Phi$. 
+%More  specifically, 
+%using the notation in Theorem 6 of \cite{RoSeWa2018a}, define $\bm{S} 
+%=  \log(\bm{V})$.  Then, according to Definition 5, $\bm{S}$ 
+%is a spectral  random vector. Taking  $E \sim \text{Exp}(1)$, 
+%independent of  $\bm{V}$,  we have that $\bm{Y} = \bm{S} + E$  
+%follows a multivariate GP, according  to Theorem 6.  Then, using 
+%Proposition 4,  $\bm{V}R = e^{\bm{Y}}$ will also follow
+%a multivariate GP. Notice that $R = e^E$ is distributed as 
+%a standard Pareto random variable. 
+$R$ and $\bm{V}$ are referred, respectively, as the {\em radial} 
+and {\em angular}  components of $H$. The angular measure controls 
+the dependence  structure of $\bm{W}$  in the tails. In view of 
+this, to obtain a  PoT model we seek a flexible model for the 
+distribution of $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$.
 
-\cite{ferreira2014} refer to the model defined in Equation \eqref{MGP} as a simple 
-Pareto process indexed on a finite dimensional set. An alternative approach to 
-define such distribution, that provides a link to the multivariate GEV, is discussed 
-in Remark 1 of \cite{RoSeWa2018a}. More specifically, 
-using the notation in Theorem 6 of \cite{RoSeWa2018a}, define $\bm{S} = \log(\bm{V})$. 
-Then, according to Definition 5, $\bm{S}$ is a spectral random vector. Taking 
-$E \sim \text{Exp}(1)$, independent of $\bm{V}$, we have that $\bm{Y} = \bm{S} + E$ 
-follows a multivariate GP, according to Theorem 6.  Then, using Proposition 4, 
-$\bm{Z} = e^{Y}$ is also a multivariate GP. Notice that $R = e^E$ is distributed as 
-a standard Pareto random variable.
-
-%\subsection{Pairwise Extremal Dependence\label{subsec:ped}}
+%\subection{Pairwise Extremal Dependence\label{subsec:ped}}
 A measure that is used to characterize the strength of the dependence,
-in the tail, for two random variables $W_1$ and $W_2$, with marginal
+in the tail, for two random variables $Z_1$ and $Z_2$, with marginal
 distributions $F_1$ and $F_2$ is given by
-\[	\chi_{12} = \lim_{u\uparrow 1} \prob{F_1(W_1)>u|F_2(W_2)>u}  \]
+\[	\chi_{12} = \lim_{u\uparrow 1} \prob{F_1(Z_1)>u|F_2(Z_2)>u}  \]
 \citep{coles2001}.
 $\chi_{12}$ provides information about the distribution of extremes for the variable $W_1$
-given that $W_2$ is very large.  When $\chi_{12}>0$, $W_1$ and $W_2$ 
+given that $W_2$ is very large.  When $\chi_{12}>0$, $Z_1$ and $Z_2$ 
 are said to
 be asymptotically dependent, otherwise they are asymptotically
-independent. The following result provides the asymptotic dependence coefficient for two components of $\bm{Z}$. 
+independent. The following result provides the asymptotic dependence coefficient between two components of $\bm{Z}$
+after PoT limit. 
 \begin{prop}\label{ppchi}
 Suppose that $\bm{Z} = R\bm{V}$ with $R\sim Pa(1)$,
-$\prob{V_\ell > 0} = 1$ and $\expect{V_\ell}$ exists ,
-$\ell=1, \ldots ,d$, then
+$\prob{V_\ell > 0} = 1$ and $\expect{V_\ell}$ exists, for $\ell=1, \ldots ,d$, then
 \begin{equation}
     \label{eqn:chi_ij}
 	\chi_{\jmath\ell} = \expect{\frac{V_\jmath}{\expect{V_\jmath}} \wedge \frac{V_\ell}{\expect{V_\ell}}}
@@ -121,7 +223,7 @@ bounded and $z_i\rightarrow\infty$. The proof is completed by noting
 that $\prob{F_i(Z_i)>u} = 1 - u.\hfill\Box$
 
 %\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
-For the analysis of extreme values it is of interest to calculate the multivariate conditional survival function. The following result provides the relevant expression, as a function of the angular measure.
+Equation \ref{eqn:chi_ij} implies that $\chi_{\jmath\ell}>0$, and so, no asymptotic independence is possible under our proposed model. For the analysis of extreme values it is of interest to calculate the multivariate conditional survival function. The following result provides the relevant expression, as a function of the angular measure.
 \begin{prop}
 Assume the same conditions of Proposition \ref{ppchi}. 
 Let $\alpha \subset \{1, \ldots ,d\}$ be a collections of indexes. 

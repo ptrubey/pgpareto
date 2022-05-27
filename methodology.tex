@@ -1,20 +1,123 @@
 \section{Estimation of the angular measure\label{sec:methodology}}
 
-Consider a collection of observations $\bm{w}_\ell\in {\mathbb R}^d, \ell=1, \ldots , n$ that exhibit extreme behavior. In order to estimate the angular distribution we start by standardizing each of the marginals. We set a large threshold $b_{t,\ell}$ for the $\ell$-th marginal, $\ell=1, \ldots ,d$, and assume that the corresponding exceedances follow a univariate GP. A threshold can be chosen using the empirical $1/t$-quantile for the $\ell$-th component. Thus $b_{t,\ell} = \hat{F}_\ell^{-1}(1 - 1/t)$. Standardization yields
-
+Our approach to estimating the PoT distribution considers two 
+steps: First we estimate the parameters of the univariate 
+marginals; Then we focus on the dependence structure in extreme
+regions.
+Consider a collection of observations $\bm{w}_\ell \in {\mathbb R}^d,
+\ell = 1, \ldots, n$ that exhibit extreme behavior. Following the 
+ideas presented in the previous section, in order to estimate the
+angular distribution we start by standardizing each
+of the marginals. We set a large threshold $b_{t,\ell}$ for the 
+$\ell$-th marginal, $\ell = 1, \ldots,d$, and assume that the 
+corresponding exceedances follow a univariate GP. A threshold can 
+be chosen using the empirical $1/t$-quantile for the $\ell$-th 
+component. Thus $b_{t,l} = \hat{F}^{-1}_{\ell}(1 - 1/t)$. The  
+standardization  yields
 \begin{equation}
-    \label{eqn:standardization}
-    z_{i\ell} = \left(1 + \xi_{\ell}\frac{w_{i\ell} - b_{t,\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}
-\end{equation}
-  where $(\cdot)_{+}$ indicates the positive part function. The scale parameters $a_{\ell}$, and extremal indexes $\xi_{\ell}$ can be fitted using a likelihood based method.
- Note that $z_{i\ell} > 1$ implies that $w_{i\ell} > b_{t,\ell}$, meaning that the observation
-  $\bm{w}_i$ is extreme in the $\ell$-th dimension.  Note also that $r_i = ||\bm{w}_i||_\infty>1$ implies that at least one dimension has an extreme observation, and corresponds to a very extreme observation when $t$ is large. Thus, we perform the estimation of $\Phi$ conditional on the standardized observations that are such that $r_i>1$. From these, we obtain a sub-sample of $r_i$ and
-  $\bm{v}_i = \bm{z}_i/r_i\in{\mathbb S}_{\infty}^{d-1}$. We are, as yet, unaware of any known distributions with a support
-  in this space, so we propose projecting a distribution defined on ${\mathbb R}_{+}^{d}$ onto
-  ${\mathbb S}_{\infty}^{d-1}$.
+        \label{eqn:standardization}
+        z_{i\ell} = \left(1 + \xi_{\ell}\frac{w_{i\ell} -
+            b_{\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}
+    \end{equation}
+where $(\cdot)_+$ indicates the positive parts function, and 
+$\xi_{\ell}$ the extremal index in the $\ell$-th dimension. The scale parameters $a_\ell$, and extremal indexes $\xi_\ell$ can be fitted using a likelihood based method. Note that  $z_{i\ell}> 1$
+implies that $w_{i\ell} > b_{t,\ell}$, meaning that the 
+observation $\bm{w}_i$ is extreme in the $\ell$-th dimension. 
+Note also that $r_i = ||\bm{z}_i||_\infty > 1$ implies that at
+least one dimension has an extreme observation, and corresponds 
+to a very extreme observation when $t$ is large. Thus, we focus on 
+the observations that are such that $r_i > 1$. These, provide a
+sub-sample of $r_i$ and $\bm{v}_i = \bm{z}_i /r_i \in 
+\mathbb{S}_{\infty}^{d-1}$ that is used for  the estimation of 
+$\Phi$ conditional on the sample. We tackle the challenge
+of obtaining a distribution in the constrained set  
+$\mathbb{S}_{\infty}^{d-1}$ by projecting a distribution defined on
+$\mathbb{R}^d_+$.
+
+%\temp{Let the distribution of $\bm{X} \in \mathbb{R}^d$ belong to the domain of attraction of a multivariate 
+%    max-stable distribution, $G$.  Then, for independent and identically distributed $\bm{X}_1,\ldots,\bm{X}_N$, 
+%    there exists some sequence of vectors $\bm{a}_N,\bm{b}_N$ such that 
+%    \[
+%        \text{P}\left[ \frac{\bigvee_k \bm{X}_k - \bm{b}_N}{\bm{a}_N} \leq \bm{w}\right] \to G(\bm{w})
+%    \]
+%    as $N\to\infty$.  If this is the case, and for $\bm{\epsilon}$ indicating an appropriate vector of lower bounds,
+%    \[
+%    \left(\frac{\bm{X} - \bm{b}_N}{\bm{a}_N}\right)\bigvee\bm{\epsilon} \mid \bm{X} 
+%                                \not\leq \bm{b}_N \stackrel{d}{\to} \bm{W}
+%    \]
+%    where $\bm{W}$ follows a multivariate generalized Pareto distribution \citep{rootzen2018mgpd}.
+%    From the survival function of the univariate generalized Pareto distribution, we extract the 
+%    standardization formula to transform the generalized Pareto vector to standard Pareto.  This 
+%    is accomplished as
+%    \begin{equation}
+%        \label{eqn:standardization}
+%        Z_{\ell} = \left(1 + \xi_{\ell}\frac{X_{\ell} -
+%            b_{\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}
+%    \end{equation}
+%    where $(\cdot)_+$ indicates the positive parts function, and $\xi_{\ell}$ the extremal index
+%    in the $\ell$th dimension.  Now, consider $\bm{x}_k\in {\mathbb R}^d,\; k=1, \ldots , N$ to be 
+%    replicates of $\bm{X}$.  Our task at this point is to establish estimates of the generalized Pareto
+%    parameters such that we can transform to standard Pareto, and begin estimation of the angular measure.
+%    First a large threshold $b_{\ell}$ is chosen for the $\ell$th margin; for which corresponding exceedances
+%    will follow a univariate GP.  There are several ways to approach threshold specification,
+%    with~\cite{kiriliouk2018} considering another definition of the extremal dependence 
+%    coefficient, and looking for threshold values that produce stable estimates of said 
+%    coefficient.  For our purpose, as threshold specification is not the focus of this paper, 
+%    we follow the discussion in~\cite{ferreira2014} wherein we set a threshold using the empirical 
+%    $(1 - 1/t)$th quantile for the $\ell$th component.  Thus, 
+%    $b_{t,\ell} = \hat{F}_{\ell}^{-1}\left(1 - \frac{1}{t}\right)$.  
+%    Using the density of the generalized Pareto, the marginal scale parameter $a_{\ell}$ 
+%    and extremal index $\xi_{\ell}$ can be estimated using a likelihood-based approach.  Then, substituting
+%    $b_{t,\ell}$ for $b_{\ell}$, we can use Equation~\ref{eqn:standardization} to transform $\bm{x}_k$ to $\bm{z}_k$, 
+%    for $k$ such that $\bm{x}_{k} \not\leq \bm{b}_{t}$.  Note that this is equivalent to the statement 
+%    $r_k = \lVert \bm{z}_k\rVert_{\infty} > 1$.}  
+%    
+%    \temp{Thus we perform estimation of $\Phi$ conditional on the 
+%    standardized observations where $r_k > 1$.  We index over this subset 
+%    $\bm{z}_i$, $i = 1,\ldots,n$ and factor these $\bm{z}_i$ independently into $r_i \in (1,\infty)$, 
+%    and $\bm{V}_i \in \mathbb{S}_{\infty}^{d-1}$.  The second space, the positive 
+%    orthant of the unit hypersphere under the $\mathcal{L}_{\infty}$ norm, could be considered as the 
+%    union of $d$ unit hypercubes, with a distribution trivially composed as such.  However, such a 
+%    method would fail to adequately represent density near intersections.  We instead propose considering
+%    $\mathbb{S}_{\infty}^{d-1}$ as the limiting case of $\mathbb{S}_{p}^{d-1}$: the positive orthant of the 
+%    unit hypersphere under the $\mathcal{L}_p$ norm, and projecting a distribution in $\mathbb{R}_+^d$ onto
+%    $\mathbb{S}_{p}^{d-1}$.}
+% Consider a collection of observations $\bm{x}_i\in {\mathbb R}^d,\; i=1, \ldots , n$
+%     \temp{\st{that exhibit extreme behavior.} for which the marginal distributions 
+%     of $x_{i\ell}$ fall into the domain of attraction of the GEV.  To consider $\bm{x}$
+%     in extreme regions and estimate its angular distribution,}
+%     we \temp{\st{start}begin} by standardizing each of the marginals. \temp{A large threshold
+%     is $b_{\ell}$ is chosen for the $\ell$th marginal such that the corresponding exceedances
+%     follow a univariate GP. There are several ways to approach threshold specification, 
+%     with~\cite{kiriliouk2018} considering another definition of the extremal dependence 
+%     coefficient, and looking for threshold values that produce stable estimates of said 
+%     coefficient.  For our purpose, as threshold specification
+%     is not the focus of this paper, we follow the discussion in~\cite{ferreira2014} wherein we
+%     set a threshold using the empirical $1 -\frac{1}{t}$-quantile for the $\ell$th component.} Thus 
+%     $b_{t,\ell} = \hat{F}_\ell^{-1}\left(1 -\frac{1}{t}\right)$. Standardization \temp{\st{yields} is accomplished as}
+%     % \begin{equation}
+%     %     \label{eqn:standardization}
+%     %     z_{i\ell} = \left(1 + \xi_{\ell}\frac{x_{i\ell} -
+%     %     b_{t,\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}
+%     % \end{equation}
+%   where $(\cdot)_{+}$ indicates the positive part function. The scale parameters 
+%   $a_{\ell}$, and extremal indexes $\xi_{\ell}$ can be fitted using a likelihood 
+%   based method.  Note that $z_{i\ell} > 1$ implies that $x_{i\ell} > b_{t,\ell}$, 
+%   meaning that the observation
+%   $\bm{x}_i$ is extreme in the $\ell$th dimension.  Note also that 
+%   $r_i = ||\bm{z}_i||_\infty>1$ implies that at least one dimension has an extreme
+%   observation.  Thus, we perform the estimation of $\Phi$ conditional on the standardized 
+%   observations \temp{\st{that are such that}where} $r_i>1$. From these, we obtain a sub-sample of
+%   $r_i$ and $\bm{v}_i = \bm{z}_i/r_i\in{\mathbb S}_{\infty}^{d-1}$. \temp{\st{We are, as yet,
+%   unaware of any known distributions with a support in this space,}
+%   This space could be considered as the union of $d$ unit hypercubes, with a distribution trivially
+%   expressed as such.  However, such a method would fail to adequately represent density near intersections.
+%   We instead propose considering $\mathbb{S}_{\infty}^{d-1}$ as the limiting case of $\mathbb{S}_p^{d-1}$,
+%   and projecting a distribution in $\mathbb{R}_+^d$ onto $\mathbb{S}_p^{d-1}$.
+%   \st{so we propose projecting a distribution defined on ${\mathbb R}_{+}^{d}$ onto
+%   ${\mathbb S}_{\infty}^{d-1}$.}}
 
   \input{methodology_pnorm}
 
   \input{methodology_projgamma}
 
-  \input{methodology_alternative}

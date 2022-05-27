@@ -11,7 +11,7 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{soul}
-\usepackage{algorithm2e}
+\usepackage[ruled]{algorithm2e}
 \usepackage{bm}
 \usepackage{subcaption}
 \usepackage{wrapfig}
@@ -24,8 +24,11 @@
 \DeclareMathOperator{\tr}{Tr}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
-\newcommand{\bruno}[1]{\textcolor{blue}{#1}} % Bruno Sanso edits - blue
-\newcommand{\makenote}[1]{\textcolor{red}{#1}} % Peter edits - red
+\newcommand{\bigmid}{\,\middle\vert\,}
+% \newcommand{\bruno}[1]{\textcolor{blue}{#1}} % Bruno Sanso edits - blue
+% \newcommand{\makenote}[1]{\textcolor{red}{#1}} % Peter edits - red
+
+
 \newcommand{\findcite}{\textcolor{red}{[Find Citation]}}
 \newcommand{\needcite}{\findcite}
 \newcommand{\Chi}{\mbox{\Large$\chi$}}
@@ -35,29 +38,35 @@
 \newcommand{\prob}[1]{\text{Pr}\left[#1\right]}
 \newcommand{\expect}[1]{\text{E}\left[#1\right]}
 
-\title{Inference for multivariate peaks over threshold models}
-\author{Peter Trubey}
-\ead{ptrubey@ucsc.edu}
-%\address{UC Santa Cruz, 1156 High St., Santa Cruz, CA 95064, USA}
+\SetAlCapNameFnt{\footnotesize}
+\SetAlCapFnt{\footnotesize}
+\SetAlCapSty{}
 
-\author{Bruno Sans\'o}
-\ead{bruno@soe.ucsc.edu}
-\address{Department of Statistics, University of California, Santa Cruz,  USA}
+
+
 
 \begin{document}
 
-%--------title page
-% \thispagestyle{empty}
-\begin{abstract}
-  \input{abstract}
-\end{abstract}
+\begin{frontmatter}
+    %\title{Inference for multivariate peaks over threshold models}
+    \title{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
+    \author{Peter Trubey\corref{cor1}}
+    \ead{ptrubey@ucsc.edu}
 
-\begin{keyword}
- Multivariate extremes \sep Peak over threshold models \sep
- Bayesian non-parametric models \sep Dirichlet process mixtures
-\end{keyword}
+    \author{Bruno Sans\'o}
+    \ead{bruno@soe.ucsc.edu}
+    \address{Department of Statistics, University of California, Santa Cruz,  USA}
+    \cortext[cor1]{Corresponding author}
+    
+    \begin{abstract}
+        \input{abstract}
+    \end{abstract}
 
-\maketitle
+    \begin{keyword}
+        Multivariate extremes \sep Peak over threshold models \sep
+        Bayesian non-parametric models \sep Dirichlet process mixtures
+    \end{keyword}
+\end{frontmatter}
 
 %--------content
 \input{introduction}
@@ -69,6 +78,9 @@
 \input{results}
 
 \input{conclusion}
+
+\section*{Acknowledgements}
+This material is based upon work supported by the National Science Foundation under Grant No. SES-2050012 and DMS-2153277.
 
 \bibliographystyle{elsarticle-harv}
 \bibliography{./refs}

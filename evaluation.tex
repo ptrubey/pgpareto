@@ -56,7 +56,7 @@ For a finite $p$, the shortest connecting path between two points in ${\mathbb S
   length can be used as a negative definite kernel for the purpose of defining an energy
   score. Unfortunately as $p\to\infty$ the resulting surface ${\mathbb S}_{\infty}^{d-1}$
   is not differentiable, implying that routines to calculate geodesics are not readily
-  available.  However, as ${\mathbb S}_{\infty}^{d-1}$ is a portion of of a $d$-cube, we
+  available.  However, as ${\mathbb S}_{\infty}^{d-1}$ is a portion of a $d$-cube, we
   can borrow a result from geometry \citep{pappas1989} stating that the length of the
   shortest path between two points on a geometric figure corresponds to the length of a
   straight line drawn between the points on an appropriate unfolding, rotation, or \emph{net} of the figure from a $d$-dimensional to a $d-1$-dimensional space.  The optimal net will have the shortest straight line between the points, as long as that line is fully contained within such net. As ${\mathbb S}_{\infty}^{d-1}$ has $d$ faces---each face pairwise adjacent, there are $d!$ possible nets.  However, we are only interested in nets that begin and end on the source and destination faces respectively.  That reduces the number of nets under consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still computationally burdensome for a large number of dimensions.  

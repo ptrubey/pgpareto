@@ -9,7 +9,7 @@ The $\mathcal{L}_{\infty}$ norm can be obtained as a limit,
   \begin{equation*}
     \lVert \bm{s} \rVert_{\infty}
       = \lim\limits_{p\to\infty} \lVert \bm{s} \rVert_p
-      = \max_{\ell\in\lbrace1,\ldots,d\rbrace}s_{\ell}.
+      = \underset{\ell = 1}{\overset{d}{\vee}}s_{\ell}.
   \end{equation*}
 To define an angular measure,  we are interested in the direction of
 vectors in ${\mathbb R}_{+}^d$, thus, we project them onto
@@ -20,7 +20,7 @@ vectors in ${\mathbb R}_{+}^d$, thus, we project them onto
   Given $\bm{x}\in {\mathbb R}^d_+$ the projection onto ${\mathbb S}_{p}^{d-1}$ is given as
   $\bm{y} = \bm{x} / \lVert \bm{x}\rVert_p \in {\mathbb S}_{p}^{d-1}$.
   Observations on one hypersphere can be projected without loss of information onto another by
-  dividing by the defining norm of the target hypersphere. In fact, letting 
+  dividing by the defining norm of the target hypersphere. In fact, for finite $p$, letting 
   \begin{equation*}
     y_d = \left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}},
   \end{equation*}
@@ -42,6 +42,14 @@ vectors in ${\mathbb R}_{+}^d$, thus, we project them onto
     r^{d-1}\left[\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}} +
         {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right].
   \end{equation}
-  Equations (\ref{eqn:pnormt}) -- (\ref{eqn:pnormjac}) can be used to define a density on ${\mathbb R}^p_+$, and then obtain a density on ${\mathbb S}_{p}^{d-1}$, for any finite $p>0$. Unfortunately in the limit, when $p\rightarrow +\infty$, the transformation is not differentiable. Thus, even though the projected distribution on ${\mathbb S}_\infty^{d-1}$ is defined, there is no corresponding density.
+  Equations (\ref{eqn:pnormt}) -- (\ref{eqn:pnormjac}) can be used to define a density on ${\mathbb R}^d_+$, and then obtain a density on ${\mathbb S}_{p}^{d-1}$, for any finite $p>0$. 
+  %Unfortunately in the limit, when $p\rightarrow +\infty$, the transformation is not differentiable. Thus, even though the projected distribution on ${\mathbb S}_\infty^{d-1}$ is defined, there is no corresponding density \temp{when the distribution is projected in this manner.  However, for large but finite $p$, $\mathbb{S}_p^{d-1}$ will tend to approach $\mathbb{S}_{\infty}^{d-1}$}.
   
+%   \temp{
+%   We might also ask what degree of distortion in the distribution is imposed by the difference in projections
+%   from $\mathbb{S}_{\infty}^{d-1}$ to $\mathbb{S}_p^{d-1}$.  Ideally, we might consider the ratio of surface areas between the two surfaces. As there is no general closed form expression for the surface area of a unit $n$-sphere under the $\mathcal{L}_p$ norm, it is difficult to assess in this manner.  There is, however, a closed-form expression for the \emph{volume} of the positive orthant of the unit $n$-sphere under the $\mathcal{L}_p$ norm.  This is not directly comparable, however, the closer the volume is to 1, the closer ${\mathbb S}_{p}^{d-1}$ is to ${\mathbb S}_{\infty}^{d-1}$.
+%     \[
+%         \text{Volume}~\left({\mathbb S}_{p}^{d-1}\right) = \frac{\Gamma\left(\frac{1}{p} + 1\right)^{d}}{\Gamma\left(\frac{d}{p} + 1\right)}
+%     \]
+%     }
 % EOF
