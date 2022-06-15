@@ -38,21 +38,28 @@
   where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision parameter, and $G_0$ is the centering distribution. 
   
   Unfortunately, in the limit when $p\rightarrow \infty$, the 
-  projection transformation is not differentiable. Thus, a simple
-  formula like Equation \ref{eqn:projgamma} for the
-  projected gamma density on ${\mathbb S}_\infty^{d-1}$ is not 
-  available. Our strategy consists of describing the angular distribution $\Phi$ using a sample based approach with the following steps: (i) Apply the transformation in Equation (\ref{eqn:standardization}) to the original data; (ii) Obtain the subsample of the standardized observations that satisfy $R>1$; (iii) Take a finite $p$ and project the observations onto ${\mathbb S}_p^{d-1}$; (iv) Fit the model in Equation (\ref{eqn:PGmix}) to the resulting data and obtain samples from the fitted model; (v) Project the resulting samples onto ${\mathbb S}_\infty^{d-1}$.
-  For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo that is described in the next section.
+  projection transformation is not differentiable. Thus, a closed form expression 
+  like Equation (\ref{eqn:projgamma}) for the projected gamma density on ${\mathbb S}_\infty^{d-1}$ is not 
+  available. Instead, we observe that for a sufficiently large $p$, $\mathbb{S}_p^{d-1}$ will approach
+  $\mathbb{S}_{\infty}^{d-1}$.  With that in mind, our strategy consists of describing the angular
+  distribution $\Phi$ using a sample based approach with the following steps: (i) Apply the 
+  transformation in Equation (\ref{eqn:standardization}) to the original data; (ii) Obtain the 
+  subsample of the standardized observations that satisfy $R>1$; (iii) Take a finite $p$ and 
+  project the observations onto ${\mathbb S}_p^{d-1}$; 
+  (iv) Fit the model in Equation (\ref{eqn:PGmix}) to the resulting 
+  data and obtain samples from the fitted model; 
+  (v) Project the resulting samples onto ${\mathbb S}_\infty^{d-1}$.
+  For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo sampler described in the next section.
 
 \begin{figure}[ht]
     \centering
     \caption{The positive orthant of the $p$-norm sphere.}
-  \begin{subfigure}[b]{0.47\textwidth}
+  \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{./images/p_sphere}
     \caption{${\mathbb S}_p^1$ for $p = 1,\ldots, 10$\label{fig:psphere}}
   \end{subfigure}
   %
-  \begin{subfigure}[b]{0.47\textwidth}
+  \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{./images/p_project}
     \caption{Projection of data on ${\mathbb S}_{\infty}^1$ onto ${\mathbb S}_p^1$\label{fig:pproject}}
   \end{subfigure}
@@ -61,7 +68,7 @@
 \subsubsection{Inference for the projected Gamma mixture model}
 In a sample-based inference approach, for a given iteration the Dirichlet process mixture model groups observations
     into stochastically assigned clusters, where members of a cluster share distributional parameters. Building out 
-    the methods of inference for Equation~\ref{eqn:dppg}, 
+    the methods of inference for Equation~(\ref{eqn:dppg}), 
     let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be 
     the number of extant clusters, not including any singleton that observation $i$ is in. Under this model, 
     the probability of cluster membership for a given observation is proportional to
@@ -73,9 +80,9 @@ In a sample-based inference approach, for a given iteration the Dirichlet proces
 \end{equation*}
 Note the top case is iterating over extant clusters, and the bottom case is for a \emph{new} cluster. 
 If $G_0$ is not a conjugate prior for the kernel density, the integral in the above formula may not be
-available in closed form. We solve this by using Algorithm 8 from \cite{neal2000}: by Monte Carlo integration, 
+available in closed form. We sidestep this using Algorithm 8 from \cite{neal2000}: by Monte Carlo integration, 
 we draw $m$ candidate clusters, $\bm{\alpha}_j,\bm{\beta}_j$ for $j = J^{-i} + 1,\ldots, J^{-i} + m$ from $G_0$. 
-Then, we sample the cluster indicator $\delta_i$ from extant or candidate clusters, where
+Then, we sample the cluster indicator $\gamma_i$ from extant or candidate clusters, where
 the probability of cluster membership is proportional to
 \begin{equation}
     \text{Pr}\left[\delta_i = j\mid\ldots\right] \propto \begin{cases}
@@ -85,7 +92,7 @@ the probability of cluster membership is proportional to
 \end{equation}
 If a candidate cluster is selected,
 %{\bf you first have to say that you sample from this distribution. What is the ``candidate cluster''?}
-then $\delta_i = J = J^{- i} + 1$, and the associated cluster parameters are saved.
+then $\gamma_i = J = J^{- i} + 1$, and the associated cluster parameters are saved.
 
 A key feature of the the projected Gamma distribution is its computational properties. We augment 
 $\mathcal{PG}(\bm{y}_i\mid\bm{\alpha}_i,\bm{\beta}_i) $ by introducing a latent radial component $r_i$, 
@@ -119,7 +126,7 @@ The full conditional for $\beta$ is
     \label{eqn:betafc}
     \beta_{j\ell}\mid\bm{r},\bm{Y},\alpha,\zeta_{\ell},\sigma_{\ell} \sim \mathcal{G}\left(\beta_{j\ell}\bigmid n_j\alpha_{j\ell} + \zeta_\ell, \sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right),
 \end{equation}
-for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters $\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar Gamma-Gamma update relationships.  We also explore a restricted form of this model, where $\beta_{\ell} = 1$ for all $\ell$.  Under this model, we use the full conditional in Equation~\ref{eqn:alpha1update} for all $\ell$, and omit inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the \emph{projected restricted Gamma--Gamma} (PRG--G) model.
+for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters $\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar Gamma-Gamma update relationships.  We also explore a restricted form of this model, where $\beta_{\ell} = 1$ for all $\ell$.  Under this model, we use the full conditional in Equation~(\ref{eqn:alpha1update}) for all $\ell$, and omit inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the \emph{projected restricted Gamma--Gamma} (PRG--G) model.
 
 The second form of centering distribution we explore is a multivariate log-normal distribution on the shape parameters $\bm{\alpha}_j$, with independent Gamma $\beta_{j\ell}$ rate parameters.  
 \begin{equation}

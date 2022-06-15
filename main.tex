@@ -1,4 +1,5 @@
-\documentclass[12pt,authoryear]{elsarticle}
+\documentclass[sn-basic]{sn-jnl}
+%\documentclass[12pt,authoryear]{elsarticle}
 %\documentclass[12pt]{article}
 % \usepackage[margin=1in]{geometry}
 % \usepackage[margin=0.5in]{caption}
@@ -8,7 +9,7 @@
 \usepackage{amsthm}
 \usepackage{hyperref}
 %\usepackage{graphicx}
-\usepackage{xcolor}
+%\usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{soul}
 \usepackage[ruled]{algorithm2e}
@@ -38,51 +39,102 @@
 \newcommand{\prob}[1]{\text{Pr}\left[#1\right]}
 \newcommand{\expect}[1]{\text{E}\left[#1\right]}
 
-\SetAlCapNameFnt{\footnotesize}
-\SetAlCapFnt{\footnotesize}
-\SetAlCapSty{}
+% \SetAlCapNameFnt{\footnotesize}
+% \SetAlCapFnt{\footnotesize}
+% \SetAlCapSty{}
 
 
 
+
+\jyear{2022}
+\theoremstyle{thmstyleone}
+
+\raggedbottom
 
 \begin{document}
 
-\begin{frontmatter}
-    %\title{Inference for multivariate peaks over threshold models}
-    \title{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
-    \author{Peter Trubey\corref{cor1}}
-    \ead{ptrubey@ucsc.edu}
+\title[Bayesian non-parametric inference for multivariate PoT models]{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
 
-    \author{Bruno Sans\'o}
-    \ead{bruno@soe.ucsc.edu}
-    \address{Department of Statistics, University of California, Santa Cruz,  USA}
-    \cortext[cor1]{Corresponding author}
+\author*[1]{\fnm{Peter} \sur{Trubey}}\email{ptrubey@ucsc.edu}
+\author[1]{\fnm{Bruno} \sur{Sans\'{o}}}\email{bruno@soe.ucsc.edu}
+
+\affil*[1]{\orgdiv{Department of Statistics}, \orgname{University of California Santa Cruz}, 
+            \orgaddress{\street{1156 High Street}, \city{Santa Cruz},\postcode{95064}, \state{CA}, \country{USA}}}
+
+\abstract{\input{./abstract}}
+\keywords{Multivariate extremes, Peak over threshold models,
+                Bayesian non-parametric models, Dirichlet process mixtures}
+
+
+% \Author{Peter Trubey\Affil{1} and Bruno Sans\'o\Affil{1}}
+% \AuthorRunning{Peter Trubey and Bruno Sans\'o}
+
+% \Affiliations{
+% \item Department of Statistics,
+%       University Of California Santa Cruz,
+%       USA
+% }
+
+% \CorrAddress{Peter Trubey,
+%             Department of Statistics,
+%             University of California Santa Cruz,
+%             1156 High Street, 
+%             Santa Cruz, CA 95064,
+%             USA}
+% \CorrEmail{ptrubey@ucsc.edu}
+% \CorrPhone{831-459-1448}
+% \CorrFax{831-459-4829}
+
+% \Title{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
+% \TitleRunning{Bayesian non-parametric inference for multivariate PoT models}
+
+% \Abstract{
+%     \input{./abstract}
+% }
+
+% \Keywords{
+%  Multivariate extremes; Peak over threshold models; 
+%  Bayesian non-parametric models; Dirichlet process mixtures
+% }
+
+\maketitle
+https://www.overleaf.com/project/612e69c665059f5fd7998d90
+% \begin{frontmatter}
+%     %\title{Inference for multivariate peaks over threshold models}
+%     \title{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
+%     \author{Peter Trubey\corref{cor1}}
+%     \ead{ptrubey@ucsc.edu}
+
+%     \author{Bruno Sans\'o}
+%     \ead{bruno@soe.ucsc.edu}
+%     \address{Department of Statistics, University of California, Santa Cruz,  USA}
+%     \cortext[cor1]{Corresponding author}
     
-    \begin{abstract}
-        \input{abstract}
-    \end{abstract}
+%     \begin{abstract}
+%         \input{abstract}
+%     \end{abstract}
 
-    \begin{keyword}
-        Multivariate extremes \sep Peak over threshold models \sep
-        Bayesian non-parametric models \sep Dirichlet process mixtures
-    \end{keyword}
-\end{frontmatter}
+%     \begin{keyword}
+%         Multivariate extremes \sep Peak over threshold models \sep
+%         Bayesian non-parametric models \sep Dirichlet process mixtures
+%     \end{keyword}
+% \end{frontmatter}
 
 %--------content
-\input{introduction}
+\input{./introduction}
 
-\input{methodology}
+\input{./methodology}
 
-\input{evaluation}
+\input{./evaluation}
 
-\input{results}
+\input{./results}
 
-\input{conclusion}
+\input{./conclusion}
 
 \section*{Acknowledgements}
 This material is based upon work supported by the National Science Foundation under Grant No. SES-2050012 and DMS-2153277.
 
-\bibliographystyle{elsarticle-harv}
+%\bibliographystyle{elsarticle-harv}
 \bibliography{./refs}
 
 \end{document}
