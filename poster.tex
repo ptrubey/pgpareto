@@ -1,4 +1,4 @@
-\documentclass[25pt, a0paper, portrait]{tikzposter}
+\documentclass[20pt, a0paper, portrait]{tikzposter}
 \title{\parbox{\linewidth}{\centering Bayesian Non-Parametric Inference
                         in Multivariate Peaks-over-Thresholds Models}}
 \author{Peter Trubey}
@@ -17,11 +17,6 @@
 
 \maketitle
 
-\block{~}
-{
-    \blindtext
-}
-
 \begin{columns}
     \column{0.5}
     \block{Multivariate Peaks-over-Thresholds}{
@@ -29,18 +24,18 @@
         Assume the existence of sequences of vectors $\bm{a}_n,\bm{b}_n$ such that 
         \[\lim\limits_{n\to\infty}F^n\left(\bm{a}_n\bm{w} + \bm{b}_n\right) = G(\bm{w}),\] 
         then $G$ is a $d$-variate 
-        generalized extreme value distribution.  It follows that
+        generalized extreme value distribution.  It follows that\\
         \[
         \lim\limits_{n\to\infty}\text{Pr}\left(\frac{\bm{W} - \bm{b}_n}{\bm{a}_n} \leq \bm{w}\mid \bm{W} 
             \not\leq \bm{b}_n\right) = \frac{\log G(\bm{w}\wedge \bm{0}) - \log G(\bm{w})}{\log G(\bm{0})} = H(\bm{w}),
-            \]
+            \]\\
         where $H$ is the multivariate Pareto distribution.  That is, excesses \emph{over} the threshold 
         $b = \lim\limits_{n\to\infty} \bm{b}_n$ will be multivariate Pareto.  This comprises the cornerstone of 
         \emph{peaks over threshold} modelling.  In practice, we take a sufficiently large threshold $\bm{b}$, and model
         excesses over that threshold as generalized Pareto.
         
         For ease of interpretation, we transform $W$ to standardized marginals. Let 
-        \[Z_{\ell} = \left(1 + \xi_{\ell}\frac{w_{\ell} - b_{\ell}}{a_{\ell}}\right))+^{1/\xi_{\ell}},\]
+        \[Z_{\ell} = \left(1 + \xi_{\ell}\frac{w_{\ell} - b_{\ell}}{a_{\ell}}\right)_+^{1/\xi_{\ell}},\]
         then $\bm{Z}$ follows the standard multivariate Pareto distribution.  Remark 3.1 of \cite{rootzen2018} shows how
         we can factorize \[\bm{Z} = R\bm{V},\;\;R\in\mathbb{R}_+;\;V\in\mathbb{S}_{\infty}^{d-1},\] with $R$ independent
         of $\bm{V}$. That is, we can factorize $Z$ into \emph{independent} angular and radial components. $R$ will follow
@@ -50,8 +45,6 @@
         will contain all information related to the dependence structure of $\bm{W}$ in extreme regions.  
         For that reason, we seek a flexible distribution to model $\bm{V}$.
         }
-    
-    \column{0.5}
     \block{Angular Space}{
         We recognize $\mathbb{S}_{\infty}^{d-1}$ as the positive orthant of the unit hypersphere, under the 
         $\mathcal{L}_{\infty}$ norm.  If we consider the $\mathcal{L}_p$ norm, and then the $\mathbb{L}_{\infty}$ norm is expressed as the limit of the $\mathcal{L}_p$ norm,
@@ -79,6 +72,13 @@
         for any finite $p$.  Note that for $p=\infty$, the transformation is no longer differentiable.  Thus, our plan
         becomes to project $\bm{V}$ onto a large but finite $p$.
         }
+    \column{0.5}
+    \block{}
+    {
+        \begin{tikzfigure}
+            \includegraphics[width=0.4\textwidth]{images/stdpareto2d}
+        \end{tikzfigure}
+    }
     \block{Projected Gamma Family}
     {
     Given the form of the Jacobian, a natural distribution to consider in $\mathbb{R}_+^d$ is given by the product of 
