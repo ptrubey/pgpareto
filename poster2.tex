@@ -180,9 +180,9 @@
     \block{Results}{
     We conducted a simulation study to evaluate the performance of PG vs PRG, and ~--G vs ~--LN.
     
-    \begin{tikzfigure}[Energy Score for recovering distribution of simulated data for a variety of dimensions, number of mixture components in generating distribution (lower is better).]
+    \begin{tikzfigure}[Energy Score vs number of dimensions for recovering distribution of simulated data,\\for varying number of mixture components in generating distribution (lower is better).]
         \centering 
-        \includegraphics[width=0.25\textwidth,height=0.09\textwidth]{images/simulation_score}
+        \includegraphics[width=0.25\textwidth,height=0.08\textwidth]{images/simulation_score_es}
     \end{tikzfigure}
     
     We see model fidelity was negatively affected by the additional 
@@ -261,7 +261,7 @@
     \]
     Using a sample from the posterior predictive of a fitted PRG-G model on the IVT data, we compute this expectation numerically.
     
-    \begin{tikzfigure}[Pairwise extremal dependence coefficients for IVT data using PRG-G model.]
+    \begin{tikzfigure}[Pairwise extremal dependence coefficients\\ for IVT data using PRG-G model.]
     \centering
     \includegraphics[width=0.95\linewidth]{./images/chi_ij_c}
     \end{tikzfigure}
