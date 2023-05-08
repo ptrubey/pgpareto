@@ -1,8 +1,55 @@
 \subsection{Projected gamma family\label{subsec:projgamma}}
+To obtain a distribution on 
+${\mathbb S}_{p}^{d-1}=\{\bm{s} : \bm{s} \in {\mathbb R}_{+}^{d}, \| \bm{s}\|_{p} = 1\}$ 
+we start with a vector in 
+$\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
+  \begin{equation*}
+    \lVert \bm{x} \rVert_p = 
+    \left({\textstyle\sum}_{\ell = 1}^d \lvert s_{\ell}\rvert^p\right)^{\frac{1}{p}},
+  \end{equation*}
+  and normalize it to obtain $\bm{y} = \bm{x}/\|\bm{x}\|_p \in {\mathbb S}_p^{d-1}$. 
+  The absolute and Euclidean norms are obtained for $p=1$ and $p=2$ respectively,
+  and the $\mathcal{L}_{\infty}$ norm can be obtained as a limit, 
+  \begin{equation*}
+    \| \bm{s} \|_{\infty}
+      = \lim\limits_{p\to\infty} \| \bm{s} \|
+      = \underset{\ell = 1}{\overset{d}{\bigvee}}s_{\ell}.
+  \end{equation*}
+
   A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product of independent
   univariate Gamma distributions. Let
     $\bm{ X} \sim \prod_{\ell = 1}^d\text{Ga}\left(X_{\ell}\mid\alpha_{\ell},\beta_{\ell}\right)$, 
-    $\alpha_\ell$ and $\beta_\ell$ are the shape and scale parameters, respectively. Using Equations (\ref{eqn:pnormt}) -- (\ref{eqn:pnormjac}) we have the joint density
+    $\alpha_\ell$ and $\beta_\ell$ are the shape and scale parameters, respectively. 
+    For any finite $p$, letting 
+   $ y_d = (1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p)^{1/p}$,
+    the transformation
+  \begin{equation}
+    \label{eqn:pnormt}
+    \begin{aligned}
+    T(x_1,\ldots,x_d) &= \left(\pnorm{\bm{x}}{p}, \frac{x_1}{\pnorm{\bm{x}}{p}},
+                          \ldots , \frac{x_{d-1}}{\pnorm{\bm{x}}{p}}\right) \\
+                        &= (r,y_1,\ldots,y_{d-1})
+    \end{aligned}
+  \end{equation}
+  is invertible with
+  \begin{equation}
+    \label{eqn:pnormtinv}
+    \begin{aligned}
+    &\hspace{-0.5cm}T^{-1}\left(r,y_1,\ldots,y_{d-1}\right)\\
+      & = \left(ry_1,\ldots,ry_{d-1}, r\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}}\right).
+    \end{aligned}
+  \end{equation}
+  The Jacobian of the transformation takes the form
+  \begin{equation}
+    \label{eqn:pnormjac}
+    \begin{aligned}
+    r^{d-1}\left[\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}} \right. & \\
+        &\hspace{-2cm}+ \left. {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right].
+    \end{aligned}
+  \end{equation}
+  The normalization provided by $T$ maps a vector in ${\mathbb R}_+^d$ onto
+  ${\mathbb S}_p^{d-1} $. With a slight abuse of terminology we refer to it as a
+  projection. Using Equations (\ref{eqn:pnormt}) -- (\ref{eqn:pnormjac}) we have the joint density
   \begin{equation}
   \label{joint}
     \begin{aligned}
@@ -26,7 +73,8 @@
                     \beta_{\ell}y_{\ell}\right)^{{\scriptstyle\sum_{\ell = 1}^d \alpha_{\ell}}}},
     \end{aligned}
   \end{equation}
-  defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for any $p>0$. To avoid identifiability problems when estimating the shape and scale parameters, we set $\beta_1 = 1$.
+  defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for any finite $p>0$. To avoid identifiability 
+  problems when estimating the shape and scale parameters, we set $\beta_1 = 1$.
   \cite{nunez2019} obtain the density in Equation (\ref{eqn:projgamma})
   for $p=2$ as a multivariate distribution for directional data, using spherical coordinates.  
   For $\bm{ y}\in {\mathbb S}_1^{d-1}$, and $\beta_{\ell} = \beta$ for all $\ell$, the density in Equation (\ref{eqn:projgamma}) corresponds to that of a Dirichlet distribution.
@@ -76,6 +124,61 @@
     \caption{Projection of data on ${\mathbb S}_{\infty}^1$ onto ${\mathbb S}_p^1$\label{fig:pproject}}
   \end{subfigure}
 \end{figure}
+
+A measure that is used to characterize the strength of the dependence,
+  in the tail, for two random variables $Z_1$ and $Z_2$, with marginal
+  distributions $F_1$ and $F_2$ is given by \citep{coles2001}
+  \[
+    \chi_{12} = \lim\limits_{u\uparrow 1} \prob{F_1(Z_1)>u\mid F_2(Z_2)>u}.   
+  \]
+  $\chi_{12}$ provides information about the distribution of extremes for the variable $Z_1$
+  given that $Z_2$ is very large.  When $\chi_{12}>0$, $Z_1$ and $Z_2$ are said to
+  be asymptotically dependent, otherwise they are asymptotically independent. The following result 
+  provides the asymptotic dependence coefficient between two components of $\bm{Z}$ after PoT limit.
+  \begin{prop}\label{ppchi}
+  Suppose that $\bm{Z} = R\bm{V}$ with $R\sim Pa(1)$,
+  $\prob{V_\ell > 0} = 1$ and $\expect{V_\ell}$ exists, for $\ell=1, \ldots ,d$, then
+    \begin{equation}
+    \label{eqn:chi_ij}
+	\chi_{\jmath\ell} = \expect{\frac{V_\jmath}{\expect{V_\jmath}} \wedge \frac{V_\ell}{\expect{V_\ell}}}
+    \end{equation}
+  \end{prop}
+  {\em Proof:}
+  Denote as $F_\ell$ the marginal distribution of $Z_\ell$. To obtain $\chi_{\jmath\ell}$ we need 
+  $Pr(Z_\jmath>z_\jmath,Z_\ell>z_\ell)$, where $z_\ell = F_\ell^{-1}(u) = \expect{V_\ell}/(1 - u), \;\ell=1,\dots, d$.  
+  Using the fact that $V_\ell>0, \forall \ell$ almost surely, we have that the former is equal to
+  \begin{equation*}
+    \begin{aligned}
+    &\hspace{-0.5cm}\prob{R>\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}}
+    = \expect{1\wedge\left(\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}\right)^{-1}}\\
+    &= \expect{\frac{V_\jmath}{z_\jmath}\wedge\frac{V_\ell}{z_\ell}}
+    = (1 - u)\expect{\frac{V_\jmath}{\expect{V_\jmath}}\wedge\frac{V_\ell}{\expect{V_\ell}}},
+    \end{aligned}
+  \end{equation*}
+  where the second identity is justified by the fact that $V_i$ is bounded and $z_i\rightarrow\infty$. The 
+  proof is completed by noting that $\prob{F_i(Z_i)>u} = 1 - u. \hfill\Box$
+
+Equation \ref{eqn:chi_ij} implies that $\chi_{\jmath\ell}>0$, and so, no asymptotic independence is possible 
+  under our proposed model. For the analysis of extreme values it is of interest to calculate the multivariate 
+  conditional survival function. The following result provides the relevant expression, as a function of the 
+  angular measure.
+  \begin{prop}
+  Assume the same conditions of Proposition \ref{ppchi}.   Let $\alpha \subset \{1, \ldots ,d\}$ be a 
+  collections of indexes.  Then     
+  \begin{equation} \label{eqn:condsurv}
+    \begin{aligned}
+    &\hspace{-0.5cm}\mathrm{Pr}\left[\bigcap_{\ell \in \alpha} 
+        Z_\ell > z_\ell \mid \bigcap_{\ell\not\in\alpha} Z_\ell > z_\ell\right] \\
+    &= \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
+    \end{aligned}
+  \end{equation}
+  \end{prop}  
+  The proof uses a similar approach to the proof of Proposition \ref{ppchi}.
+
+Equations \ref{eqn:chi_ij} and \ref{eqn:condsurv} provide relevant tools for inference on the tail 
+  behavior of the joint distribution of the observations. The expressions can be readily calculated 
+  within a sample-based inferential approach like the one considered in the following section.
+
 
 \subsubsection{Inference for the projected Gamma mixture model}
 In a sample-based inference approach, for a given iteration the Dirichlet process mixture model groups observations

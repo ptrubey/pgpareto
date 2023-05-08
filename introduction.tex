@@ -166,81 +166,106 @@ distribution. It follows that
     - \log G(\bm{w}) }{\log G(\bm{0})} = H(\bm{w}).
     \end{aligned}
 \end{equation*}
-$H$ is the multivariate Pareto distribution. \cite{RoSeWa2018a}
-provide a number of stochastic representations for $H$. In particular
-Remark 1 justifies the representation given in \cite{ferreira2014},
-consisting of taking $\bm{W}$, in the limit, as $\bm{W} = \bm{V}R$ 
-where $R$ and $\bm{V}$ are independent. $R = ||\bm{W}||_\infty$ is 
-distributed as a standard Pareto  random variable, and $\bm{V} = 
-\bm{W}/||\bm{W}||_\infty$ is a random vector in  
+$H$ a multivariate Pareto distribution, and corresponds to the joint
+distribution conditional on exceeding a multivariate threshold. In addition to
+a copula function, $H$ depends on two $d$-dimensional vectors of 
+parameters that we denote as $\bm{\xi}$ for the shapes and $\bm{\sigma}$ 
+for the scales. \cite{RoSeWa2018a} provide a number of stochastic 
+representations for $H$.  In particular, denote as $Z$ a
+random variable with distribution $H$ where $\bm{\xi}= 1$ and 
+$\bm{\sigma} = 0$.  Then, Remark 1 justifies the representation in 
+\cite{ferreira2014}, giving $\bm{Z} = \bm{V}R$
+where $R$ and $\bm{V}$ are independent. $R = \|\bm{Z}\|_\infty$ is 
+distributed as a standard Pareto random variable, and $\bm{V} = 
+\bm{Z}/\|\bm{Z}\|_\infty$ is a random vector in  
 $\mathbb{S}_{\infty}^{d-1}$, the positive orthant of the 
-unit  sphere in infinite norm, with distribution $\Phi$. 
-%More  specifically, 
-%using the notation in Theorem 6 of \cite{RoSeWa2018a}, define $\bm{S} 
-%=  \log(\bm{V})$.  Then, according to Definition 5, $\bm{S}$ 
-%is a spectral  random vector. Taking  $E \sim \text{Exp}(1)$, 
-%independent of  $\bm{V}$,  we have that $\bm{Y} = \bm{S} + E$  
-%follows a multivariate GP, according  to Theorem 6.  Then, using 
-%Proposition 4,  $\bm{V}R = e^{\bm{Y}}$ will also follow
-%a multivariate GP. Notice that $R = e^E$ is distributed as 
-%a standard Pareto random variable. 
-$R$ and $\bm{V}$ are referred, respectively, as the {\em radial} 
-and {\em angular}  components of $H$. The angular measure controls 
-the dependence  structure of $\bm{W}$  in the tails. In view of 
+unit sphere under $\mathcal{L}_{\infty}$ norm, with distribution $\Phi$. 
+This representation is central to the methods proposed in this paper.
+$R$ and $\bm{V}$ are referred to, respectively, as the {\em radial} 
+and {\em angular} components of $H$. The angular measure controls 
+the dependence  structure of $\bm{Z}$  in the tails. In view of 
 this, to obtain a  PoT model we seek a flexible model for the 
 distribution of $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$.
 
-%\subection{Pairwise Extremal Dependence\label{subsec:ped}}
-A measure that is used to characterize the strength of the dependence,
-in the tail, for two random variables $Z_1$ and $Z_2$, with marginal
-distributions $F_1$ and $F_2$ is given by \citep{coles2001}.
+The approach considered in \cite{rootzen2018} focuses on the limiting
+conditional distribution $H$. An alternative approach consists of assuming
+that regular variation \cite[see, for example,][]{resnick2008extreme} holds for 
+the limiting distribution of $\bm{W}$, implying
 \[
-    \chi_{12} = \lim\limits_{u\uparrow 1} \prob{F_1(Z_1)>u\mid F_2(Z_2)>u}  
+    \lim\limits_{n\rightarrow\infty} n \prob{n^{-1} \bm{W}\in A} = 
+    \mu(A),
 \]
-$\chi_{12}$ provides information about the distribution of extremes for the variable $Z_1$
-given that $Z_2$ is very large.  When $\chi_{12}>0$, $Z_1$ and $Z_2$ 
-are said to
-be asymptotically dependent, otherwise they are asymptotically
-independent. The following result provides the asymptotic dependence coefficient between two components of $\bm{Z}$
-after PoT limit. 
-\begin{prop}\label{ppchi}
-Suppose that $\bm{Z} = R\bm{V}$ with $R\sim Pa(1)$,
-$\prob{V_\ell > 0} = 1$ and $\expect{V_\ell}$ exists, for $\ell=1, \ldots ,d$, then
+where $\mu$ is termed the exponent measure. $\mu$ has the homogeneity property
+$\mu(tA) = t^{-1}\mu(A)$. Letting $\rho = \|W\|_p, p>0$ 
+and $\bm{\theta} = \bm{W}/\rho$, define  $\Psi(B) = \mu(\{\bm{w} : \rho>1, 
+\bm{\theta} \in B\})$, which is referred to as the angular measure. After 
+some manipulations, we obtain that
 \begin{equation}
-    \label{eqn:chi_ij}
-	\chi_{\jmath\ell} = \expect{\frac{V_\jmath}{\expect{V_\jmath}} \wedge \frac{V_\ell}{\expect{V_\ell}}}
+\label{exponent-mu}
+    \lim\limits_{r\rightarrow\infty} \text{Pr}\left[\bm{\theta}\in A \rvert \rho>r\right] = 
+    \frac{\Psi(A)}{\Psi({\mathbb S}_p^{d-1})} .
 \end{equation}
-\end{prop}
-{\em Proof:}
-Denote as $F_\ell$ the marginal distribution of $Z_\ell$. To obtain $\chi_{\jmath\ell}$ we need $Pr(Z_\jmath>z_\jmath,Z_\ell>z_\ell)$, where $z_\ell =
-F_\ell^{-1}(u) = \expect{V_\ell}/(1 - u), \;\ell=1,\dots, d$.
-Using the fact that
-$V_\ell>0, \forall \ell$ almost surely, we have that the former is equal to
-\begin{equation*}
-    \begin{aligned}
-    &\hspace{-0.5cm}\prob{R>\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}}
-    = \expect{1\wedge\left(\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}\right)^{-1}}\\
-    &= \expect{\frac{V_\jmath}{z_\jmath}\wedge\frac{V_\ell}{z_\ell}}
-    = (1 - u)\expect{\frac{V_\jmath}{\expect{V_\jmath}}\wedge\frac{V_\ell}{\expect{V_\ell}}},
-    \end{aligned}
-\end{equation*}
-where the second identity is justified by the fact that $V_i$ is
-bounded and $z_i\rightarrow\infty$. The proof is completed by noting
-that $\prob{F_i(Z_i)>u} = 1 - u. \hfill\Box$
+Thus, a model for the exponent measure induces a model for the limiting distribution
+conditional on the observations being above a threshold defined with respect
+to their $p$-norm. The constraint that all marginals of $\mu$ correspond to a
+standard Pareto distribution leads to the so called moment constraints on $\Psi$. 
+Inference for the limiting distribution of the exceedances
+needs to account for the normalizing constant in Equation \ref{exponent-mu}, as well
+the moment constraints. In addition, the moment constraints can impose unrealistic
+symmetries in the data distribution.
 
-%\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
-Equation \ref{eqn:chi_ij} implies that $\chi_{\jmath\ell}>0$, and so, no asymptotic independence is possible under our proposed model. For the analysis of extreme values it is of interest to calculate the multivariate conditional survival function. The following result provides the relevant expression, as a function of the angular measure.
-\begin{prop}
-Assume the same conditions of Proposition \ref{ppchi}. 
-Let $\alpha \subset \{1, \ldots ,d\}$ be a collections of indexes. 
-Then     
-\begin{equation} \label{eqn:condsurv}
-    \begin{aligned}
-    &\hspace{-0.5cm}\mathrm{Pr}\left[\bigcap_{\ell \in \alpha} Z_\ell > z_\ell \mid \bigcap_{\ell\not\in\alpha} Z_\ell > z_\ell\right] \\
-    &= \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
-    \end{aligned}
-  \end{equation}
-\end{prop}  
-The proof uses a similar approach to the proof of Proposition \ref{ppchi}.
 
+%\subection{Pairwise Extremal Dependence\label{subsec:ped}}
+%%A measure that is used to characterize the strength of the dependence,
+%%in the tail, for two random variables $Z_1$ and $Z_2$, with marginal
+%%distributions $F_1$ and $F_2$ is given by \citep{coles2001}.
+%%\[
+%%    \chi_{12} = \lim\limits_{u\uparrow 1} \prob{F_1(Z_1)>u\mid F_2(Z_2)>u}  
+%%\]
+%%$\chi_{12}$ provides information about the distribution of extremes for the variable $Z_1$
+%%given that $Z_2$ is very large.  When $\chi_{12}>0$, $Z_1$ and $Z_2$ 
+%%are said to
+%%be asymptotically dependent, otherwise they are asymptotically
+%%independent. The following result provides the asymptotic dependence coefficient between two components of $\bm{Z}$
+%%after PoT limit. 
+%%\begin{prop}\label{ppchi}
+%%Suppose that $\bm{Z} = R\bm{V}$ with $R\sim Pa(1)$,
+%%$\prob{V_\ell > 0} = 1$ and $\expect{V_\ell}$ exists, for $\ell=1, \ldots ,d$, then
+%%\begin{equation}
+%%    \label{eqn:chi_ij}
+%%	\chi_{\jmath\ell} = \expect{\frac{V_\jmath}{\expect{V_\jmath}} \wedge \frac{V_\ell}{\expect{V_\ell}}}
+%%\end{equation}
+%%\end{prop}
+%%{\em Proof:}
+%%Denote as $F_\ell$ the marginal distribution of $Z_\ell$. To obtain $\chi_{\jmath\ell}$ we need $Pr(Z_\jmath>z_\jmath,Z_\ell>z_\ell)$, where $z_\ell =
+%%F_\ell^{-1}(u) = \expect{V_\ell}/(1 - u), \;\ell=1,\dots, d$.
+%%Using the fact that
+%%$V_\ell>0, \forall \ell$ almost surely, we have that the former is equal to
+%%\begin{equation*}
+%%    \begin{aligned}
+%%    &\hspace{-0.5cm}\prob{R>\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}}
+%%    = \expect{1\wedge\left(\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}\right)^{-1}}\\
+%%    &= \expect{\frac{V_\jmath}{z_\jmath}\wedge\frac{V_\ell}{z_\ell}}
+%%    = (1 - u)\expect{\frac{V_\jmath}{\expect{V_\jmath}}\wedge\frac{V_\ell}{\expect{V_\ell}}},
+%%    \end{aligned}
+%%\end{equation*}
+%%where the second identity is justified by the fact that $V_i$ is
+%%bounded and $z_i\rightarrow\infty$. The proof is completed by noting
+%%that $\prob{F_i(Z_i)>u} = 1 - u. \hfill\Box$
+%%
+%%%\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
+%%Equation \ref{eqn:chi_ij} implies that $\chi_{\jmath\ell}>0$, and so, no asymptotic independence is possible under our proposed model. For the analysis of extreme values it is of interest to calculate the multivariate conditional survival function. The following result provides the relevant expression, as a function of the angular measure.
+%%\begin{prop}
+%%Assume the same conditions of Proposition \ref{ppchi}. 
+%%Let $\alpha \subset \{1, \ldots ,d\}$ be a collections of indexes. 
+%%Then     
+%%\begin{equation} \label{eqn:condsurv}
+%%    \begin{aligned}
+%%    &\hspace{-0.5cm}\mathrm{Pr}\left[\bigcap_{\ell \in \alpha} Z_\ell > z_\ell \mid \bigcap_{\ell\not\in\alpha} Z_\ell > z_\ell\right] \\
+%%    &= \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
+%%    \end{aligned}
+%%  \end{equation}
+%%\end{prop}  
+%%The proof uses a similar approach to the proof of Proposition \ref{ppchi}.
+%%
   % EOF

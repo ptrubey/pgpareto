@@ -1,0 +1,349 @@
+%\documentclass[sn-basic]{sn-jnl}
+\documentclass[10pt]{article}
+\usepackage{natbib}
+\usepackage[margin=1in]{geometry}
+\bibliographystyle{plainnat}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage{bm}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\newcommand{\comment}[1]{\textcolor{teal}{#1}}
+\newcommand{\bruno}[1]{\textcolor{red}{#1}}
+
+\begin{document}
+
+\section*{Review 1}
+\begin{itemize}
+    \item \emph{Moment constraint}: As can be seen, for example, in \cite[Equation 4.1]{einmahl2009}
+    there is a moment constraint on the angular measure for any $\mathcal{L}_p$ norm with 
+    $p \in [1, \infty]$ (nb including $p = \infty$).  Hence, why is there no moment constraint in 
+    the submitted 
+    manuscript? Some papers on inference for the angular measure have not taken into consideration 
+    that constraint (e.g. \cite{einmahl2001}), though most modern approaches do account for it. If 
+    the moment constraint is being ignored here, I would be willing to overlook this provided that 
+    this is openly acknowledged---as well as what are the consequences of this. Otherwise, this needs 
+    to be further clarified.
+
+    \comment{Both reviewers comment on the moment constraint.  I forget if it's this one, or
+    the reference provided by the other reviewer, but I don't think they understood the reference
+    directly; they were using the $\mathcal{L}_1$ norm in $p$ dimensions, rather than the 
+    $\mathcal{L}_p$ norm as described in our paper.  A massive difference in meaning of notation.
+    I'll find the reference again and confirm.}
+    
+    We thank the referee for calling our attention to
+the issue of moment restrictions. The approach considered in the
+paper follows that of \cite{rootzen2018}, consisting on modeling the
+distribution of the extreme observations, conditional on them being
+above a threshold, say $H$.  The approach considered in
+\cite{EiSe2009} focuses in the limiting joint exponent measure. More
+precisely, for the two dimensional case, they assume that
+\[
+	sPr(s^{-1}(Z_1,Z_2) \in A) \rightarrow \mu(A),
+\]
+where $\mu$ is the exponent measure. The moment conditions are
+the result of assuming that both marginals of $\mu$ correspond to a
+standard Pareto distribution. Such assumption is not compatible
+with the conditional distribution approach considered in our paper.
+In fact, as noted in \cite{KiRoSeWa2019}, typically the margins of
+$H$ are not univariate Pareto, due to the difference between the 
+conditioning events in the joint and the marginal cases. Thus, no
+moment conditions arise in our model. This has now been clarified in the paper.
+
+We note in passing that the moment conditions for the spectral
+distribution, say $\Phi$, in the two-dimensional case, using the 
+infinity norm, imply that 
+\[
+	\int_0^{\pi/4} \Phi(d\theta) = \int_{\pi/4}^{\pi/2}
+\Phi(d\theta).
+\]
+The former looks like a fairly strong symmetry restriction that is
+unlike to be realistic in practice. Thus, imposing moment
+conditions would probably result in a very restrictive model.
+
+
+    \item \emph{Main contribution}: While I appreciate the interesting construction based on the 
+    DPM of projected gammas (which itself could be of use for other contexts beyond extremes?), 
+    one wonders about what would be the main added value of it with respect to other existing 
+    Bayesian approaches (\cite{boldi2007},\cite{guillotte2011},\cite{sabourin2014},\cite{hanson2017}).
+    Keeping in mind the computational scope of Statistics and Computing, one wonders if the main 
+    advantage is, for example, a computational one? This needs to be clarified—especially in light 
+    of the previous comment on the moment constraint. Indeed, one could use any of the previous 
+    approaches with pseudo-angles based on the infinity norm.
+
+    \comment{Hanson is clearly different.  They're using Bernstein polynomials effectively defined 
+    on $\mathbb{S}_1^{d-1}$.  We can demonstrate that projected gammas built on $\mathbb{S}_{p}$, 
+    $p \geq 10$ and $\mathbb{S}_1$ create \emph{very} different gamma shape parameters, for data
+    created by the \emph{same} distribution.  I need to check again the other references, but 
+    based on their follow-on comment, I'm guessing the previous point needs to be addressed before 
+    we can properly justify this point.}
+    
+    \bruno{Based on our conversation, you need to look carefully into each one of these references.
+    it seems that most of them do not develop a PoT approach. But also, we use a kernel whose natural 
+    support is the positive cone (without using transformations) to build a mixture WRT to a random
+    measure. This provides the flexibility of mixture for a methods that has computational advantages 
+    and scales to moderately large problems, as illustrated in the paper.}
+
+    \comment{\cite{hanson2017}: Bernstein polynomials on $\mathbb{S}_1^{d-1}$, modelling multivariate Frechets.  \cite{boldi2007}: Marginal Frechets, also operating on $\mathbb{S}_1^{d-1}$.  \cite{guillotte2011}: A strictly bivariate model.  \cite{sabourin2014}: }
+
+    \item \emph{Numerical accuracy}:  Keeping in mind the computational scope of Statistics and 
+    Computing one would hope for more numerical work than what is presented in §5.1. As far as I
+    understand what is presented are single run experiments for each $d$? Monte Carlo evidence on the
+    performance of the procedure would be appreciated. On top of this, the current numerical exercise
+    ignores the uncertainty that stems from step 1 of the procedure (i.e. estimating the margins).
+
+    \comment{Regarding the uncertainty from step 1, I think we agreed that was basically intractible.
+    We may need to explicitly specify as such, and that a practicioner must accept the numerical 
+    uncertainty that arises from step 1.  That said, I seem to recall the numbers observed being 
+    relatively robust to choice of threshold (for large threshold), the difference mainly coming 
+    down to computation time.}
+    
+    \bruno{I think we need to conduct a more comprehensive suite of experiments. Regarding the uncertainty 
+    coming from Step1, we just need to acknowledge that we are ignoring it.}
+
+    To address this concern, we have \comment{revised (note: future past tense)} the simulation study 
+    to feature the average rise in energy score over baseline, averaged over 10 iterations.  The simulated
+    datasets are generated as mixtures of multivariate lognormals, projected onto the unit sphere.
+    
+    \item \emph{Prior and MCMC}: A lot is left to the reader in §5 in terms of prior specification
+    and MCMC settings.  At least some further details would be required.
+
+    \comment{The form of the prior is specified.  I'm guessing he's referring to the actual values
+    used for computation?  $\bm{\mu}_0 = \bm{0}$, $\nu = d + 50$, $\bm{\Psi} = \nu I_d$, and so on?}
+    
+    \bruno{You need to provide more details here.}
+
+    \item \emph{Future research}: §6 calls for a view of the authors on what could be related 
+    exercises—or even extensions of this research and future work. Using the proposed Bayesian 
+    multivariate PoT construction for devising a regression model for an an extreme value response 
+    on an extreme value covariate is one example of a natural follow-up; see \cite{carvalho2022}
+    for related ideas. Conditional versions of the angular measure (e.g. \cite{carvalho2016},
+    \cite{castro2018}, \cite{escobar2018}, \cite{mhalla2019}) would lead to a conditional 
+    multivariate peaks-over-threshold model, where dependence between exceedances could change 
+    along with a covariate. Also, perhaps the here proposed DPM of projected gammas—as well as 
+    predictor-dependent versions of it—could be of interest in other settings beyond angular 
+    measures?
+
+    \comment{I'm guessing this guy is de Carvalho?}
+    
+    \bruno{I have no doubts that this referee is Carvalho. I'll spend some time reading the papers
+    that he mentions.}
+    
+\end{itemize}
+
+\section*{Review 2}
+\begin{itemize}
+    \item \emph{Lack of clarity}: The presentation of the probabilistic setting for the multivariate 
+    PoT model (Section 2) and estimation method (Section 3) contains some inconsistencies and unclear
+    points:
+    \begin{enumerate}
+        \item Please use a different notation for the random vector distributed according to $F$ 
+        (denoted by $W$ in the paper) and for the Peaks-over-threshold limit, that is the standard
+        Generalized Pareto vector, also denoted by $W$. This is not correct because the latter has 
+        not the same distribution as the former. The confusion goes on throughout the paper, e.g. 
+        the standardized variables in Section 3 (after a probability integral transform, Equation
+        (3), are denoted by the letter $z$. Notice that the vector $W$ defined as a limit in Section 
+        2 does not necessarily follow a standard Generalized Pareto distribution. The relation 
+        (and the difference) between standard and non-standard is explained e.g. in [3], Proposition 4. 
+        In order to have the representation $W = W_{\infty}V$ as in the paper, with 
+        $W_{\infty} \sim \text{Pa}(1)$, one needs to assume that $W$ is indeed standard GP. In other 
+        words it is correct to write $Z = RV$ where $Z$ is a properly standardized vector, not $W = RV$.
+
+        \comment{Yeah.  W is a multivariate GPD vector; Z is a multivariate standardized Pareto vector.
+        This needs to be fixed.}
+        
+        We thank the referee for pointing out the inconsistencies in the notation. We have corrected them 
+        to make things clearer. We denote all random variables with capital letters and their values
+        with small letters. The random variable corresponding to the conditional limiting distribution
+        $H$ is now denoted as $Z$.
+
+        \item About the standardization, Eq. (3): please introduce some background. In the paper it is
+        introduced as \emph{’the standardization’} and it is unclear what is the relation between this 
+        and the definition of the GPD (beginning of Section 2), unless one already knows about marginal
+        standardization methods in multivariate EVT. In any case there are several ways to perform 
+        marginal standardization in multivariate EVT.
+
+        We have rewritten the material at the beginning of Section 3, explicitly mentioning the marginal
+        univariate generalized Pareto, and how it is used to estimate the shape and scale parameters, 
+        which are then used to standardize the observations.
+
+        \item Section 3.2.1: Please provide some minimal background (or references) on the Dirichlet 
+        Process Mixture, in particular about clusters of observations occurring naturally in this 
+        model. This is indeed standard in Bayesian Non-parametrics, so there should be a precise 
+        reference where it is explained.
+
+        \bruno{Peter, you need to come up with additional, and more specific references here.}
+
+        
+    \end{enumerate}
+
+    \item \emph{Organization of paper}:
+        \begin{enumerate}
+            \item End of Section 2, starting from \emph{A measure that is used to characterize 
+            the strength of dependence...}, until the end: the discussion about the dependence 
+            coefficient (Coles’s $\chi$) is quite disconnected from the rest at this point. It
+            is not useful for Section 3. It is only used in the experiments (Section 5). If I 
+            understand well, in Section 5, pairwise $\chi$’s are computed by Monte-Carlo simulation 
+            in the whole model, which exemplifies the usefulness of the projected gamma model. 
+            However these $\chi$’s may be computed in many different ways, the most simple being 
+            the empirical version. It is unclear at this point what is the added value of the 
+            model compared with an empirical method.
+
+            \item The statistical model (projected Gamma family) is only introduced in the
+            \emph{‘estimation’} section, whereas it is the main building block of the paper.
+
+            We thank the referee for the suggestion to change the layout of the paper. We have
+            re-written Section 3 to put a stronger emphasis on the presentation of the
+            projected gamma kernel.
+            
+        \end{enumerate}
+
+    \item \emph{Unclear Goals}: 
+    \begin{enumerate}
+        \item There is no proper justification in the paper for the focus on the infinity norm 
+        and the associated sphere $\mathbb{S}_{\infty}^{d-1}$. In \cite{ferreira2014}, the focus
+        is on the space of bounded processes, and this infinite dimensional sample space is 
+        naturally associated with the infinity norm. However in the multivariate case here, the 
+        setting is very different and there is no obvious reason why the max norm should be used. 
+        Also, by changing the conditioning event, i.e. replacing $\lbrace W \not\leq b_{n}\rbrace$
+        (notations of the paper, beginning of Section 2) with 
+        $\lbrace \lVert W\rVert_p > t_n\rbrace$, one will obtain a product representation in the 
+        limit of the form $\tilde{W} = RV_p$ where $R$ is Pareto and $V_p$ is located on the 
+        $\mathcal{L}_p$-sphere. See e.g. one of Resnick’s books, where it is clearly stated that 
+        the product form of the limit does not depend on the choice of the norm. I believe that 
+        the projected Gamma family on the $L_p$ sphere with a DPM prior is anyways a nice 
+        contribution, which is somewhat hidden by this additional projection on the infinity sphere.
+
+        \bruno{We need to get hold of a copy of the right book to see what the result is. If the result 
+        is so straightforward, then we need to decided what to do about it, but I am worried that
+        it will require a moment constraint.}
+        
+        \item Another issue is that it is not clear in the present form of the paper, what is the
+        added value of fitting this parametric model with the Bayesian framework and the Gibbs 
+        sampler, if the output is mainly bivariate densities and extremal dependence coefficients 
+        which could be obtained by standard non parametric methods with very low computational cost?
+
+        \bruno{This is an unfair comment. We do use the full multivariate distributiont to come up
+        with the results we present. I'll work on an answer to this one.}
+    \end{enumerate}
+
+    \item \emph{Comparison with other methods}: The only comparison study displayed in the paper 
+    takes place within the suggested model, only with different prior choice. This is not sufficient 
+    for performance comparison in a methodological paper. One may e.g. think of comparing with the
+    results obtained with the empirical angular measure or smoothed versions of it in terms of 
+    extremal dependence and conditional survival probability.
+
+    \bruno{Well, here we have to bite the bullet. Hopefully there some software that allows us
+    to fit the empirical angular measure.}
+
+    \item \emph{Experiments}:
+        \begin{enumerate}
+            \item Computational Evidence missing: The convergence of the Gibbs sampler is not 
+            discussed in the paper.
+
+            \bruno{This one was pointed out by the other referee. So, we need to come up with something.}
+
+            \comment{\st{I'm not sure how to demonstrate convergence in the case of the DP.  I can
+            I can demonstrate convergence for certain quantities (e.g., the hierarchical mean,
+            and log-determinant of hierarchical covariance matrix, a given observation's distribution
+            of parameters, etc.), but in the general stick-breaking configuration, there is no concern
+            given to label switching.  The variational approach will probably find a label arrangement
+            and stick with it.}}
+
+            \comment{I'm working on adding log-density over time plots to demonstrate convergence.}
+            
+            \item Figure 2: The scores from the ‘baseline’ should outperform the scores of
+            the fitted models, because the baseline consists of samples generated from the 
+            true distribution. This is not the case in Figure 2, which deserves an explanation 
+            (it might be a too small sample size, or some coding error at worst).
+
+            \bruno{We need to think about this one.}
+
+            \comment{I think it was an issue of understanding.  I've updated the code, remaking the plots
+            is nearly done.}
+
+        \end{enumerate}
+
+    \item \emph{About the absence (or presence) of moments constraint}: The angular measure in
+    multivariate extremes with respect to any norm has a moment constraint which precise form depends 
+    on the chosen norm and on the standardization, see e.g. 
+    \cite{beirlant2006} Chapter 8, Section 8.2.3, Equation 8.20. 
+    This seems to contradict the author’s claim that there is no moments constraints in the models, 
+    due to the choice of the $\mathcal{L}_{\infty}$-norm. Although it may be the case that their choice
+    of standardization removes the moments constraint, I do not understand how the choice the 
+    $\mathcal{L}_{\infty}$-norm helps here.
+
+    Another way to see this: for $x \geq 1$, using the representation $W = W_{\infty}V$ as in the
+    paper, with $W_{\infty}$ a standard Pareto variable, we get 
+    \[\mathbb{P}\left[W_{\ell} > x\right] = \mathbb{E}\left[V_{\ell}\right] / x\]
+    (see also Equation (2.20) in \cite{ferreira2014}, with $\omega_0 = 1$).  As a consequence if 
+    the distribution of the marginal variable $W_{\ell}$ in the limit is imposed, then so is 
+    $\mathbb{E}\left[V_{\ell}\right]$, namely 
+    \[ \mathbb{E}\left[V_{\ell}\right] = \mathbb{P}\left[W_{\ell} > 1\right] \]
+    It may be the case that, with the standardization Equation (3) in their paper, the marginal
+    distributions, i.e. the distributions of the $W_{\ell}$’s in the limit are not entirely determined, 
+    but this needs to be clarified.
+
+    \comment{I seem to regard something in the intro to extremes book regarding the lack of a
+    moment constraint on the $\mathcal{L}_{\infty}$ norm.  I'll look for it.}
+
+    \bruno{This was dealt with already.}
+
+    \item \emph{Energy Score, kernel function, flaw in the proof}: In the proof of proposition 3, 
+    one needs to verify that $g$ is a negative definite kernel, that is, that for all $x_1,\ldots,x_n$
+    and $a_1,\ldots,a_n$, \[ \sum_i\sum_ja_ia_jg(x_i,x_j)\leq 0,\]
+    (with varying points $x_i,x_j$), not that \[\sum_i\sum_ja_ia_jg(x_1,x_2)\leq 0.\]  Thus the vector $e$
+    which allows to break the sum into two parts in the current proof should in fact depend on $(i,j)$, and the proof is not valid.
+
+    \bruno{We need to rewrite the proof. I'll do that.}
+
+    \comment{\st{Yeah, I think I messed this one up here.  I'm going to run simulations to verify it is
+    a negative definite kernel, then try and figure out a better proof.  Too bad the trivial one
+    didn't work.}}
+
+    \comment{\st{I'm somewhat worried that they will regard the new proof as also problematic, as the second 
+    term is dependent on the first term.  We could get around this by splitting $\sum_{i,j}a_ia_jg(x_i,x_j)$ 
+    into sets belonging to particular face pairs (e.g., $x_i$ on face $a$, $x_j$ on face $b$) and sum over 
+    permutations of $a,b$, but then there's no guarantee that a particular $a_i$ set within a particular 
+    $a,b$ face set will sum to 0.}}
+
+    \item \emph{Minor point 1}: About the word \emph{‘Projection’}, e.g. \emph{in 
+    ‘To define an angular measure, we are interested in the direction of vectors in $\mathbb{R}_+^d$
+    thus, we project them onto $[\ldots]$}: The angular variable variable is not really a projection 
+    (at least not an orthogonal one) except when the $\mathcal{L}_2$ norm is used.
+
+    \comment{Indeed, it's not an orthogonal projection.  Even the $\mathcal{L}_2$ norm doesn't 
+    produce an orthogonal projection, unless using the trigonometric mapping.  I don't think that's
+    a problem.}
+
+    \bruno{I think we need to de-emphasize the word ``projection''. We will call it ``normalization''
+    the first time we mention it, and then say that we will use the term ``projection''. It is a
+    projection in the sense that it is the point in $\mathbb{S}_p^{d-1}$ that is closest to the original
+    point, is it not?}
+
+    \item \emph{Minor point 2}: The first sentence of Section 3 is vague: [\emph{‘Consider a 
+    collection of observations $w_l, l = 1,\ldots,n$ that exhibit extreme behavior}].  Probably the
+    authors mean that the underlying random vector W is regularly varying, or belongs to some domain 
+    of attraction. However only specialists of EVT can guess that.
+
+    \comment{we're using $l$ for iterating observations, rather than dimensions?  Yeah, it's probably
+    bad wording.}
+
+    \item \emph{Minor point 3}: (typos): Section 3, first paragraph: Some confusions between $\ell \in \lbrace 1,\ldots, n\rbrace$ and $\ell \in \lbrace 1,\ldots,d\rbrace$
+
+    \comment{same as previous.}
+\end{itemize}
+
+\bibliography{./refs}
+
+\end{document}
+
+% EOF 
