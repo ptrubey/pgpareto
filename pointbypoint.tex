@@ -81,7 +81,10 @@ We note in passing that the moment conditions for the spectral distribution, say
     pseudo-angles based on the infinity norm.
 
 We have clarified the distinction between our approach and the prior contributions
-    mentioned.
+    mentioned.  Setting aside \cite{guillotte2011} which is a strictly bivariate
+    model, the named approaches consider batch extrema and by construction must
+    respect the moment constraint.  As noted, our approach is able to set that 
+    aside, allowing consideration of a wider class of distributions of pseudo-angles.
 
     % \comment{Hanson is clearly different.  They're using Bernstein polynomials 
     % effectively defined on $\mathbb{S}_1^{d-1}$.  We can demonstrate that 
@@ -99,10 +102,10 @@ We have clarified the distinction between our approach and the prior contributio
     % computational advantages and scales to moderately large problems, as 
     % illustrated in the paper.}
 
-    \comment{\cite{Hanson2017}: Bernstein polynomials on $\mathbb{S}_1^{d-1}$, 
-    modelling multivariate Frechets.  \cite{boldi2007}: Marginal Frechets, also 
-    operating on $\mathbb{S}_1^{d-1}$.  \cite{guillotte2011}: A strictly bivariate model.  
-    \cite{SaNa2014}: }
+    % \comment{\cite{Hanson2017}: Bernstein polynomials on $\mathbb{S}_1^{d-1}$, 
+    % modelling multivariate Frechets.  \cite{boldi2007}: Marginal Frechets, also 
+    % operating on $\mathbb{S}_1^{d-1}$.  \cite{guillotte2011}: A strictly bivariate model.  
+    % \cite{SaNa2014}: }
 
 \item \emph{Numerical accuracy}:  Keeping in mind the computational scope of 
     Statistics and Computing one would hope for more numerical work than what is 
@@ -115,7 +118,9 @@ We have clarified the distinction between our approach and the prior contributio
 To address this concern, we have revised the simulation study to feature the 
     average rise in energy score over baseline, averaged over 10 replications.  
     The simulated datasets are generated as mixtures of multivariate lognormals, 
-    projected onto the unit sphere.
+    projected onto the unit sphere.  As you say, this paper focuses on estimating
+    the spectral distribution, and ignores uncertainty from estimating marginal
+    parameters.  We have clarified as such.
     
 
     % \comment{Regarding the uncertainty from step 1, I think we agreed that was 

@@ -23,15 +23,18 @@ Our approach to estimating the PoT distribution considers two steps: First we
             z_{i\ell} = \left(1 + \xi_{\ell}\frac{w_{i\ell} -
                 b_{\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}\; .
         \end{equation}
-    Note that  $z_{i\ell}> 1$ implies that $w_{i\ell} > b_{t,\ell}$, meaning 
-    that the  observation $\bm{w}_i$ is extreme in the $\ell$-th dimension. 
+    Note that $z_{i\ell}> 1$ implies that $w_{i\ell} > b_{t,\ell}$, meaning 
+    that the observation $\bm{w}_i$ is extreme in the $\ell$-th dimension. 
     Thus, $r_i = \|\bm{z}_i\|_\infty > 1$ implies that at
     least one dimension has an extreme observation, and corresponds 
     to a very extreme observation when $t$ is large. We focus on 
     the observations that are such that $r_i > 1$. These provide a
     sub-sample of $r_i$ and $\bm{v}_i = \bm{z}_i /r_i \in 
     \mathbb{S}_{\infty}^{d-1}$ that is used for  the estimation of 
-    $\Phi$ conditional on the sample. 
+    $\Phi$ conditional on the sample. We observe that in practice, the choice
+    of $\bm{b}$, and the subsequent fitting of $\bm{a}$ and $\bm{\xi}$ induces
+    a stochastic element in the spectral distribution that is not accounted for
+    in our analysis.  \comment{phrasing?}
 
 \input{methodology_projgamma}
 
