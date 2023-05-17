@@ -23,7 +23,7 @@
 
 \section*{Review 1}
 \begin{itemize}
-    \item \emph{Moment constraint}: As can be seen, for example, in \cite[Equation 4.1]{einmahl2009}
+\item \emph{Moment constraint}: As can be seen, for example, in \cite[Equation 4.1]{einmahl2009}
     there is a moment constraint on the angular measure for any $\mathcal{L}_p$ norm with 
     $p \in [1, \infty]$ (nb including $p = \infty$).  Hence, why is there no moment constraint in 
     the submitted 
@@ -33,119 +33,140 @@
     this is openly acknowledged---as well as what are the consequences of this. Otherwise, this needs 
     to be further clarified.
 
-    \comment{Both reviewers comment on the moment constraint.  I forget if it's this one, or
-    the reference provided by the other reviewer, but I don't think they understood the reference
-    directly; they were using the $\mathcal{L}_1$ norm in $p$ dimensions, rather than the 
-    $\mathcal{L}_p$ norm as described in our paper.  A massive difference in meaning of notation.
-    I'll find the reference again and confirm.}
+    % \comment{Both reviewers comment on the moment constraint.  I forget if it's this one, or
+    % the reference provided by the other reviewer, but I don't think they understood the reference
+    % directly; they were using the $\mathcal{L}_1$ norm in $p$ dimensions, rather than the 
+    % $\mathcal{L}_p$ norm as described in our paper.  A massive difference in meaning of notation.
+    % I'll find the reference again and confirm.}
     
-    We thank the referee for calling our attention to
-the issue of moment restrictions. The approach considered in the
-paper follows that of \cite{rootzen2018}, consisting on modeling the
-distribution of the extreme observations, conditional on them being
-above a threshold, say $H$.  The approach considered in
-\cite{EiSe2009} focuses in the limiting joint exponent measure. More
-precisely, for the two dimensional case, they assume that
-\[
-	sPr(s^{-1}(Z_1,Z_2) \in A) \rightarrow \mu(A),
-\]
-where $\mu$ is the exponent measure. The moment conditions are
-the result of assuming that both marginals of $\mu$ correspond to a
-standard Pareto distribution. Such assumption is not compatible
-with the conditional distribution approach considered in our paper.
-In fact, as noted in \cite{KiRoSeWa2019}, typically the margins of
-$H$ are not univariate Pareto, due to the difference between the 
-conditioning events in the joint and the marginal cases. Thus, no
-moment conditions arise in our model. This has now been clarified in the paper.
+We thank the referee for calling our attention to
+    the issue of moment restrictions. The approach considered in the
+    paper follows that of \cite{rootzen2018}, consisting on modeling the
+    distribution of the extreme observations, conditional on them being
+    above a threshold, say $H$.  The approach considered in
+    \cite{EiSe2009} focuses in the limiting joint exponent measure. More
+    precisely, for the two dimensional case, they assume that
+    \[
+        sPr(s^{-1}(Z_1,Z_2) \in A) \rightarrow \mu(A),
+    \]
+    where $\mu$ is the exponent measure. The moment conditions are
+    the result of assuming that both marginals of $\mu$ correspond to a
+    standard Pareto distribution. Such assumption is not compatible
+    with the conditional distribution approach considered in our paper.
+    In fact, as noted in \cite{KiRoSeWa2019}, typically the margins of
+    $H$ are not univariate Pareto, due to the difference between the 
+    conditioning events in the joint and the marginal cases. Thus, no
+    moment conditions arise in our model. This has now been clarified in the paper.
 
-We note in passing that the moment conditions for the spectral
-distribution, say $\Phi$, in the two-dimensional case, using the 
-infinity norm, imply that 
-\[
-	\int_0^{\pi/4} \Phi(d\theta) = \int_{\pi/4}^{\pi/2}
-\Phi(d\theta).
-\]
-The former looks like a fairly strong symmetry restriction that is
-unlike to be realistic in practice. Thus, imposing moment
-conditions would probably result in a very restrictive model.
+We note in passing that the moment conditions for the spectral distribution, say 
+    $\Phi$, in the two-dimensional case, using the infinity norm, imply that 
+    \[
+        \int_0^{\pi/4} \Phi(d\theta) = \int_{\pi/4}^{\pi/2}
+    \Phi(d\theta).
+    \]
+    The former looks like a fairly strong symmetry restriction that is unlike to 
+    be realistic in practice. Thus, imposing moment conditions would probably 
+    result in a very restrictive model.
 
 
-    \item \emph{Main contribution}: While I appreciate the interesting construction based on the 
-    DPM of projected gammas (which itself could be of use for other contexts beyond extremes?), 
-    one wonders about what would be the main added value of it with respect to other existing 
-    Bayesian approaches (\cite{boldi2007},\cite{guillotte2011},\cite{sabourin2014},\cite{hanson2017}).
-    Keeping in mind the computational scope of Statistics and Computing, one wonders if the main 
-    advantage is, for example, a computational one? This needs to be clarified—especially in light 
-    of the previous comment on the moment constraint. Indeed, one could use any of the previous 
-    approaches with pseudo-angles based on the infinity norm.
+\item \emph{Main contribution}: While I appreciate the interesting construction 
+    based on the DPM of projected gammas (which itself could be of use for other 
+    contexts beyond extremes?), one wonders about what would be the main added 
+    value of it with respect to other existing Bayesian approaches 
+    (\cite{boldi2007},\cite{guillotte2011},\cite{SaNa2014},\cite{hanson2017}).
+    Keeping in mind the computational scope of Statistics and Computing, one 
+    wonders if the main advantage is, for example, a computational one? This 
+    needs to be clarified—especially in light of the previous comment on the 
+    moment constraint. Indeed, one could use any of the previous approaches with 
+    pseudo-angles based on the infinity norm.
 
-    \comment{Hanson is clearly different.  They're using Bernstein polynomials effectively defined 
-    on $\mathbb{S}_1^{d-1}$.  We can demonstrate that projected gammas built on $\mathbb{S}_{p}$, 
-    $p \geq 10$ and $\mathbb{S}_1$ create \emph{very} different gamma shape parameters, for data
-    created by the \emph{same} distribution.  I need to check again the other references, but 
-    based on their follow-on comment, I'm guessing the previous point needs to be addressed before 
-    we can properly justify this point.}
+We have clarified the distinction between our approach and the prior contributions
+    mentioned.
+
+    % \comment{Hanson is clearly different.  They're using Bernstein polynomials 
+    % effectively defined on $\mathbb{S}_1^{d-1}$.  We can demonstrate that 
+    % projected gammas built on $\mathbb{S}_{p}$, $p \geq 10$ and $\mathbb{S}_1$ 
+    % create \emph{very} different gamma shape parameters, for data created by 
+    % the \emph{same} distribution.  I need to check again the other references, 
+    % but based on their follow-on comment, I'm guessing the previous point needs 
+    % to be addressed before we can properly justify this point.}
     
-    \bruno{Based on our conversation, you need to look carefully into each one of these references.
-    it seems that most of them do not develop a PoT approach. But also, we use a kernel whose natural 
-    support is the positive cone (without using transformations) to build a mixture WRT to a random
-    measure. This provides the flexibility of mixture for a methods that has computational advantages 
-    and scales to moderately large problems, as illustrated in the paper.}
+    % \bruno{Based on our conversation, you need to look carefully into each one 
+    % of these references. it seems that most of them do not develop a PoT 
+    % approach. But also, we use a kernel whose natural support is the positive 
+    % cone (without using transformations) to build a mixture WRT to a random
+    % measure. This provides the flexibility of mixture for a methods that has 
+    % computational advantages and scales to moderately large problems, as 
+    % illustrated in the paper.}
 
-    \comment{\cite{hanson2017}: Bernstein polynomials on $\mathbb{S}_1^{d-1}$, modelling multivariate Frechets.  \cite{boldi2007}: Marginal Frechets, also operating on $\mathbb{S}_1^{d-1}$.  \cite{guillotte2011}: A strictly bivariate model.  \cite{sabourin2014}: }
+    \comment{\cite{Hanson2017}: Bernstein polynomials on $\mathbb{S}_1^{d-1}$, 
+    modelling multivariate Frechets.  \cite{boldi2007}: Marginal Frechets, also 
+    operating on $\mathbb{S}_1^{d-1}$.  \cite{guillotte2011}: A strictly bivariate model.  
+    \cite{SaNa2014}: }
 
-    \item \emph{Numerical accuracy}:  Keeping in mind the computational scope of Statistics and 
-    Computing one would hope for more numerical work than what is presented in §5.1. As far as I
-    understand what is presented are single run experiments for each $d$? Monte Carlo evidence on the
-    performance of the procedure would be appreciated. On top of this, the current numerical exercise
-    ignores the uncertainty that stems from step 1 of the procedure (i.e. estimating the margins).
+\item \emph{Numerical accuracy}:  Keeping in mind the computational scope of 
+    Statistics and Computing one would hope for more numerical work than what is 
+    presented in §5.1. As far as I understand what is presented are single run 
+    experiments for each $d$? Monte Carlo evidence on the performance of the 
+    procedure would be appreciated. On top of this, the current numerical exercise
+    ignores the uncertainty that stems from step 1 of the procedure 
+    (i.e. estimating the margins).
 
-    \comment{Regarding the uncertainty from step 1, I think we agreed that was basically intractible.
-    We may need to explicitly specify as such, and that a practicioner must accept the numerical 
-    uncertainty that arises from step 1.  That said, I seem to recall the numbers observed being 
-    relatively robust to choice of threshold (for large threshold), the difference mainly coming 
-    down to computation time.}
+To address this concern, we have revised the simulation study to feature the 
+    average rise in energy score over baseline, averaged over 10 replications.  
+    The simulated datasets are generated as mixtures of multivariate lognormals, 
+    projected onto the unit sphere.
     
-    \bruno{I think we need to conduct a more comprehensive suite of experiments. Regarding the uncertainty 
-    coming from Step1, we just need to acknowledge that we are ignoring it.}
 
-    To address this concern, we have \comment{revised (note: future past tense)} the simulation study 
-    to feature the average rise in energy score over baseline, averaged over 10 iterations.  The simulated
-    datasets are generated as mixtures of multivariate lognormals, projected onto the unit sphere.
+    % \comment{Regarding the uncertainty from step 1, I think we agreed that was 
+    % basically intractible. We may need to explicitly specify as such, and that a 
+    % practicioner must accept the numerical uncertainty that arises from step 1.  
+    % That said, I seem to recall the numbers observed being relatively robust to 
+    % choice of threshold (for large threshold), the difference mainly coming down 
+    % to computation time.}
     
-    \item \emph{Prior and MCMC}: A lot is left to the reader in §5 in terms of prior specification
-    and MCMC settings.  At least some further details would be required.
+    % \bruno{I think we need to conduct a more comprehensive suite of experiments. 
+    % Regarding the uncertainty coming from Step1, we just need to acknowledge that 
+    % we are ignoring it.}
 
-    \comment{The form of the prior is specified.  I'm guessing he's referring to the actual values
-    used for computation?  $\bm{\mu}_0 = \bm{0}$, $\nu = d + 50$, $\bm{\Psi} = \nu I_d$, and so on?}
+
+\item \emph{Prior and MCMC}: A lot is left to the reader in §5 in terms of
+    prior specification and MCMC settings.  At least some further details would 
+    be required.
+
+    \comment{The form of the prior is specified.  I'm guessing he's referring to 
+    the actual values used for computation?  $\bm{\mu}_0 = \bm{0}$, 
+    $\nu = d + 50$, $\bm{\Psi} = \nu I_d$, and so on?}
     
     \bruno{You need to provide more details here.}
 
-    \item \emph{Future research}: §6 calls for a view of the authors on what could be related 
-    exercises—or even extensions of this research and future work. Using the proposed Bayesian 
-    multivariate PoT construction for devising a regression model for an an extreme value response 
-    on an extreme value covariate is one example of a natural follow-up; see \cite{carvalho2022}
-    for related ideas. Conditional versions of the angular measure (e.g. \cite{carvalho2016},
-    \cite{castro2018}, \cite{escobar2018}, \cite{mhalla2019}) would lead to a conditional 
-    multivariate peaks-over-threshold model, where dependence between exceedances could change 
-    along with a covariate. Also, perhaps the here proposed DPM of projected gammas—as well as 
-    predictor-dependent versions of it—could be of interest in other settings beyond angular 
-    measures?
+\item \emph{Future research}: §6 calls for a view of the authors on what 
+    could be related exercises—or even extensions of this research and future 
+    work. Using the proposed Bayesian multivariate PoT construction for 
+    devising a regression model for an an extreme value response on an extreme 
+    value covariate is one example of a natural follow-up; see 
+    \cite{carvalho2022} for related ideas. Conditional versions of the angular 
+    measure (e.g. \cite{carvalho2016}, \cite{castro2018}, \cite{escobar2018}, 
+    \cite{mhalla2019}) would lead to a conditional multivariate 
+    peaks-over-threshold model, where dependence between exceedances could 
+    change along with a covariate. Also, perhaps the here proposed DPM of 
+    projected gammas—as well as predictor-dependent versions of it—could be of 
+    interest in other settings beyond angular measures?
 
     \comment{I'm guessing this guy is de Carvalho?}
     
-    \bruno{I have no doubts that this referee is Carvalho. I'll spend some time reading the papers
-    that he mentions.}
+    \bruno{I have no doubts that this referee is Carvalho. I'll spend some time 
+    reading the papers that he mentions.}
     
 \end{itemize}
 
 \section*{Review 2}
 \begin{itemize}
-    \item \emph{Lack of clarity}: The presentation of the probabilistic setting for the multivariate 
+\item \emph{Lack of clarity}: The presentation of the probabilistic setting for the multivariate 
     PoT model (Section 2) and estimation method (Section 3) contains some inconsistencies and unclear
     points:
     \begin{enumerate}
-        \item Please use a different notation for the random vector distributed according to $F$ 
+    \item Please use a different notation for the random vector distributed according to $F$ 
         (denoted by $W$ in the paper) and for the Peaks-over-threshold limit, that is the standard
         Generalized Pareto vector, also denoted by $W$. This is not correct because the latter has 
         not the same distribution as the former. The confusion goes on throughout the paper, e.g. 
@@ -165,7 +186,7 @@ conditions would probably result in a very restrictive model.
         with small letters. The random variable corresponding to the conditional limiting distribution
         $H$ is now denoted as $Z$.
 
-        \item About the standardization, Eq. (3): please introduce some background. In the paper it is
+    \item About the standardization, Eq. (3): please introduce some background. In the paper it is
         introduced as \emph{’the standardization’} and it is unclear what is the relation between this 
         and the definition of the GPD (beginning of Section 2), unless one already knows about marginal
         standardization methods in multivariate EVT. In any case there are several ways to perform 
@@ -175,7 +196,7 @@ conditions would probably result in a very restrictive model.
         univariate generalized Pareto, and how it is used to estimate the shape and scale parameters, 
         which are then used to standardize the observations.
 
-        \item Section 3.2.1: Please provide some minimal background (or references) on the Dirichlet 
+    \item Section 3.2.1: Please provide some minimal background (or references) on the Dirichlet 
         Process Mixture, in particular about clusters of observations occurring naturally in this 
         model. This is indeed standard in Bayesian Non-parametrics, so there should be a precise 
         reference where it is explained.
@@ -183,11 +204,11 @@ conditions would probably result in a very restrictive model.
         \bruno{Peter, you need to come up with additional, and more specific references here.}
 
         
-    \end{enumerate}
+\end{enumerate}
 
-    \item \emph{Organization of paper}:
-        \begin{enumerate}
-            \item End of Section 2, starting from \emph{A measure that is used to characterize 
+\item \emph{Organization of paper}:
+    \begin{enumerate}
+        \item End of Section 2, starting from \emph{A measure that is used to characterize 
             the strength of dependence...}, until the end: the discussion about the dependence 
             coefficient (Coles’s $\chi$) is quite disconnected from the rest at this point. It
             is not useful for Section 3. It is only used in the experiments (Section 5). If I 
@@ -197,7 +218,7 @@ conditions would probably result in a very restrictive model.
             the empirical version. It is unclear at this point what is the added value of the 
             model compared with an empirical method.
 
-            \item The statistical model (projected Gamma family) is only introduced in the
+        \item The statistical model (projected Gamma family) is only introduced in the
             \emph{‘estimation’} section, whereas it is the main building block of the paper.
 
             We thank the referee for the suggestion to change the layout of the paper. We have
@@ -235,11 +256,16 @@ conditions would probably result in a very restrictive model.
         with the results we present. I'll work on an answer to this one.}
     \end{enumerate}
 
-    \item \emph{Comparison with other methods}: The only comparison study displayed in the paper 
+\item \emph{Comparison with other methods}: The only comparison study displayed in the paper 
     takes place within the suggested model, only with different prior choice. This is not sufficient 
     for performance comparison in a methodological paper. One may e.g. think of comparing with the
     results obtained with the empirical angular measure or smoothed versions of it in terms of 
     extremal dependence and conditional survival probability.
+
+    We have included for comparison some other models established on $\mathcal{S}_{1}^{d-1}$;
+        notably the pairwise betas model developed in \cite{sabourin2013}, as well
+        as the dirichlet distribution.  We have investigated several packages to 
+
 
     \bruno{Well, here we have to bite the bullet. Hopefully there some software that allows us
     to fit the empirical angular measure.}
@@ -301,7 +327,8 @@ conditions would probably result in a very restrictive model.
     one needs to verify that $g$ is a negative definite kernel, that is, that for all $x_1,\ldots,x_n$
     and $a_1,\ldots,a_n$, \[ \sum_i\sum_ja_ia_jg(x_i,x_j)\leq 0,\]
     (with varying points $x_i,x_j$), not that \[\sum_i\sum_ja_ia_jg(x_1,x_2)\leq 0.\]  Thus the vector $e$
-    which allows to break the sum into two parts in the current proof should in fact depend on $(i,j)$, and the proof is not valid.
+    which allows to break the sum into two parts in the current proof should in fact depend on $(i,j)$, 
+    and the proof is not valid.
 
     \bruno{We need to rewrite the proof. I'll do that.}
 
@@ -337,7 +364,8 @@ conditions would probably result in a very restrictive model.
     \comment{we're using $l$ for iterating observations, rather than dimensions?  Yeah, it's probably
     bad wording.}
 
-    \item \emph{Minor point 3}: (typos): Section 3, first paragraph: Some confusions between $\ell \in \lbrace 1,\ldots, n\rbrace$ and $\ell \in \lbrace 1,\ldots,d\rbrace$
+    \item \emph{Minor point 3}: (typos): Section 3, first paragraph: Some confusions between 
+        $\ell \in \lbrace 1,\ldots, n\rbrace$ and $\ell \in \lbrace 1,\ldots,d\rbrace$
 
     \comment{same as previous.}
 \end{itemize}
