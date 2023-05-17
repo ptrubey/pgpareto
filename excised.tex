@@ -1,0 +1,163 @@
+
+%To develop a multivariate PoT model for extreme values consider a 
+%$d$-dimensional random vector $\bm{W} = (W_1, \ldots ,W_d)$  with 
+%marginal distributions $F_1(w_1), \dots , F_d(w_d)$, and define its
+%standardization as $\bm{Z} = (Z_1, \ldots , Z_d)$, where $Z_i = 1/ (1 - F_i(W_i)), \; i=1, \ldots , d$.
+%Following the discussion in \cite{goix2017} we assume a form of 
+%regular variation, consisting on assuming the existence of a 
+%limiting measure $\mu$ on $(0,\infty]^d$, such that.
+%\begin{equation}\label{eq:reg-var}
+%        \lim\limits_{n\to\infty}n\prob{\frac{1}{n}\bm{Z}\not\leq \bm{z}} = \mu\left([\bm{0},\bm{z}]^c\right),
+%\end{equation}
+%where the inequality and the interval are taken componentwise. 
+%In this setting, $\mu$ is the asymptotic distribution of $\bm{Z}$ 
+%in extreme regions, and it is  referred to as the \emph{exponent
+%measure}. In addition, we assume that $\lim_{n\rightarrow\infty} 
+%n\prob{\max\{Z_1, \ldots , Z_d\}>n} = 1$. Equation \ref{eq:reg-var}
+%implies that $\mu$ has the homogeneity property $\mu(t\cdot) = 
+%\frac{1}{t}\mu(\cdot)$i, and it can be shown that  $\mu$ 
+%can be decomposed into a radial and an angular component. In fact, 
+%for $\bm{z} = (z_1, \ldots , z_n) \in (0,\infty]^d$, let $r(\bm{z}) = 
+%||\bm{z}||_\infty$ and $\bm{v}(\bm{z}) = \bm{z}/r(\bm{z})$. Define 
+%$\Phi(B) = \mu(\{\bm{z} : r(\bm{z})>1, \bm{v}(\bm{z}) \in B\})$, for any
+%$B\subset \mathbb{S}_{\infty}^{d-1}$, the positive orthant of the unit 
+%sphere in infinite norm. $\Phi$ is referred to as the {\em angular 
+%measure}. Then 
+%\begin{equation}\label{eq:exp-measure}
+%    \mu\left(\left\lbrace  \bm{z} \in [0,\infty)^d : \lVert \bm{z} \rVert_{\infty} > r,\;\bm{z}/\lVert\bm{z}\rVert_{\infty} \in B\right\rbrace \right) = r^{-1}\Phi(B).
+%\end{equation}
+%Thus, the radial and angular components of the exponent measure are
+%independent. To obtain a multivariate peak over threshold model we 
+%consider the radial and angular component of the random variable $\bm{Z}$
+%denoted, respectively, as $R = \max_{i} Z_i$ and $\bm{V} = \bm{Z}/R$. 
+%Then, using Equations \ref{eq:reg-var} and \ref{eq:exp-measure}, we have
+%that
+
+%To obtain a statistical approach to estimating $\mu$, we follow the approach proposed in .
+%Define  , and assume that it is distributed as a standard Pareto, and thus $R>1$ 
+% with probability one. Also, define , and assume that $\bm{V}$ has probability distribution 
+% $\Phi$ concentrated in $\mathbb{S}_{\infty}^{d-1}$, the positive orthant of the unit sphere 
+% in infinite norm. Also, assume that $E(V_i)>0$, and that $ \bm{Z}$ and $R$ are independent. 
+%We refer to $R$ and $\bm{V}$ as, respectively, the  of $\bm{Z}$. Under those assumptions,  
+% the convergence stated in Equation \ref{eq:reg-var} holds with limit measure $\mu$ determined by
+
+%\citep[e.g.][applied to the finite-dimensional case]{ferreira2014}
+%\[
+%    \mu\left(\left\lbrace  \bm{z} \in [0,\infty)^d : \lVert \bm{z} \rVert_{\infty} > r,\;\bm{z}/\lVert\bm{z}\rVert_{\infty} \in A\right\rbrace \right) = r^{-1}\Phi(A)
+%\]
+%for $r > 0$ and for Borel sets $A\subseteq \mathbb{S}_{\infty}^{d-1}$.
+
+%    $\mu(tA) = \frac{1}{t}\mu(A)$.  Define  $R = \max_{i} Z_i$, and assume that $R>1$ with probability one. 
+%    Also, define $V_i = Z_i/\max_i Z_i$, and assume that $E(V_i)>0$. These two assumptions together with the 
+%    homogeneity of $\mu$ correspond to the second condition in Theorem 2.1 of
+%    \cite{ferreira2014}, applied to the finite-dimensional case.
+%    Thus, we have the factorization $\bm{Z} =  R\bm{V}$, where $R$ and $\bm{V}$  are independent. Moreover,
+%    for some measure $\Phi$, $\mu(\cdot)$ is factorized as
+%    \temp{\begin{equation}\label{mufact}
+%        %\mu\left( \left\lbrace\bm{Z} : V \in A , R > r\right\rbrace \right) = r^{-1}\Phi(A).
+%        \mu\left(\left\lbrace \bm{z}\in \mathbb{R}_+^d : R(\bm{z}) > r, V(\bm{z}) \in A\right\rbrace\right) = r^{-1}\Phi(A)
+%    \end{equation}
+%    for $R(\bm{Z}) > 0$, and Borel sets $A \subseteq \mathbb{S}_{\infty}^{d-1}$.  Hereafter $R$ is referred
+%    to as the radial component, and $\bm{V}$ the angular component of $\bm{Z}$
+%    \st{$R$ describes the radial component, and $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$ the 
+%    angular component of $\bm{Z}$.}}  Here ${\mathbb S}_\infty^{d-1}$ denotes the positive
+%    orthant of the unit sphere in infinite norm.  $\Phi(\cdot)$ is referred to as the \emph{angular measure}.   
+%    From Equation (\ref{mufact}) we see that $R$ is distributed as a standard Pareto random variable. Conditioning on $R$, we have that
+%    \begin{equation} \label{MGP}
+%        \prob{\bm{V} \in B \mid R > r} = \frac{r\prob{\bm{V} \in B, R > r}}{r\prob{R > r}}\hspace{0.2cm}
+%            \xrightarrow[r\to\infty]{~} \hspace{0.2cm} \Phi(B),
+%    \end{equation}
+%as $\lim_{r\rightarrow\infty} r\prob{R>r} = 1$.
+%    Thus, the angular measure corresponds to the distribution of $\bm{V}$, conditional on $R$ being large.
+%    As such, it controls the dependence structure of $\bm{Z}$ in the tails. 
+%    In fact, assuming that $E(V_i)>0$ 
+%    and following \cite{ferreira2014}, in the limit the distribution function of $\bm{Z}$ is given as
+%    \begin{equation*}
+%        \prob{Z_1\leq z_1, \ldots ,Z_d\leq z_d} = \expect{\bigvee_{i=1}^d
+%    \frac{V_i}{z_i\wedge 1}} - \expect{\bigvee_{i=1}^d
+%    \frac{V_i}{z_i}}
+%    \end{equation*}
+%    where the expectation is taken with respect to $\Phi$
+%In view of this, to obtain a PoT model we consider a limiting 
+%distribution for $\bm{Z}$ that corresponds to the distribution
+%of the product of two independent random variables $\tilde{R}$ 
+%and $\tilde{\bm{V}}$, with distributions, respectively, standard 
+%Pareto and $\Phi$. \cite{ferreira2014} refer to such model as a 
+%simple  Pareto process indexed on a finite dimensional set.  We 
+%seek a flexible model for the distribution
+%of $\tilde{\bm{V}} \in {\mathbb S}_{\infty}^{d-1}$.
+
+%An alternative approach to justify the above mentioned limiting
+%distribution, that provides a link to the multivariate GEV and the
+%theory of max-stable distributions, is discussed 
+%in Remark 1 of \cite{RoSeWa2018a}. More specifically, 
+%using the notation in Theorem 6 of \cite{RoSeWa2018a}, define $\bm{S} 
+%=  \log(\tilde{\bm{V}})$.  Then, according to Definition 5, $\bm{S}$ 
+%is a spectral  random vector. Taking  $E \sim \text{Exp}(1)$, 
+%independent of  $\tilde{\bm{V}}$,  we have that $\bm{Y} = \bm{S} + E$  
+%follows a multivariate GP, according  to Theorem 6.  Then, using 
+%Proposition 4,  $\tilde{\bm{V}}\tilde{R} = e^{\bm{Y}}$ will also follow
+%a multivariate GP. Notice that $\tilde{R} = e^E$ is distributed as 
+%a standard Pareto random variable. This is one of several stochastic
+%representations of a multivariate GP presented in \cite{RoSeWa2018a}.
+
+
+%\subection{Pairwise Extremal Dependence\label{subsec:ped}}
+%%A measure that is used to characterize the strength of the dependence,
+%%in the tail, for two random variables $Z_1$ and $Z_2$, with marginal
+%%distributions $F_1$ and $F_2$ is given by \citep{coles2001}.
+%%\[
+%%    \chi_{12} = \lim\limits_{u\uparrow 1} \prob{F_1(Z_1)>u\mid F_2(Z_2)>u}  
+%%\]
+%%$\chi_{12}$ provides information about the distribution of extremes for the variable $Z_1$
+%%given that $Z_2$ is very large.  When $\chi_{12}>0$, $Z_1$ and $Z_2$ 
+%%are said to
+%%be asymptotically dependent, otherwise they are asymptotically
+%%independent. The following result provides the asymptotic dependence coefficient between two components of $\bm{Z}$
+%%after PoT limit. 
+%%\begin{prop}\label{ppchi}
+%%Suppose that $\bm{Z} = R\bm{V}$ with $R\sim Pa(1)$,
+%%$\prob{V_\ell > 0} = 1$ and $\expect{V_\ell}$ exists, for $\ell=1, \ldots ,d$, then
+%%\begin{equation}
+%%    \label{eqn:chi_ij}
+%%	\chi_{\jmath\ell} = \expect{\frac{V_\jmath}{\expect{V_\jmath}} \wedge \frac{V_\ell}{\expect{V_\ell}}}
+%%\end{equation}
+%%\end{prop}
+%%{\em Proof:}
+%%Denote as $F_\ell$ the marginal distribution of $Z_\ell$. To obtain $\chi_{\jmath\ell}$ we need $Pr(Z_\jmath>z_\jmath,Z_\ell>z_\ell)$, where $z_\ell =
+%%F_\ell^{-1}(u) = \expect{V_\ell}/(1 - u), \;\ell=1,\dots, d$.
+%%Using the fact that
+%%$V_\ell>0, \forall \ell$ almost surely, we have that the former is equal to
+%%\begin{equation*}
+%%    \begin{aligned}
+%%    &\hspace{-0.5cm}\prob{R>\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}}
+%%    = \expect{1\wedge\left(\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}\right)^{-1}}\\
+%%    &= \expect{\frac{V_\jmath}{z_\jmath}\wedge\frac{V_\ell}{z_\ell}}
+%%    = (1 - u)\expect{\frac{V_\jmath}{\expect{V_\jmath}}\wedge\frac{V_\ell}{\expect{V_\ell}}},
+%%    \end{aligned}
+%%\end{equation*}
+%%where the second identity is justified by the fact that $V_i$ is
+%%bounded and $z_i\rightarrow\infty$. The proof is completed by noting
+%%that $\prob{F_i(Z_i)>u} = 1 - u. \hfill\Box$
+%%
+%%%\subsection{Multivariate Conditional Survival Function\label{subsec:condsurv}}
+%%Equation \ref{eqn:chi_ij} implies that $\chi_{\jmath\ell}>0$, and so, no 
+%% asymptotic independence is possible under our proposed model. For the analysis 
+%% of extreme values it is of interest to calculate the multivariate conditional survival 
+%% function. The following result provides the relevant expression, as a function of 
+%% the angular measure.
+%%\begin{prop}
+%%Assume the same conditions of Proposition \ref{ppchi}. 
+%%Let $\alpha \subset \{1, \ldots ,d\}$ be a collections of indexes. 
+%%Then     
+%%\begin{equation} \label{eqn:condsurv}
+%%    \begin{aligned}
+%%    &\hspace{-0.5cm}\mathrm{Pr}\left[\bigcap_{\ell \in \alpha} Z_\ell > z_\ell \mid \bigcap_{\ell\not\in\alpha} Z_\ell > z_\ell\right] \\
+%%    &= \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
+%%    \end{aligned}
+%%  \end{equation}
+%%\end{prop}  
+%%The proof uses a similar approach to the proof of Proposition \ref{ppchi}.
+%%
+
+
