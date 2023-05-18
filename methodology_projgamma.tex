@@ -16,7 +16,7 @@ $\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
       = \underset{\ell = 1}{\overset{d}{\bigvee}}s_{\ell}.
   \end{equation*}
 
-  A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product of independent
+A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product of independent
   univariate Gamma distributions. Let
     $\bm{ X} \sim \prod_{\ell = 1}^d\text{Ga}\left(X_{\ell}\mid\alpha_{\ell},\beta_{\ell}\right)$, 
     $\alpha_\ell$ and $\beta_\ell$ are the shape and scale parameters, respectively. 
@@ -36,7 +36,8 @@ $\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
     \label{eqn:pnormtinv}
     \begin{aligned}
     &\hspace{-0.5cm}T^{-1}\left(r,y_1,\ldots,y_{d-1}\right)\\
-      & = \left(ry_1,\ldots,ry_{d-1}, r\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}}\right).
+      & = \left(ry_1,\ldots,ry_{d-1}, 
+        r\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}}\right).
     \end{aligned}
   \end{equation}
   The Jacobian of the transformation takes the form
@@ -44,7 +45,8 @@ $\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
     \label{eqn:pnormjac}
     \begin{aligned}
     r^{d-1}\left[\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}} \right. & \\
-        &\hspace{-2cm}+ \left. {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right].
+        &\hspace{-2cm}+ \left. {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p
+          \left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right].
     \end{aligned}
   \end{equation}
   The normalization provided by $T$ maps a vector in ${\mathbb R}_+^d$ onto
@@ -80,11 +82,19 @@ $\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
   For $\bm{ y}\in {\mathbb S}_1^{d-1}$, and $\beta_{\ell} = \beta$ for all $\ell$, the density in Equation (\ref{eqn:projgamma}) corresponds to that of a Dirichlet distribution.
   
   
-  The projected gamma family is simple to specify and has very tractable computational properties. Thus, we use it as a building block for the angular measure $\Phi$ models. To build a flexible family of distributions in ${\mathbb S}_p^{d-1}$ we consider mixtures of projected gamma densities defined as
+The projected gamma family is simple to specify and has very tractable 
+  computational properties. Thus, we use it as a building block for the 
+  angular measure $\Phi$ models. To build a flexible family of distributions 
+  in ${\mathbb S}_p^{d-1}$ we consider mixtures of projected gamma densities 
+  defined as
   \begin{equation} \label{eqn:PGmix}     
      f(\bm{y}) = \int_\Theta \mathcal{PG}(\bm{y}\mid \bm{\theta}) dG(\bm{\theta}), 
   \end{equation} 
-  where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian non-parametric approach \citep{Ferguson74,Antoniak1974} we assume that $G$ is drawn from a random measure. In particular, assuming a Dirichlet process prior for $G$, we have a hierarchical formulation of the mixture model that, for a vector of observations $\bm{y}_i$, is given by
+where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian 
+  non-parametric approach \citep{Ferguson74,Antoniak1974} we assume that $G$ 
+  is drawn from a random measure. In particular, assuming a Dirichlet process 
+  prior for $G$, we have a hierarchical formulation of the mixture model that, 
+  for a vector of observations $\bm{y}_i$, is given by
   \begin{equation}\label{eqn:dppg}
     \begin{aligned}
     \bm{y}_i &\sim \text{PG}(\bm{y}_i\mid \bm{\theta}_i)\\
@@ -95,10 +105,11 @@ $\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
     G &\sim \mathcal{DP}(\eta, G_0),
     \end{aligned}
   \end{equation}
-  where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision parameter, and $G_0$ is the centering distribution. 
+  where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision 
+  parameter, and $G_0$ is the centering distribution. 
   
-  Unfortunately, in the limit when $p\rightarrow \infty$, the 
-  projection transformation is not differentiable. Thus, a closed form expression 
+Unfortunately, in the limit when $p\rightarrow \infty$, the projection 
+  transformation is not differentiable. Thus, a closed form expression 
   like Equation (\ref{eqn:projgamma}) for the projected gamma density on ${\mathbb S}_\infty^{d-1}$ is not 
   available. Instead, we observe that for a sufficiently large $p$, $\mathbb{S}_p^{d-1}$ will approach
   $\mathbb{S}_{\infty}^{d-1}$.  With that in mind, our strategy consists of describing the angular
@@ -109,7 +120,8 @@ $\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
   (iv) Fit the model in Equation (\ref{eqn:PGmix}) to the resulting 
   data and obtain samples from the fitted model; 
   (v) Project the resulting samples onto ${\mathbb S}_\infty^{d-1}$.
-  For step (iv) we use a Bayesian approach that is implemented using a purposely developed Markov chain Monte Carlo sampler described in the next section.
+  For step (iv) we use a Bayesian approach that is implemented using a purposely 
+  developed Markov chain Monte Carlo sampler described in the next section.
 
 \begin{figure}[ht]
     \centering
