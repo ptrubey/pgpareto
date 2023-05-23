@@ -6,18 +6,18 @@ Our approach to estimating the PoT distribution considers two steps: First we
     we focus on the dependence structure in extreme regions by proposing a 
     flexible model for the distribution of $\bm{V}$. Consider a collection of 
     observations  $\bm{w}_i \in {\mathbb R}^d, i = 1, \ldots, n$ that exhibit 
-    extreme behavior.  We \bruno{start by setting a large threshold 
+    extreme behavior.  We start by setting a large threshold 
     $b_{t,\ell}$ for the  $\ell$-th marginal, $\ell = 1, \ldots,d$. Then, the 
     distribution of the observations for the $\ell$-th component, 
     conditional on exceeding the threshold, can be 
     approximated as $1 - (1 + \xi_\ell   (w_{i\ell} - b_{t,\ell})/\sigma_\ell)_+^
     {1/\xi_ell}$, where $(\cdot)_+$ indicates the positive part function.  We 
-    proceed by setting a} threshold equal to the empirical $(1-1/t)$-quantile. 
-    Thus $b_{t,l}  = \hat{F}^{-1}_{\ell}(1 - 1/t)$. \bruno{We then use the 
+    proceed by setting a threshold equal to the empirical $(1-1/t)$-quantile. 
+    Thus $b_{t,l}  = \hat{F}^{-1}_{\ell}(1 - 1/t)$.  We then use the 
     approximate exceedance distribution to estimate $\xi_\ell$ and $\sigma_\ell$,
     for each $\ell$, using likelihood based methods. Then, in order to estimate 
     the angular distribution, we use those estimates to standardize each of 
-    the marginals.} The   standardization  yields
+    the marginals. The standardization yields
     \begin{equation}
             \label{eqn:standardization}
             z_{i\ell} = \left(1 + \xi_{\ell}\frac{w_{i\ell} -
