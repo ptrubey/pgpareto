@@ -1,7 +1,8 @@
 
 \begin{figure*}[htb]
     \centering
-    \caption{Energy score (top row) and Posterior Predictive Loss (bottom row) for various models on simulated data with ascending count of mixture components (indicated by plot heading) and number of dimensions (indicated by horizontal axis).  Gen indicates baseline.\label{fig:simpples}}
+    % \caption{Energy score (top row) and Posterior Predictive Loss (bottom row) for various models on simulated data with ascending count of mixture components (indicated by plot heading) and number of dimensions (indicated by horizontal axis).  Gen indicates baseline.\label{fig:simpples}}
+    \caption{Average energy score rise over baseline (on $\mathbb{S}_{\infty}^{d-1}$) for various models on simulated data, with ascending count of mixture components (indicated by plot heading) and number of dimensions (indicated by horizontal axis).  Note that pairwise betas is a moment-restricted model.\label{fig:simpples}}
     \includegraphics[height=3in, width = \textwidth]{./images/sim_es_rise}
 \end{figure*}
 
@@ -9,35 +10,68 @@
 \section{Data illustrations\label{sec:results}}
 
 \subsection{Simulations\label{subsec:simulated}}
-
 To evaluate our proposed approach for angular measure estimation 
-    we consider simulated datasets on $\mathbb{S}_{\infty}^{d-1}$, for 
-    $d$ ranging between 3 and 20. We generated each dataset from a mixture of projected Gammas, with 
-    the number of mixture components ranging between 3 and 12.  The generation procedure is detailed 
+    we consider simulated datasets on $\mathbb{S}_{\infty}^{d-1}$,
+    for values of $d$ ranging between 2 and 32.  We generated each
+    dataset as a mixture of multivariate log-normal distributions,
+    projected onto $\mathbb{S}_p^{d-1}$. The generation procedure is detailed 
     in Algorithm~\ref{algo:simulated}.
-    \begin{algorithm}[ht]  % algorithm using algorithm package
+
+\begin{algorithm}[ht]  % algorithm using algorithm package
         \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}}
         \begin{algorithmic}
-        \For{$n_{\text{mix}}$ in $[3, 6, 9, 12]$}
-            \State Generate $n_{\text{mix}} \times 20$ shape Parameters $\alpha$
-            \State Generate $n_{\text{mix}} \times 20$ Rate Parameters $\beta$
-            \State Generate $500$ Mixture Component Identifiers $\delta$
-            \For{$i$ in $1,\ldots,500$}
-                \State Generate ${\bf X}_i \sim \prod_{\ell = 1}^d\text{Ga}\left(X_{il}\mid\alpha_{\delta_i,l},\beta_{\delta_i, l}\right)$
+        \For{$n_{\text{iter}}$ in $[1,\ldots,10]$}
+        \For{$n_{\text{mix}}$ in $[1, 2, 4, 8]$}
+            \For{$j$ in $1,\ldots,n_{\text{mix}}$}
+                \State Generate $\mu_{j} \sim \mathcal{N}\left(\bm{0},\bm{I}\right)$
+                \State Generate $\Sigma_{j}\sim\mathcal{IW}\left(70,70 \bm{I}\right)$
             \EndFor
-            \For{$n_{\text{col}}$ in $[3,6,12,20]$}
+            \State Generate $\pi\sim\text{Dirichlet}(\bm{10})$
+            \For{$i$ in $1,\ldots,1000$}
+                \State Generate $\delta_i \sim \text{Categorical}(\pi)$
+                \State Generate $\bm{X}_i \sim \mathcal{LN}\left(\mu_{[\delta_i]},\Sigma_{[\delta_i]}\right)$
+            \EndFor
+            \For{$n_{\text{col}}$ in $[2,4,8,16,24,32]$}
                 \State Project columns 1 to $n_{\text{col}}$ of ${\bf X}$ onto $\mathcal{S}_{\infty}^{n_{\text{col}} - 1}$ and save.
             \EndFor
+        \EndFor
         \EndFor
         \end{algorithmic}
     \end{algorithm}
 
-Each one of the shape parameters $\alpha$ were generated 
-$\alpha = \alpha_0 + \alpha_1$ where
-  $\alpha_0 \sim \text{Unif}(\alpha_0\mid 0,4)$, $\alpha_1\sim \text{Gamma}(\alpha_1\mid 1,1)$.
-The scale parameters $\beta$ were obtained as $\beta\sim\text{Unif}(\beta\mid 0.25, 2.5)$.
+where $\mu_j$, $\Sigma_j$ the parameters of the log-normal mixture component 
+    distribution; $\pi$ the probability vector assigning weight to each mixture 
+    component, and $\delta_i$ the mixture component identifier for each simulated 
+    observation.  
 
-Figure~\ref{fig:simpples}, shows two sets of panels that illustrate the comparison
+Figure~\ref{fig:simpples}, shows the average rise over baseline in energy score as
+    calculated on $\mathbb{S}_{\infty}^{d-1}$ using the kernel metric described
+    in Proposition~\ref{prop:rot}, for models trained on simulated data.  After training
+    a model, a posterior predictive dataset is generated, and the energy score is
+    calculated as a Monte Carlo approximation of Equation~\ref{eq:es}.
+    The \emph{baseline} value is the energy score of a new dataset from the same
+    generating distribution as the training dataset, evaluated against the training 
+    dataset.  We considered a total of four variations of the Dirichlet-process mixture
+    of projected gammas model: whether to restrict $\beta_{j\ell} := 1$ as the projected
+    \emph{restricted} gamma (DP-PRG) akin to a projected Dirichlet, or allow them to be 
+    learned with a gamma prior (DP-PG); and for the shape parameters whether to use a 
+    gamma centering distribution (-G) or a log-normal centering distribution (-LN).
+    For comparison we also included two other distributions on $\mathbb{S}_{1}^{d-1}$:
+    The Dirichlet distribution (with gamma priors), and the pairwise betas distribution
+    developed in~\cite{COOLEY2010}.  Note that the pairwise betas model respects
+    the moment restriction generally assumed.\makenote{This phrasing needs to be changed.
+    The point I am trying to make is that because the moment-restriction assumption is 
+    discarded, a moment-restricted model is inadequate, as is borne out in the
+    simulation study.}  We observe that the projected gamma models dominate, and within
+    that class of model, the choice of centering distribution is irrelevant.  For the
+    projected \emph{restricted} gamma models, the choice of log-normal centering
+    distribution induces 
+
+
+
+
+
+shows two sets of panels that illustrate the comparison
 between four different models used to fit the simulated data. We produced 16 
 different data sets, one for each of four different numbers of mixture components 
 and four different dimensions. We considered three different models: DP mixtures 
