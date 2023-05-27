@@ -207,7 +207,7 @@ To address this concern, we have revised the simulation study to feature the
         reference where it is explained.
 
         \bruno{Peter, you need to come up with additional, and more specific references here.}
-
+        \comment{We have \cite{Ferguson74}, \cite{Antoniak1974}, (foundational) \cite{neal2000}, (methodological relative to auxiliary Gibbs) and \cite{escobar1995} (methodological relative to concentration parameter sampling).  I'm not sure what additional we need?  I added an additional reference \citep{ascolani2022}, which concerns the robustness of clustering, but I'm not sure of the relevance.}
         
 \end{enumerate}
 
@@ -251,6 +251,8 @@ To address this concern, we have revised the simulation study to feature the
         \bruno{We need to get hold of a copy of the right book to see what the result is. If the result 
         is so straightforward, then we need to decided what to do about it, but I am worried that
         it will require a moment constraint.}
+
+        \comment{\cite{resnick2008extreme} is available on springerlink.  I'm skimming through it now.}
         
         \item Another issue is that it is not clear in the present form of the paper, what is the
         added value of fitting this parametric model with the Bayesian framework and the Gibbs 
@@ -269,9 +271,15 @@ To address this concern, we have revised the simulation study to feature the
 
     We have included for comparison some other models established on $\mathcal{S}_{1}^{d-1}$;
         notably the pairwise betas model developed in \cite{sabourin2013}, as well
-        as the dirichlet distribution.  We have investigated several packages to 
-
-
+        as the dirichlet distribution.  We have investigated several R and python packages to
+        compute empirical angular measure, or other means of estimating the spectral distribution.
+        Most packages implement a bivariate angular density.\comment{include list}.  I found 
+        \cite{BMAmevt} as an example of a true multivariate method, and tried to use it, but
+        encountered a bug with its output (for distributions with more than 3 dimensions, the
+        dimension of the output parameter space became larger than it should be).  Upon 
+        conferring with the package maintainer and author, they identified the source of the
+        bug and fixed it.  For this reason, we are able to include it as a point of comparison.
+    
     \bruno{Well, here we have to bite the bullet. Hopefully there some software that allows us
     to fit the empirical angular measure.}
 
@@ -336,16 +344,6 @@ To address this concern, we have revised the simulation study to feature the
     and the proof is not valid.
 
     \bruno{We need to rewrite the proof. I'll do that.}
-
-    \comment{\st{Yeah, I think I messed this one up here.  I'm going to run simulations to verify it is
-    a negative definite kernel, then try and figure out a better proof.  Too bad the trivial one
-    didn't work.}}
-
-    \comment{\st{I'm somewhat worried that they will regard the new proof as also problematic, as the second 
-    term is dependent on the first term.  We could get around this by splitting $\sum_{i,j}a_ia_jg(x_i,x_j)$ 
-    into sets belonging to particular face pairs (e.g., $x_i$ on face $a$, $x_j$ on face $b$) and sum over 
-    permutations of $a,b$, but then there's no guarantee that a particular $a_i$ set within a particular 
-    $a,b$ face set will sum to 0.}}
 
     \item \emph{Minor point 1}: About the word \emph{‘Projection’}, e.g. \emph{in 
     ‘To define an angular measure, we are interested in the direction of vectors in $\mathbb{R}_+^d$

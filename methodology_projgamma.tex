@@ -194,7 +194,7 @@ Equations \ref{eqn:chi_ij} and \ref{eqn:condsurv} provide relevant tools for inf
 \subsubsection{Inference for the projected Gamma mixture model}
 In a sample-based inference approach, for a given iteration the Dirichlet process mixture model 
     groups observations into stochastically assigned clusters, where members of a cluster share 
-    distributional parameters. Building out the methods of inference for Equation~(\ref{eqn:dppg}), 
+    distributional parameters \citep{ascolani2022}. Building out the methods of inference for Equation~(\ref{eqn:dppg}), 
     let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be 
     the number of extant clusters, not including any singleton that observation $i$ is in. Under this model, 
     the probability of cluster membership for a given observation is proportional to
@@ -280,7 +280,15 @@ The second form of centering distribution we explore is a multivariate log-norma
     &=\mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right).
     \end{aligned}
 \end{equation}
-This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  We also explore a restricted Gamma form of this model as above, where $\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the \emph{projected restricted Gamma--log-normal} (PRG--LN) model.  Updates for $\bm{\alpha}$ can be accomplished using a joint Metropolis step, where $\beta_{j\ell}$ for $\ell = 2,\ldots,d$ have been integrated out of the log-density.  That is,
+This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on
+$\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  
+This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  
+We also explore a restricted Gamma form of this model as above, where 
+$\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the 
+\emph{projected restricted gamma--log-normal} (PRG--LN) model.  Updates for 
+$\bm{\alpha}$ can be accomplished using a joint Metropolis step, where 
+$\beta_{j\ell}$ for $\ell = 2,\ldots,d$ have been integrated out of the 
+log-density.  That is,
 \begin{equation*}
     \begin{aligned}
     &\hspace{-0.5cm}\pi(\bm{\alpha}_j\mid\bm{Y},\bm{r},\bm{\delta},\bm{\mu},\bm{\Sigma},\bm{\zeta},\bm{\sigma})\\
@@ -293,5 +301,25 @@ The inferential forms for $\beta_{j\ell}$ and its priors are the same as for PG-
   normal prior for $\mu$ is conjugate for the log-normal $\bm{\alpha}_j$, and can be sampled
   via a Gibbs step.  Finally, the inverse Wishart prior for $\Sigma$ is again conjugate to
   the log-normal $\bm{\alpha}_j$, implying that it can also be sampled via a Gibbs step.
+
+To speed convergence and effectively explore the parameter space, we employ parallel 
+tempering \citep{earl2005} for the log-normal models. This technique runs parallel
+chains at ascending temperatures--that is, for chain $s$, the posterior density is 
+exponentiated to the reciprocal of temperature $t_s$.  For the \emph{cold} chain, 
+$t_1 := 1$.  Let $E_s$ be the log-posterior density under the current parameter 
+state for chain $s$.  Then states between chains $r,s$ are exchanged via a Metropolis 
+step with probability 
+\[
+\alpha_{rs} = \min
+\left[1, \exp\left\lbrace(t_{r}^{-1} - t_{s}^{-1})(E_r - E_s)\right\rbrace\right].
+\]
+Higher temperatures serve to \emph{flatten} the posterior distribution, increasing the 
+speed at which the chain explores parameter space.
+
+Convergence of the MCMC chain is assessed by stabilization of the log-posterior 
+density. For all of our datasets, none of the models required more than 40 thousand 
+iterations to achieve stability, so we use that as a burn-in, and thereafter sample 
+an additional 10 thousand iterations. We then thin the chain by 10 to collect 1000 
+total samples with which to generate posterior predictive densities.
 
 % EOF

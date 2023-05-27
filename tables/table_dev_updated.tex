@@ -1,9 +1,12 @@
-
-\begin{tabular}{ccccc}
+\newlength{\templen}
+\setlength\templen{\tabcolsep}
+\setlength\tabcolsep{4pt}
+\begin{tabular}{c|cccc}
 \toprule
-Source & sdpppg & sdpppgln & sdppprg & sdppprgln\\
+Source & PG--G & PG--LN & PRG--G & PRG--LN\\
 \midrule
-ERA-Interim & 0.8003 & 0.7986 & 0.7966 & 0.7970\\
-ERA5 & 1.6404 & 1.5576 & 1.4349 & 1.5051\\
+ERA-Interim & $0.800$ & $0.799$ & $\bm{0.797}$ & $0.797$\\
+ERA5 & $1.640$ & $1.558$ & $\bm{1.435}$ & $1.505$\\
 \bottomrule
 \end{tabular}
+\setlength\tabcolsep{\templen}

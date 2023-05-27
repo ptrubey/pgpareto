@@ -6,25 +6,32 @@
     \includegraphics[height=3in, width = \textwidth]{./images/sim_es_rise}
 \end{figure*}
 
+\section{Data illustrations\label{sec:results}} 
+\makenote{this title seems weird?}
 
-\section{Data illustrations\label{sec:results}}
-
-\subsection{Simulations\label{subsec:simulated}}
+\subsection{Simulation Study\label{subsec:simulated}}
 To evaluate our proposed approach for angular measure estimation 
     we consider simulated datasets on $\mathbb{S}_{\infty}^{d-1}$,
     for values of $d$ ranging between 2 and 32.  We generated each
     dataset as a mixture of multivariate log-normal distributions,
-    projected onto $\mathbb{S}_p^{d-1}$. The generation procedure is detailed 
-    in Algorithm~\ref{algo:simulated}.
+    projected onto $\mathbb{S}_{\infty}^{d-1}$. The generation 
+    procedure is detailed in Algorithm~\ref{algo:simulated}.  For each
+    model, the data is then projected onto the appropriate $\mathbb{S}_p^{d-1}$
+    for model fitting--dirichlet and pairwise betas being fit on 
+    $\mathbb{S}_1^{d-1}$, and the projected gamma models being fit on 
+    $\mathbb{S}_{10}^{d-1}$.
 
-\begin{algorithm}[ht]  % algorithm using algorithm package
-        \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}}
+\begin{algorithm}[h]  % algorithm using algorithm package
+        \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}.
+        $\mu_j$, $\Sigma_j$ are the parameters of the mixture component distribution; 
+        $\pi$ is the probability vector assigning weight mixture components; $\delta_i$ 
+        is the mixture component identifier for each simulated observation.}
         \begin{algorithmic}
         \For{$n_{\text{iter}}$ in $[1,\ldots,10]$}
         \For{$n_{\text{mix}}$ in $[1, 2, 4, 8]$}
             \For{$j$ in $1,\ldots,n_{\text{mix}}$}
-                \State Generate $\mu_{j} \sim \mathcal{N}\left(\bm{0},\bm{I}\right)$
-                \State Generate $\Sigma_{j}\sim\mathcal{IW}\left(70,70 \bm{I}\right)$
+                \State Generate $\mu_{j} \sim \mathcal{N}_{32}\left(\bm{0},\bm{I}\right)$
+                \State Generate $\Sigma_{j}\sim\mathcal{IW}_{32}\left(70,70 \bm{I}\right)$
             \EndFor
             \State Generate $\pi\sim\text{Dirichlet}(\bm{10})$
             \For{$i$ in $1,\ldots,1000$}
@@ -39,12 +46,7 @@ To evaluate our proposed approach for angular measure estimation
         \end{algorithmic}
     \end{algorithm}
 
-where $\mu_j$, $\Sigma_j$ the parameters of the log-normal mixture component 
-    distribution; $\pi$ the probability vector assigning weight to each mixture 
-    component, and $\delta_i$ the mixture component identifier for each simulated 
-    observation.  
-
-Figure~\ref{fig:simpples}, shows the average rise over baseline in energy score as
+Figure~\ref{fig:simpples} shows the average rise over baseline in energy score as
     calculated on $\mathbb{S}_{\infty}^{d-1}$ using the kernel metric described
     in Proposition~\ref{prop:rot}, for models trained on simulated data.  After training
     a model, a posterior predictive dataset is generated, and the energy score is
@@ -64,47 +66,28 @@ Figure~\ref{fig:simpples}, shows the average rise over baseline in energy score 
     discarded, a moment-restricted model is inadequate, as is borne out in the
     simulation study.}  We observe that the projected gamma models dominate, and within
     that class of model, the choice of centering distribution is irrelevant.  For the
-    projected \emph{restricted} gamma models, the choice of log-normal centering
-    distribution induces 
-
-
-
-
-
-shows two sets of panels that illustrate the comparison
-between four different models used to fit the simulated data. We produced 16 
-different data sets, one for each of four different numbers of mixture components 
-and four different dimensions. We considered three different models: DP mixtures 
-of projected gamma; Projected restricted gamma; and projected restricted gamma 
-with a multivariate log-normal prior. We calculated $S^\infty_{\text{PPL}}$ and 
-$S_{\text{ES}}$ using predictive samples from each of fitted models. To provide 
-a comparative baseline, we calculated the scores using samples generated 
-directly using the same model and parameters that produced the simulated 
-observations. The results are denoted as \emph{Gen} in the figure. 
-We observe that the projected
-  restricted Gamma model dominates in most situations, but the difference between projected restricted
-  Gamma and the other gamma-based models tends to shrink as the number of dimensions increases.
-  Alternatively, that difference appears to grow as the number of mixture components increases. 
-  The results from both scoring criteria are comparable.
+    projected \emph{restricted} gamma models, the choice of a multivariate log-normal 
+    centering distribution negatively affects model fidelity.
 
 \subsection{Integrated Vapor Transport\label{subsec:ivt}}
 The \emph{integrated vapor transport} (IVT) is a two component vector 
-that tracks the flow of the total water volume in a column of air 
-over a given area \citep{ralph2017}.  IVT is increasingly used in the study of atmospheric rivers because of its direct 
-relationship with orographically induced precipitation
-\citep{neiman2009water}. Atmospheric rivers (AR) are elongated areas of high 
-local concentration of water vapor in the atmosphere that transport water
-from the tropics around the world. AR can cause extreme 
-precipitation,  something that is usually associated with very large values
-of the IVT magnitude over a whole geographical area. In spite of this, AR
-are fundamental for the water supply of areas like California. Thus the
-importance of understanding the extreme behavior of IVT, including 
-extreme tail dependence. We consider datasets that correspond to IVT
-estimated at two different spatial resolutions. The coarse resolution dataset
-is obtained from the European Centre for Medium-Range Weather Forecasts
-(ECMWF) Interim reanalysis (ERA-Interim) \citep{berrisford2011atmospheric,dee2011era}. 
-The high resolution dataset corresponds to the latest ECMWF 
-observational product, ERA5  \citep{hersbach2020era5}. 
+    that tracks the flow of the total water volume in a column of air 
+    over a given area \citep{ralph2017}.  IVT is increasingly used in 
+    the study of atmospheric rivers because of its direct relationship 
+    with orographically induced precipitation \citep{neiman2009water}. 
+    Atmospheric rivers (AR) are elongated areas of high 
+    local concentration of water vapor in the atmosphere that transport water
+    from the tropics around the world. AR can cause extreme 
+    precipitation,  something that is usually associated with very large values
+    of the IVT magnitude over a whole geographical area. In spite of this, AR
+    are fundamental for the water supply of areas like California. Thus the
+    importance of understanding the extreme behavior of IVT, including 
+    extreme tail dependence. We consider datasets that correspond to IVT
+    estimated at two different spatial resolutions. The coarse resolution dataset
+    is obtained from the European Centre for Medium-Range Weather Forecasts
+    (ECMWF) Interim reanalysis (ERA-Interim) \citep{berrisford2011atmospheric,dee2011era}. 
+    The high resolution dataset corresponds to the latest ECMWF 
+    observational product, ERA5  \citep{hersbach2020era5}. 
 
 \begin{figure}[tb]
     \begin{center}
@@ -122,11 +105,14 @@ observational product, ERA5  \citep{hersbach2020era5}.
 \end{figure}
 
 Our data corresponds to daily average values for the IVT magnitude
-along the coast of California.  The ERA-Interim data used covers the time period 
-1979 through 2014 (37 years) omitting leap days, and eight grid cells that correspond to the coast of California.  The ERA5 data
-covers the time period 1979 through 2019 (42 years) with the same restriction, and 
-47 grid cells for the coast of California.  This gives us the opportunity to illustrate the performance of our method 
-in multivariate settings of very different dimensions. Figure~\ref{fig:gridlocs} provides a visual representation of the area these grid cells represent.
+    along the coast of California.  The ERA-Interim data used covers the time period 
+    1979 through 2014 (37 years) omitting leap days, and eight grid cells that 
+    correspond to the coast of California.  The ERA5 data covers the time period 
+    1979 through 2019 (42 years) with the same restriction, and  47 grid cells for 
+    the coast of California.  This gives us the opportunity to illustrate the 
+    performance of our method in multivariate settings of very different dimensions. 
+    Figure~\ref{fig:gridlocs} provides a visual representation of the area these grid 
+    cells represent.
 
 \begin{algorithm}[htb]
     \caption{Data preprocessing to isolate and transform data exhibiting extreme behavior.  $r_i$
@@ -186,17 +172,17 @@ After subsetting the ERA-Interim data to the rainy season we
 
 \begin{table}[htb]
   \centering
-  \caption{Model comparison metrics: Posterior~Predictive~Loss~($S_{\text{PPL}}$) and 
-    Energy~Score~($S_{\text{ES}}$) criteria from fitted models against the IVT data.  
-    Lower is better. \label{tab:dev}}
-  \include{./tables/table_dev}
+  \caption{Energy score criterion from fitted models against the IVT data. 
+    Lower is better.\label{tab:dev}}
+  \include{./tables/table_dev_updated}
 \end{table}
 
-Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy scores for the different models considered. We observe that, as in the case of the simulation study shown in Figures~\ref{fig:simpples}, the preferred model is the projected restricted 
-  gamma models.  Penalization for the unrestricted gamma model is 
-  stronger for the real data than for the simulated data. We also observe that
-  the restricted gamma model with the log-normal prior performs significantly better 
-  than the restricted gamma model with the gamma prior on the higher dimensional data. This is the opposite of the result obtained in the simulation example.
+Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy 
+    scores for the different models considered. We observe that, as in the case of the simulation 
+    study shown in Figures~\ref{fig:simpples}, the preferred model is the projected restricted 
+    gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
+    Interestingly, this preference for the restricted gamma form is the opposite of the result 
+    obtained in the simulation example.
 
 \begin{figure*}[htb]
     \centering
@@ -227,7 +213,9 @@ We consider an exploration of the pairwise extremal dependence using Monte Carlo
 
 \begin{figure*}[htb]
     \centering
-    \caption{Pairwise conditional survival curves for selected locations, using ERA-Interim, and PRG-G model, conditioning on all other dimensions at greater than 90th percentile (fitted).\label{fig:condsurv2d}}
+    \caption{Pairwise conditional survival curves for selected locations, using 
+        ERA-Interim, and PRG-G model, conditioning on all other dimensions at greater 
+        than 90th percentile (fitted).\label{fig:condsurv2d}}
     \includegraphics[height=4in, width=4in]{./images/condsurv_2d}
 \end{figure*}
 
