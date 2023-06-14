@@ -19,6 +19,14 @@
 \newcommand{\comment}[1]{\textcolor{teal}{#1}}
 \newcommand{\bruno}[1]{\textcolor{red}{#1}}
 
+% TODO
+%
+% in pointbypoint, add description of why parallel tempering for lognormal and why not in gamma.
+% additional description of prior elicitation
+% future work in conclusion.
+% Responses for already answered comments referencing previous comments.
+%
+
 \begin{document}
 
 \section*{Review 1}
@@ -68,7 +76,6 @@ We note in passing that the moment conditions for the spectral distribution, say
     be realistic in practice. Thus, imposing moment conditions would probably 
     result in a very restrictive model.
 
-
 \item \emph{Main contribution}: While I appreciate the interesting construction 
     based on the DPM of projected gammas (which itself could be of use for other 
     contexts beyond extremes?), one wonders about what would be the main added 
@@ -80,11 +87,33 @@ We note in passing that the moment conditions for the spectral distribution, say
     moment constraint. Indeed, one could use any of the previous approaches with 
     pseudo-angles based on the infinity norm.
 
-We have clarified the distinction between our approach and the prior contributions
-    mentioned.  Setting aside \cite{guillotte2011} which is a strictly bivariate
-    model, the named approaches consider batch extrema and by construction must
-    respect the moment constraint.  As noted, our approach is able to set that 
-    aside, allowing consideration of a wider class of distributions of pseudo-angles.
+\comment{Please review this response.  I've done a little googling, but I can't figure
+    out how one would sample from the Bernstein polynomial model.  Maybe after a lot of
+    integration you could sort out some inverse CDF transform?}
+    
+We thank the reviewer for inviting us to expound on differences between our approach
+    and prior contributions. We have clarified the distinctions between our approach 
+    and the prior contributions
+    mentioned.  \cite{guillotte2011} is a strictly bivariate model which assumes
+    unit Fr\'{e}chet margins.  \cite{boldi2007} similarly assumes unit Fr\'{e}chet
+    margins, but builds the spectral density representation on the unit simplex with
+    a finite mixture of Dirichlets.  \cite{SaNa2014} assumes the same, but implements
+    a reversible jump MCMC to allow varying the number of mixture components.
+    \cite{hanson2017} similarly assumes unit Fr\'{e}chet margins, and to represent
+    the spectral density implements a mixture of Bernstein polynomial densities.
+    The distinction as compared to these methods is three-fold: the projected gamma does
+    offer computational advantages as inference is straightforward, and perhaps as 
+    importantly it is simple to sample from.  As a Dirichlet process model, inference
+    on component weights is also straightforward.  It is highly flexible, with no
+    imposed restriction on the number of dimensions.  Finally, as stated in the previous
+    comment, the moment restriction used in those papers is incompatible with our model.
+    This allows us to consider a wider class of distributions on pseudo-angles.
+    
+    % Setting aside \cite{guillotte2011} which is a strictly bivariate
+    % model, the named approaches consider batch extrema and by construction must
+    % respect the moment constraint.  As noted, our approach is able to set that 
+    % aside, allowing consideration of a wider class of distributions of pseudo-angles.
+    % \bruno{\bf Where is this in the paper?}
 
     % \comment{Hanson is clearly different.  They're using Bernstein polynomials 
     % effectively defined on $\mathbb{S}_1^{d-1}$.  We can demonstrate that 
@@ -102,11 +131,6 @@ We have clarified the distinction between our approach and the prior contributio
     % computational advantages and scales to moderately large problems, as 
     % illustrated in the paper.}
 
-    % \comment{\cite{Hanson2017}: Bernstein polynomials on $\mathbb{S}_1^{d-1}$, 
-    % modelling multivariate Frechets.  \cite{boldi2007}: Marginal Frechets, also 
-    % operating on $\mathbb{S}_1^{d-1}$.  \cite{guillotte2011}: A strictly bivariate model.  
-    % \cite{SaNa2014}: }
-
 \item \emph{Numerical accuracy}:  Keeping in mind the computational scope of 
     Statistics and Computing one would hope for more numerical work than what is 
     presented in §5.1. As far as I understand what is presented are single run 
@@ -121,29 +145,24 @@ To address this concern, we have revised the simulation study to feature the
     projected onto the unit sphere.  As you say, this paper focuses on estimating
     the spectral distribution, and ignores uncertainty from estimating marginal
     parameters.  We have clarified as such.
-    
-
-    % \comment{Regarding the uncertainty from step 1, I think we agreed that was 
-    % basically intractible. We may need to explicitly specify as such, and that a 
-    % practicioner must accept the numerical uncertainty that arises from step 1.  
-    % That said, I seem to recall the numbers observed being relatively robust to 
-    % choice of threshold (for large threshold), the difference mainly coming down 
-    % to computation time.}
-    
-    % \bruno{I think we need to conduct a more comprehensive suite of experiments. 
-    % Regarding the uncertainty coming from Step1, we just need to acknowledge that 
-    % we are ignoring it.}
-
+    \comment{I'm not sure how to address this.  I added a comment in the paper
+    that explicitly stated that uncertainty in marginal parameters is outside the
+    scope of the paper.  As a practical concern, every paper I have seen assumed
+    pre-standardized marginals, which implies estimating marginal parameters and
+    ignoring the uncertainty stemming from that estimation.}    
 
 \item \emph{Prior and MCMC}: A lot is left to the reader in §5 in terms of
     prior specification and MCMC settings.  At least some further details would 
     be required.
 
-    \comment{The form of the prior is specified.  I'm guessing he's referring to 
-    the actual values used for computation?  $\bm{\mu}_0 = \bm{0}$, 
-    $\nu = d + 50$, $\bm{\Psi} = \nu I_d$, and so on?}
+    \comment{We thank you for drawing our attention to this omission.  We have included the
+    details of the prior parameters at the start of section 5.}
+
+    % \comment{The form of the prior is specified.  I'm guessing he's referring to 
+    % the actual values used for computation?  $\bm{\mu}_0 = \bm{0}$, 
+    % $\nu = d + 50$, $\bm{\Psi} = \nu I_d$, and so on?}
     
-    \bruno{You need to provide more details here.}
+    % \bruno{You need to provide more details here.}
 
 \item \emph{Future research}: §6 calls for a view of the authors on what 
     could be related exercises—or even extensions of this research and future 
@@ -206,8 +225,17 @@ To address this concern, we have revised the simulation study to feature the
         model. This is indeed standard in Bayesian Non-parametrics, so there should be a precise 
         reference where it is explained.
 
-        \bruno{Peter, you need to come up with additional, and more specific references here.}
-        \comment{We have \cite{Ferguson74}, \cite{Antoniak1974}, (foundational) \cite{neal2000}, (methodological relative to auxiliary Gibbs) and \cite{escobar1995} (methodological relative to concentration parameter sampling).  I'm not sure what additional we need?  I added an additional reference \citep{ascolani2022}, which concerns the robustness of clustering, but I'm not sure of the relevance.}
+        To ameliorate this shortfall, in addition to the foundational papers for the DP
+        already included, we add \cite{muller2015} to provide a modern approachable reference on
+        and associated clustering, as well as \cite{ascolani2022} which provides a discussion of
+        robustness of clusters generated under the DP.
+
+        % \bruno{Peter, you need to come up with additional, and more specific references here.}
+        % \comment{We have \cite{Ferguson74}, \cite{Antoniak1974}, (foundational) \cite{neal2000},
+        % (methodological relative to auxiliary Gibbs) and \cite{escobar1995} (methodological 
+        % relative to concentration parameter sampling).  I'm not sure what additional we need? 
+        % I added an additional reference \citep{ascolani2022}, which concerns the robustness of
+        % clustering, but I'm not sure of the relevance.}
         
 \end{enumerate}
 
@@ -271,12 +299,20 @@ To address this concern, we have revised the simulation study to feature the
 
     We have included for comparison some other models established on $\mathcal{S}_{1}^{d-1}$;
         notably the pairwise betas model developed in \cite{sabourin2013}, as well
-        as the dirichlet distribution.  We have investigated several R and python packages to
+        as the Dirichlet distribution.  We have investigated several R and python packages to
         compute empirical angular measure, or other means of estimating the spectral distribution.
-        Most packages implement a bivariate angular density.\comment{include list}.  I found 
-        \cite{BMAmevt} as an example of a true multivariate method, and tried to use it, but
-        encountered a bug with its output (for distributions with more than 3 dimensions, the
-        dimension of the output parameter space became larger than it should be).  Upon 
+        To be clear, our analysis requires the ability to generate a sample from a posterior
+        predictive distribution, or at least sample from a fitted density, projected onto 
+        $\mathbb{S}_{\infty}^{d-1}$. Most packages implement a bivariate angular density, 
+        including \verb|ExtremalDep|~\citep{ExtremalDep}, \verb|BAMBI|~\citep{BAMBI}, 
+        \comment{expand list}.  Some, such as
+        \verb|evd|~\citep{evd} implement a multivariate generalized Pareto density with a 
+        parametric dependence structure, but I didn't see a way to learn the dependence
+        structure in isolation, as well as sample from it.  I found 
+        \cite{BMAmevt} as an example of a true multivariate density on $\mathbb{S}_1^{d-1}$, 
+        and on first attempt to use
+        it I encountered a bug with its output (for distributions with more than 3 dimensions, 
+        the dimension of the output parameter space became larger than it should be).  Upon 
         conferring with the package maintainer and author, they identified the source of the
         bug and fixed it.  For this reason, we are able to include it as a point of comparison.
     
@@ -288,26 +324,29 @@ To address this concern, we have revised the simulation study to feature the
             \item Computational Evidence missing: The convergence of the Gibbs sampler is not 
             discussed in the paper.
 
-            \bruno{This one was pointed out by the other referee. So, we need to come up with something.}
+            We thank the reviewers for bringing this omission to our attention.  We have now
+            included a discussion of MCMC convergence among the models in section 5.
 
-            \comment{\st{I'm not sure how to demonstrate convergence in the case of the DP.  I can
-            I can demonstrate convergence for certain quantities (e.g., the hierarchical mean,
-            and log-determinant of hierarchical covariance matrix, a given observation's distribution
-            of parameters, etc.), but in the general stick-breaking configuration, there is no concern
-            given to label switching.  The variational approach will probably find a label arrangement
-            and stick with it.}}
+            % \bruno{This one was pointed out by the other referee. So, we need to come up with something.}
 
-            \comment{I'm working on adding log-density over time plots to demonstrate convergence.}
+            % \comment{\st{I'm not sure how to demonstrate convergence in the case of the DP.  I can
+            % I can demonstrate convergence for certain quantities (e.g., the hierarchical mean,
+            % and log-determinant of hierarchical covariance matrix, a given observation's distribution
+            % of parameters, etc.), but in the general stick-breaking configuration, there is no concern
+            % given to label switching.  The variational approach will probably find a label arrangement
+            % and stick with it.}}
+
+            % \comment{I'm working on adding log-density over time plots to demonstrate convergence.}
             
             \item Figure 2: The scores from the ‘baseline’ should outperform the scores of
             the fitted models, because the baseline consists of samples generated from the 
             true distribution. This is not the case in Figure 2, which deserves an explanation 
             (it might be a too small sample size, or some coding error at worst).
 
-            \bruno{We need to think about this one.}
-
-            \comment{I think it was an issue of understanding.  I've updated the code, remaking the plots
-            is nearly done.}
+            We have converted the graphs to use average rise in score over baseline (as calculated
+            by average of model on 10 distributions), rather than the score directly on a single
+            sample. We have verified that instances of displayed values dropping below zero are 
+            within MCMC error of zero.\comment{I need to say this better.}
 
         \end{enumerate}
 
@@ -330,9 +369,6 @@ To address this concern, we have revised the simulation study to feature the
     It may be the case that, with the standardization Equation (3) in their paper, the marginal
     distributions, i.e. the distributions of the $W_{\ell}$’s in the limit are not entirely determined, 
     but this needs to be clarified.
-
-    \comment{I seem to regard something in the intro to extremes book regarding the lack of a
-    moment constraint on the $\mathcal{L}_{\infty}$ norm.  I'll look for it.}
 
     \bruno{This was dealt with already.}
 
