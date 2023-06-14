@@ -91,7 +91,11 @@ The projected gamma family is simple to specify and has very tractable
      f(\bm{y}) = \int_\Theta \mathcal{PG}(\bm{y}\mid \bm{\theta}) dG(\bm{\theta}), 
   \end{equation} 
 where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian 
-  non-parametric approach \citep{Ferguson74,Antoniak1974} we assume that $G$ 
+  non-parametric approach \citep{Ferguson74,Antoniak1974,muller2015},
+  % \st{\bruno{\bf Peter:
+  % Please provide a more recent and  approacheable reference, possibly a book. If you can't
+  % find one  ask Thanos or Juhee, our BNP experts.} 
+  we assume that $G$ 
   is drawn from a random measure. In particular, assuming a Dirichlet process 
   prior for $G$, we have a hierarchical formulation of the mixture model that, 
   for a vector of observations $\bm{y}_i$, is given by
@@ -250,7 +254,7 @@ This model is completed with independent Gamma priors on $\xi_{\ell}$, $\tau_{\e
     \label{eqn:alphalupdate}
     \begin{aligned}
     &\hspace{-0.5cm}\pi(\alpha_{j\ell}\mid \bm{r},\bm{Y},\bm{\gamma},\xi_\ell,\tau_\ell,\zeta_\ell,\sigma_\ell) \\
-    &\propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i\ell}\right)^{\alpha_{j\ell} - 1}\alpha_{j\ell}^{\xi_\ell - 1}e^{-\tau_\ell \alpha_{j\ell}}\times}{\Gamma^{n_j}(\alpha_{j\ell})} \\
+    &\propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i\ell}\right)^{\alpha_{j\ell} - 1}\alpha_{j\ell}^{\xi_\ell - 1}e^{-\tau_\ell \alpha_{j\ell}}}{\Gamma^{n_j}(\alpha_{j\ell})} \\
     &\hspace{0.5cm}\times \frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
     \end{aligned}
 \end{equation}
@@ -274,52 +278,49 @@ The full conditional for $\beta$ is
 for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters $\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar Gamma-Gamma update relationships.  We also explore a restricted form of this model, where $\beta_{\ell} = 1$ for all $\ell$.  Under this model, we use the full conditional in Equation~(\ref{eqn:alpha1update}) for all $\ell$, and omit inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the \emph{projected restricted Gamma--Gamma} (PRG--G) model.
 
 The second form of centering distribution we explore is a multivariate log-normal distribution on the shape parameters $\bm{\alpha}_j$, with independent Gamma $\beta_{j\ell}$ rate parameters.  
-\begin{equation}
-    \begin{aligned}
-    &\hspace{-0.5cm}G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right) \\
-    &=\mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right).
-    \end{aligned}
-\end{equation}
-This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on
-$\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  
-This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  
-We also explore a restricted Gamma form of this model as above, where 
-$\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the 
-\emph{projected restricted gamma--log-normal} (PRG--LN) model.  Updates for 
-$\bm{\alpha}$ can be accomplished using a joint Metropolis step, where 
-$\beta_{j\ell}$ for $\ell = 2,\ldots,d$ have been integrated out of the 
-log-density.  That is,
-\begin{equation*}
-    \begin{aligned}
-    &\hspace{-0.5cm}\pi(\bm{\alpha}_j\mid\bm{Y},\bm{r},\bm{\delta},\bm{\mu},\bm{\Sigma},\bm{\zeta},\bm{\sigma})\\
-    &\propto \exp\left\lbrace-\frac{1}{2}(\log\bm{\alpha}_j - \mu)^T\bm{\Sigma}^{-1}(\log\bm{\alpha}_j - \mu)\right\rbrace \\
-    &\hspace{0.5cm}\times\frac{1}{\prod_{\ell = 1}^d\alpha_{j\ell}}\times \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}}{\prod_{\ell = 1}^d\Gamma^{n_j}(\alpha_{j\ell})}\\
-    &\hspace{0.5cm}\times \prod_{\ell = 2}^d\frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
-    \end{aligned}
-\end{equation*}
-The inferential forms for $\beta_{j\ell}$ and its priors are the same as for PG--G.  The 
+    \begin{equation}
+        \begin{aligned}
+        &\hspace{-0.5cm}G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right) \\
+        &=\mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right).
+        \end{aligned}
+    \end{equation}
+    This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on
+    $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  
+    This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  
+    We also explore a restricted Gamma form of this model as above, where 
+    $\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the 
+    \emph{projected restricted gamma--log-normal} (PRG--LN) model.  Updates for 
+    $\bm{\alpha}$ can be accomplished using a joint Metropolis step, where 
+    $\beta_{j\ell}$ for $\ell = 2,\ldots,d$ have been integrated out of the 
+    log-density.  That is,
+    \begin{equation*}
+        \begin{aligned}
+        &\hspace{-0.5cm}\pi(\bm{\alpha}_j\mid\bm{Y},\bm{r},\bm{\delta},\bm{\mu},\bm{\Sigma},\bm{\zeta},\bm{\sigma})\\
+        &\propto \exp\left\lbrace-\frac{1}{2}(\log\bm{\alpha}_j - \mu)^T\bm{\Sigma}^{-1}(\log\bm{\alpha}_j - \mu)\right\rbrace \\
+        &\hspace{0.5cm}\times\frac{1}{\prod_{\ell = 1}^d\alpha_{j\ell}}\times \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}}{\prod_{\ell = 1}^d\Gamma^{n_j}(\alpha_{j\ell})}\\
+        &\hspace{0.5cm}\times \prod_{\ell = 2}^d\frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
+        \end{aligned}
+    \end{equation*}
+    The inferential forms for $\beta_{j\ell}$ and its priors are the same as for PG--G.  The 
   normal prior for $\mu$ is conjugate for the log-normal $\bm{\alpha}_j$, and can be sampled
   via a Gibbs step.  Finally, the inverse Wishart prior for $\Sigma$ is again conjugate to
   the log-normal $\bm{\alpha}_j$, implying that it can also be sampled via a Gibbs step.
 
-To speed convergence and effectively explore the parameter space, we employ parallel 
-tempering \citep{earl2005} for the log-normal models. This technique runs parallel
-chains at ascending temperatures--that is, for chain $s$, the posterior density is 
-exponentiated to the reciprocal of temperature $t_s$.  For the \emph{cold} chain, 
-$t_1 := 1$.  Let $E_s$ be the log-posterior density under the current parameter 
-state for chain $s$.  Then states between chains $r,s$ are exchanged via a Metropolis 
-step with probability 
-\[
-\alpha_{rs} = \min
-\left[1, \exp\left\lbrace(t_{r}^{-1} - t_{s}^{-1})(E_r - E_s)\right\rbrace\right].
-\]
-Higher temperatures serve to \emph{flatten} the posterior distribution, increasing the 
-speed at which the chain explores parameter space.
-
-Convergence of the MCMC chain is assessed by stabilization of the log-posterior 
-density. For all of our datasets, none of the models required more than 40 thousand 
-iterations to achieve stability, so we use that as a burn-in, and thereafter sample 
-an additional 10 thousand iterations. We then thin the chain by 10 to collect 1000 
-total samples with which to generate posterior predictive densities.
+To effectively employ the sample space for a joint Metropolis step, as well as
+    speeding convergence, we employ a parallel tempering algorithm\citep{earl2005} 
+    for the log-normal models. This technique runs parallel MCMC
+    chains at ascending temperatures--that is, for chain $s$, the posterior density is 
+    exponentiated to the reciprocal of temperature $t_s$.  For the \emph{cold} chain, 
+    $t_1 := 1$.  Let $E_s$ be the log-posterior density under the current parameter 
+    state for chain $s$.  Then states between chains $r,s$ are exchanged via a Metropolis 
+    step with probability 
+    \[
+    \alpha_{rs} = \min
+    \left[1, \exp\left\lbrace(t_{r}^{-1} - t_{s}^{-1})(E_r - E_s)\right\rbrace\right].
+    \]
+    Higher temperatures serve to \emph{flatten} the posterior distribution, meaning hotter
+    chains have a higher probability of making a given transition, or will make larger 
+    transitions.  As such, they will more quickly explore the parameter space, and share
+    information gained through state exchange.
 
 % EOF

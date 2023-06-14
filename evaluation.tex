@@ -26,13 +26,13 @@ where $g$ is a kernel function. The score defined in Equation \eqref{eq:es} can 
   collection $a_1,\ldots,a_n\in{\mathbb R}$ such that  $\sum_{i = 1}^na_i = 0$.  
 
 In a Euclidean space, these conditions are satisfied by the Euclidean distance \citep{berg1984}. 
-    However, for observations on different faces of ${\mathbb S}_{\infty}^{d-1}$, Euclidean 
+    However, for observations on different faces of ${\mathbb S}_{\infty}^{d-1}$, the Euclidean 
     distance will under-estimate the geodesic distance, the actual distance required to travel 
     between the two points.  Let
 \begin{equation*}
     {\mathbb C}_{\ell}^{d-1} = \lbrace \bm{x} : \bm{x} \in {\mathbb S}_{\infty}^{d-1}, x_{\ell} = 1\rbrace
 \end{equation*}
-    comprise the $\ell$th \emph{face}.  For points on the same face, Euclidean distance 
+    comprise the $\ell$th \emph{face}.  For points on the same face, the Euclidean distance 
     corresponds to the length of the shortest possible path in ${\mathbb S}_{\infty}^{d-1}$.  
     For points on different faces, the Euclidean distance is a lower bound for that length.
 
@@ -64,7 +64,7 @@ To calculate the energy score we define the kernel
     where $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and 
     $\bm{b} \in {\mathbb   C}_{\jmath}^{d-1}$, for $\ell,\jmath\in \{1,\ldots, d\}$.
 Evaluating $g$ as described requires the solution of a $(d-2)$-dimensional 
-  optimization problem.  The following proposition provides a straightforward solution.
+  optimization problem.  The following proposition provides a straightforward approach.
 \begin{prop}\label{prop:rot}
     Let $\bm{a} \in {\mathbb C}_{\ell}^{d-1}$, and $\bm{b} \in {\mathbb C}_{\jmath}^{d-1}$, 
         for $\ell, \jmath \in \{1, \ldots , d\}$.  For $\ell\neq \jmath$, the 
@@ -118,8 +118,7 @@ Using the rotation in Proposition \ref{prop:rot} we obtain the following result.
 Proposition \ref{prop:rot} provides a computational efficient way to evaluate the proper
     scoring rule $S_{\text{ES}}$ defined on ${\mathbb S}_\infty^{d-1}$, for each 
     observation. For the purpose of model assessment and comparison, we report the 
-    average $S_{\text{ES}}$ taken across all observed data.  In this form, the 
-    interpretation of $S_{\text{ES}}$ is similar to that of $S_{\text{PPL}}$: The smaller 
+    average $S_{\text{ES}}$ taken across all observed data, and notice that the smaller 
     the score, the better.
     
 % EOF

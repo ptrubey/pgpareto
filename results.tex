@@ -7,7 +7,35 @@
 \end{figure*}
 
 \section{Data illustrations\label{sec:results}} 
-\makenote{this title seems weird?}
+We apply the aforementioned models to generated angular data, as well as a data analysis
+    of atmospheric data.
+    Assessing convergence of an MCMC chain for a large-dimensional model is difficult.
+    For our part, we assess convergence by stabilization of the log-posterior 
+    density. For all of our datasets, none of the models required more than 40 thousand 
+    iterations to achieve stability, so we use that as a burn-in, and thereafter sample 
+    an additional 10 thousand iterations. We then thin the chain by 10 to collect 1000 
+    total samples with which to generate posterior predictive densities.
+    Implementation details play a role here: posterior samples from the gamma-centered 
+    models are moderately autocorrelated as compared to the log-normal centered models.
+    This is a benefit of the parallel tempering algorithm employed in fitting the 
+    log-normal models, but parallel tempering necessitates an additional computational cost,
+    growing linearly with the number of temperatures.  We used a temperature ladder
+    of $t_s = 1.3^{s}$, for $s \in \lbrace0,1,\ldots,5$.  This was verified to produce
+    acceptable swap probabilities both for the simulated data, and real data.
+
+Our hyperprior parameters are set as follows: for the gamma-centered models (PG--G, PRG--G), 
+    the shape parameter for the centering 
+    distribution~$\xi_{\ell}\sim \mathcal{G}\left(1,1\right)$, and
+    rate parameter~$\tau_{\ell}\sim\mathcal{G}\left(2,2\right)$.
+    For the log-normal centered models (PG--LN, PRG--LN), the centering distribution's
+    log-mean $\bm{\mu}\sim\mathcal{N}_d\left(0,\bm{I}_d\right)$, and covariance 
+    matrix~$\Sigma\sim\mathcal{IW}\left(d + 10, (d+10)\bm{I}_{d}\right)$.  These values are 
+    intended such that draws from the prior for $\Sigma$ will weakly tend towards the 
+    identity matrix.
+    For models learning rate parameters $\beta_{j\ell}$ (PG--G, PG--LN), the centering
+    distribution's shape parameter $\zeta\sim\mathcal{G}\left(1,1\right)$ and rate parameter
+    $\sigma\sim\mathcal{G}\left(2,2\right)$.  The choice of $\mathcal{G}(2,2)$ for rate
+    parameters was meant to draw estimates for the value away from 0 for numerical stability.
 
 \subsection{Simulation Study\label{subsec:simulated}}
 To evaluate our proposed approach for angular measure estimation 
@@ -60,14 +88,19 @@ Figure~\ref{fig:simpples} shows the average rise over baseline in energy score a
     gamma centering distribution (-G) or a log-normal centering distribution (-LN).
     For comparison we also included two other distributions on $\mathbb{S}_{1}^{d-1}$:
     The Dirichlet distribution (with gamma priors), and the pairwise betas distribution
-    developed in~\cite{COOLEY2010}.  Note that the pairwise betas model respects
-    the moment restriction generally assumed.\makenote{This phrasing needs to be changed.
-    The point I am trying to make is that because the moment-restriction assumption is 
-    discarded, a moment-restricted model is inadequate, as is borne out in the
-    simulation study.}  We observe that the projected gamma models dominate, and within
-    that class of model, the choice of centering distribution is irrelevant.  For the
-    projected \emph{restricted} gamma models, the choice of a multivariate log-normal 
-    centering distribution negatively affects model fidelity.
+    developed in~\cite{COOLEY2010}.  
+    % Note that the pairwise betas model respects
+    % the moment restriction generally assumed.\makenote{This phrasing needs to be changed.
+    % The point I am trying to make is that because the moment-restriction assumption is 
+    % discarded, a moment-restricted model is inadequate, as is borne out in the
+    % simulation study.} \bruno{\bf I would avoid getting into the details of what the
+    % pairwise beta model does. More important is to say why we chose it, and how available 
+    % it is} 
+    We observe that for simulated data using Algorithm~\ref{algo:simulated}, the 
+    projected gamma models dominate, and within that class of model, the choice of 
+    centering distribution is irrelevant.  For the projected \emph{restricted} 
+    gamma models, the choice of a multivariate log-normal centering distribution 
+    appears to negatively affect model fidelity.
 
 \subsection{Integrated Vapor Transport\label{subsec:ivt}}
 The \emph{integrated vapor transport} (IVT) is a two component vector 
@@ -87,7 +120,7 @@ The \emph{integrated vapor transport} (IVT) is a two component vector
     is obtained from the European Centre for Medium-Range Weather Forecasts
     (ECMWF) Interim reanalysis (ERA-Interim) \citep{berrisford2011atmospheric,dee2011era}. 
     The high resolution dataset corresponds to the latest ECMWF 
-    observational product, ERA5  \citep{hersbach2020era5}. 
+    observational product, ERA5 \citep{hersbach2020era5}. 
 
 \begin{figure}[tb]
     \begin{center}
@@ -177,9 +210,15 @@ After subsetting the ERA-Interim data to the rainy season we
   \include{./tables/table_dev_updated}
 \end{table}
 
+% Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy 
+%     scores for the different models considered. We observe that, as in the case of the simulation 
+%     study shown in Figures~\ref{fig:simpples}, the preferred model is the projected restricted 
+%     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
+%     Interestingly, this preference for the restricted gamma form is the opposite of the result 
+%     obtained in the simulation example.
 Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy 
-    scores for the different models considered. We observe that, as in the case of the simulation 
-    study shown in Figures~\ref{fig:simpples}, the preferred model is the projected restricted 
+    scores for the different models considered. We observe that, contrary to the results in the
+    simulation study in Figure~\ref{fig:simpples}, the preferred model is the projected restricted 
     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
     Interestingly, this preference for the restricted gamma form is the opposite of the result 
     obtained in the simulation example.
@@ -223,19 +262,21 @@ Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG--G mod
     the conditional survival curve defined in Equation~\ref{eqn:condsurv}, for one dimension, 
     conditioned on all other dimensions being greater than their (fitted) $90$th percentile. 
     Figure~\ref{fig:condsurv2d} presents the bi-variate conditional survival function,
-    conditioning on all other dimensions.  These results illustrate quantitatively how extremal dependence
-    affects the shape of the conditional survival curves.  The two top panels represent the joint survival function 
-    between grid locations 4 and 5, which are shown in Figure~\ref{fig:chi_ij} to exhibit strong
-    extremal dependence.  We observe that the joint survival surface 
-    is strongly convex.  The bottom panels represent the joint survival surface between grid locations 1 and 5, 
-    which exhibited low extremal dependence.  In this case the shape of the contours tend to be concave, quite different from the shapes observed in the top panels.
+    conditioning on all other dimensions.  These results illustrate quantitatively how 
+    extremal dependence affects the shape of the conditional survival curves.  The two 
+    top panels represent the joint survival function 
+    between grid locations 4 and 5, which are shown in Figure~\ref{fig:chi_ij} to exhibit 
+    strong  extremal dependence.  We observe that the joint survival surface 
+    is strongly convex.  The bottom panels represent the joint survival surface between 
+    grid locations 1 and 5, which exhibited low extremal dependence.  In this case the 
+    shape of the contours tend to be concave, quite different from the shapes observed 
+    in the top panels.
 
-Using our proposed scoring criteria, we explored the effect of the choice of $p$ on the final results. Using the simulated data, generated
-    from a mixture of projected Gammas, we were unable to observe sizeable differences in the scores for $p$ 
-    ranging between 1 and 15.   However, 
-    for the IVT data, we observed a drop in the energy score associated 
-    with higher $p$, with diminishing effect as $p$ increased.  
-    We observed no significant differences in the performance
-    of the model that uses $p=10$, which corresponds to the analysis 
-    presented, relative to the one that uses $p=15$.
+Using our proposed scoring criteria, we explored the effect of the choice of $p$ on the 
+    final results. Using the simulated data, generated from a mixture of projected Gammas, 
+    we were unable to observe sizeable differences in the scores for $p$ ranging between 
+    1 and 15.   However, for the IVT data, we observed a drop in the energy score associated 
+    with higher $p$, with diminishing effect as $p$ increased.  We observed no significant 
+    differences in the performance of the model that uses $p=10$, which corresponds to the 
+    analysis presented, relative to the one that uses $p=15$.
 % EOF
