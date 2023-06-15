@@ -7,21 +7,23 @@
 \end{figure*}
 
 \section{Data illustrations\label{sec:results}} 
-We apply the aforementioned models to generated angular data, as well as a data analysis
-    of atmospheric data.
-    Assessing convergence of an MCMC chain for a large-dimensional model is difficult.
-    For our part, we assess convergence by stabilization of the log-posterior 
-    density. For all of our datasets, none of the models required more than 40 thousand 
-    iterations to achieve stability, so we use that as a burn-in, and thereafter sample 
-    an additional 10 thousand iterations. We then thin the chain by 10 to collect 1000 
-    total samples with which to generate posterior predictive densities.
-    Implementation details play a role here: posterior samples from the gamma-centered 
-    models are moderately autocorrelated as compared to the log-normal centered models.
-    This is a benefit of the parallel tempering algorithm employed in fitting the 
-    log-normal models, but parallel tempering necessitates an additional computational cost,
-    growing linearly with the number of temperatures.  We used a temperature ladder
-    of $t_s = 1.3^{s}$, for $s \in \lbrace0,1,\ldots,5$.  This was verified to produce
-    acceptable swap probabilities both for the simulated data, and real data.
+We apply the aforementioned models to simulated angular data. We then consider the analysis
+    of atmospheric data. To tackle the difficult problem of assessing the convergence 
+    an MCMC chain for a large-dimensional model, we monitor the log-posterior 
+    density. In all the examples considered MCMC samples produced stable tarces of the
+    log-posterior in less than 40 thousand  iterations. Thus, so we use that as a burn-in, 
+    and thereafter sample 10 thousand additional iterations. We then thin the chain by retaining one
+    every ten samples, to obtain 1000 total samples. These are used to generate samples from the 
+    posterior predictive densities. We used two different strategies implemment the MCMC samplers.
+    For the models whose DP prior is centered around a log-normal distribution we used parallel 
+    tempering. For the models gamma-centered models, we used a single chain. The temperature ladder was set as $t_s = 1.3^{s}$, 
+    for $s \in \lbrace0,1,\ldots,5$. This was set empirically in order to produce
+    acceptable swap probabilities both for the simulated data, and real data. Our attempts to use
+    a single chain produced sample with very slow mixing. On the other hand, from our examples 
+    we observe that posterior samples from the gamma-centered models, that do not use parallel 
+    tempering, show slightly stronger autocorrelation than those of the log-normal centered 
+    models. Parallel tempering produces chains with good mixing properties, but has a computational 
+    cost that  grows linearly with the number of temperatures. In view of this, we use it for the
 
 Our hyperprior parameters are set as follows: for the gamma-centered models (PG--G, PRG--G), 
     the shape parameter for the centering 
@@ -34,8 +36,9 @@ Our hyperprior parameters are set as follows: for the gamma-centered models (PG-
     identity matrix.
     For models learning rate parameters $\beta_{j\ell}$ (PG--G, PG--LN), the centering
     distribution's shape parameter $\zeta\sim\mathcal{G}\left(1,1\right)$ and rate parameter
-    $\sigma\sim\mathcal{G}\left(2,2\right)$.  The choice of $\mathcal{G}(2,2)$ for rate
-    parameters was meant to draw estimates for the value away from 0 for numerical stability.
+    $\sigma\sim\mathcal{G}\left(2,2\right)$.  The choice of the $\mathcal{G}(2,2)$ for rate
+    parameters places no mass near 0, in order to draw estimates for the value away from 
+    0 for numerical stability.
 
 \subsection{Simulation Study\label{subsec:simulated}}
 To evaluate our proposed approach for angular measure estimation 

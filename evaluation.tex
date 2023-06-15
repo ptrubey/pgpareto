@@ -52,9 +52,9 @@ For a finite $p$, the shortest connecting path between two points in ${\mathbb S
   that begin and end on the source and destination faces respectively, reducing the number 
   of nets under consideration to $\sum_{k = 0}^{d-2}\binom{d-2}{k}$.  This is still 
   computationally burdensome for a large number of dimensions.  
-  \makenote{However, we can efficiently establish an upper bound on the geodesic 
+  However, we can efficiently establish an upper bound on the geodesic 
   length.  We use this upper bound on geodesic distance as the kernel function for
-  the energy score.}
+  the energy score.
 
 To calculate the energy score we define the kernel 
     \[  
@@ -84,17 +84,19 @@ Evaluating $g$ as described requires the solution of a $(d-2)$-dimensional
 {\em Proof:}
 Notice that for 
   $\bm{c} \in {\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}$,
-     $\pnorm{\bm{b} - \bm{c}}{2} =  \pnorm{\bm{b}^{\prime} - \bm{c}}{2}$ and let
-\[\bm{e} = 
-    \argmin_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
-        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\}.
-\]
+     $\pnorm{\bm{b} - \bm{c}}{2} =  \pnorm{\bm{b}^{\prime} - \bm{c}}{2}$. %and let
+%\[\bm{e} = 
+%    \argmin_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+%        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\}.
+%\]
 We then have that
   \begin{equation*}
     \begin{aligned}
-    g(\bm{a}, \bm{b}) &= \pnorm{\bm{a} - \bm{e}}{2} + \pnorm{\bm{b} - \bm{e}}{2}\\
-    &= \pnorm{\bm{a} - \bm{e}}{2} + \pnorm{\bm{b}^{\prime} 
-        - \bm{e}}{2} = \pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
+    g(\bm{a},\bm{b}) = &\min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\} \\
+     &\min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}^{\prime}-\bm{c}}{2} \right\}\\
+    &= \pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
     \end{aligned}
   \end{equation*}
   The last equality is due to the fact that $\bm{a}$ and $\bm{b}'$ belong to the 
@@ -113,7 +115,10 @@ Using the rotation in Proposition \ref{prop:rot} we obtain the following result.
         = \sum_{i,\jmath} \alpha_i \alpha_\jmath 
     \|\bm{a}_i - \bm{a}_\jmath^\prime\|_2 \leq 0,
     \]
-    where $\bm{a}_\jmath^\prime$ is defined as in Proposition \ref{prop:rot}. $\hfill\Box$
+    where $\bm{a}_\jmath^\prime$ is defined as in Proposition \ref{prop:rot}. 
+    The last equality holds as $\|\bm{x} - \bm{x}^\prime\|_2, \bm{x},
+    \bm{x}^{\prime} \in {\mathbb R}^d$ is negative definite
+    \citep{gneiting2007}$\hfill\Box$
 
 Proposition \ref{prop:rot} provides a computational efficient way to evaluate the proper
     scoring rule $S_{\text{ES}}$ defined on ${\mathbb S}_\infty^{d-1}$, for each 

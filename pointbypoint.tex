@@ -325,8 +325,24 @@ To address this concern, we have revised the simulation study to feature the
             discussed in the paper.
 
             We thank the reviewers for bringing this omission to our attention.  We have now
-            included a discussion of MCMC convergence among the models in section 5.
+            included a discussion of MCMC convergence among the models in section 5.  
 
+            As we considered parallel tempering to be necessary in fitting the multivariate-lognormal
+            model, as we're using a $d$-dimensional joint proposal step, it is readily apparent that 
+            convergence will appear \emph{cleaner} on the log-density plots for the lognormal models 
+            relative to the gamma models, as parallel tempering also ameliorates autocorrelation
+            issues.  Below are the log-density by iteration plots for the ERA-5 data, on the two 
+            unrestricted projected gamma models; left uses the product of gammas centering distribution, 
+            right uses the log-normal centering distribution.  The red line indicates the end of the 
+            burn-in period, and we only keep every tenth sample after.
+            
+            \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-G.pdf}
+            \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-LN.pdf}
+
+            We could say that parallel tempering would improve autocorrelation for the gamma model,
+            but sampling longer and thinning more would serve the same effect.  And since it also
+            reaches convergence faster, we could also simply use less burn-in.
+            
             % \bruno{This one was pointed out by the other referee. So, we need to come up with something.}
 
             % \comment{\st{I'm not sure how to demonstrate convergence in the case of the DP.  I can

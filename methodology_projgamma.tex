@@ -112,7 +112,7 @@ where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian
   where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision 
   parameter, and $G_0$ is the centering distribution. 
   
-Unfortunately, in the limit when $p\rightarrow \infty$, the projection 
+Unfortunately, in the limit when $p\rightarrow \infty$, the normalizing 
   transformation is not differentiable. Thus, a closed form expression 
   like Equation (\ref{eqn:projgamma}) for the projected gamma density on ${\mathbb S}_\infty^{d-1}$ is not 
   available. Instead, we observe that for a sufficiently large $p$, $\mathbb{S}_p^{d-1}$ will approach
@@ -306,10 +306,10 @@ The second form of centering distribution we explore is a multivariate log-norma
   via a Gibbs step.  Finally, the inverse Wishart prior for $\Sigma$ is again conjugate to
   the log-normal $\bm{\alpha}_j$, implying that it can also be sampled via a Gibbs step.
 
-To effectively employ the sample space for a joint Metropolis step, as well as
-    speeding convergence, we employ a parallel tempering algorithm\citep{earl2005} 
+To effectively explore the sample space with a joint Metropolis step, as well as
+    to speed convergence, we implement a parallel tempering algorithm\citep{earl2005} 
     for the log-normal models. This technique runs parallel MCMC
-    chains at ascending temperatures--that is, for chain $s$, the posterior density is 
+    chains at ascending temperatures. That is, for chain $s$, the posterior density is 
     exponentiated to the reciprocal of temperature $t_s$.  For the \emph{cold} chain, 
     $t_1 := 1$.  Let $E_s$ be the log-posterior density under the current parameter 
     state for chain $s$.  Then states between chains $r,s$ are exchanged via a Metropolis 
