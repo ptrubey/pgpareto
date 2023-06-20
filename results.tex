@@ -1,8 +1,10 @@
 
 \begin{figure*}[htb]
     \centering
-    % \caption{Energy score (top row) and Posterior Predictive Loss (bottom row) for various models on simulated data with ascending count of mixture components (indicated by plot heading) and number of dimensions (indicated by horizontal axis).  Gen indicates baseline.\label{fig:simpples}}
-    \caption{Average energy score rise over baseline (on $\mathbb{S}_{\infty}^{d-1}$) for various models on simulated data, with ascending count of mixture components (indicated by plot heading) and number of dimensions (indicated by horizontal axis).  Note that pairwise betas is a moment-restricted model.\label{fig:simpples}}
+    \caption{Average energy score rise over baseline (on $\mathbb{S}_{\infty}^{d-1}$) for various 
+    models fitted to simulated data, with ascending count of mixture components (indicated by plot
+    heading) and number of dimensions (indicated by horizontal axis).  Note that pairwise betas is
+    a moment-restricted model.\label{fig:simpples}}
     \includegraphics[height=3in, width = \textwidth]{./images/sim_es_rise}
 \end{figure*}
 
@@ -10,20 +12,22 @@
 We apply the aforementioned models to simulated angular data. We then consider the analysis
     of atmospheric data. To tackle the difficult problem of assessing the convergence 
     an MCMC chain for a large-dimensional model, we monitor the log-posterior 
-    density. In all the examples considered MCMC samples produced stable tarces of the
-    log-posterior in less than 40 thousand  iterations. Thus, so we use that as a burn-in, 
+    density. In all the examples considered, MCMC samples produced stable traces of the
+    log-posterior in less than 40 thousand  iterations. We use that as a burn-in, 
     and thereafter sample 10 thousand additional iterations. We then thin the chain by retaining one
     every ten samples, to obtain 1000 total samples. These are used to generate samples from the 
-    posterior predictive densities. We used two different strategies implemment the MCMC samplers.
+    posterior predictive densities. We used two different strategies to implement the MCMC samplers.
     For the models whose DP prior is centered around a log-normal distribution we used parallel 
-    tempering. For the models gamma-centered models, we used a single chain. The temperature ladder was set as $t_s = 1.3^{s}$, 
-    for $s \in \lbrace0,1,\ldots,5$. This was set empirically in order to produce
-    acceptable swap probabilities both for the simulated data, and real data. Our attempts to use
-    a single chain produced sample with very slow mixing. On the other hand, from our examples 
-    we observe that posterior samples from the gamma-centered models, that do not use parallel 
-    tempering, show slightly stronger autocorrelation than those of the log-normal centered 
-    models. Parallel tempering produces chains with good mixing properties, but has a computational 
-    cost that  grows linearly with the number of temperatures. In view of this, we use it for the
+    tempering. This serves to overcome the very slow mixing that we observed for these cases.
+    The temperature ladder was set as $t_s = 1.3^{s}$,  for $s \in \lbrace0,1,\ldots,5\rbrace$. This was 
+    set empirically in order to produce acceptable swap probabilities both for the simulated data, 
+    and real data. Parallel tempering produces chains with good mixing properties, but has a 
+    computational cost that  grows linearly with the number of temperatures. Thus, for the 
+    gamma-centered models, we used a single chain. We leverage the fast speed of each iteration, 
+    to obtain a large number of samples, that are appropriately thinned to deal with a mild
+    autocorrelation. In summary, the strategy for log-normal centered models is based on a costly
+    sampler with good mixing properties. The strategy for the gamma-centered models is based on
+    a cheap sampler that can be run for a large number of iterations.
 
 Our hyperprior parameters are set as follows: for the gamma-centered models (PG--G, PRG--G), 
     the shape parameter for the centering 
@@ -46,13 +50,15 @@ To evaluate our proposed approach for angular measure estimation
     for values of $d$ ranging between 2 and 32.  We generated each
     dataset as a mixture of multivariate log-normal distributions,
     projected onto $\mathbb{S}_{\infty}^{d-1}$. The generation 
-    procedure is detailed in Algorithm~\ref{algo:simulated}.  For each
-    model, the data is then projected onto the appropriate $\mathbb{S}_p^{d-1}$
-    for model fitting--dirichlet and pairwise betas being fit on 
-    $\mathbb{S}_1^{d-1}$, and the projected gamma models being fit on 
-    $\mathbb{S}_{10}^{d-1}$.
+    procedure is detailed in Algorithm~\ref{algo:simulated}.  We consider two gamma-centered
+    and two log-normal centered DP mixture models, with and without restrictions in each
+    case. We also consider a Dirichlet distribution and 
+    a pairwise betas model \citep{COOLEY2010}, fitted using the \verb|BMAmevt| 
+    package in R~\citep{BMAmevt}. For the DP mixture
+    models, the data are projected onto $\mathbb{S}_{10}^{d-1}$. For the other
+    two models they are projected on $\mathbb{S}_1^{d-1}$.
 
-\begin{algorithm}[h]  % algorithm using algorithm package
+\begin{algorithm}[ht]  % algorithm using algorithm package
         \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}.
         $\mu_j$, $\Sigma_j$ are the parameters of the mixture component distribution; 
         $\pi$ is the probability vector assigning weight mixture components; $\delta_i$ 
@@ -64,7 +70,7 @@ To evaluate our proposed approach for angular measure estimation
                 \State Generate $\mu_{j} \sim \mathcal{N}_{32}\left(\bm{0},\bm{I}\right)$
                 \State Generate $\Sigma_{j}\sim\mathcal{IW}_{32}\left(70,70 \bm{I}\right)$
             \EndFor
-            \State Generate $\pi\sim\text{Dirichlet}(\bm{10})$
+            \State Generate $\pi\sim\text{Dirichlet}(\bm{10}_{n_{\text{mix}}})$
             \For{$i$ in $1,\ldots,1000$}
                 \State Generate $\delta_i \sim \text{Categorical}(\pi)$
                 \State Generate $\bm{X}_i \sim \mathcal{LN}\left(\mu_{[\delta_i]},\Sigma_{[\delta_i]}\right)$
@@ -84,26 +90,33 @@ Figure~\ref{fig:simpples} shows the average rise over baseline in energy score a
     calculated as a Monte Carlo approximation of Equation~\ref{eq:es}.
     The \emph{baseline} value is the energy score of a new dataset from the same
     generating distribution as the training dataset, evaluated against the training 
-    dataset.  We considered a total of four variations of the Dirichlet-process mixture
-    of projected gammas model: whether to restrict $\beta_{j\ell} := 1$ as the projected
-    \emph{restricted} gamma (DP-PRG) akin to a projected Dirichlet, or allow them to be 
-    learned with a gamma prior (DP-PG); and for the shape parameters whether to use a 
-    gamma centering distribution (-G) or a log-normal centering distribution (-LN).
-    For comparison we also included two other distributions on $\mathbb{S}_{1}^{d-1}$:
-    The Dirichlet distribution (with gamma priors), and the pairwise betas distribution
-    developed in~\cite{COOLEY2010}.  
+    dataset.  
+%    We considered a total of four variations of the Dirichlet-process mixture
+%    of projected gammas model: whether to restrict $\beta_{j\ell} := 1$ as the projected
+%    \emph{restricted} gamma (DP-PRG) akin to a projected Dirichlet, or allow them to be 
+%    learned with a gamma prior (DP-PG); and for the shape parameters whether to use a 
+%    gamma centering distribution (-G) or a log-normal centering distribution (-LN).
+%    For comparison we also included two other distributions on $\mathbb{S}_{1}^{d-1}$:
+%    The Dirichlet distribution (with gamma priors), and the pairwise betas distribution
+%    developed in~\cite{COOLEY2010}.  
     % Note that the pairwise betas model respects
     % the moment restriction generally assumed.\makenote{This phrasing needs to be changed.
     % The point I am trying to make is that because the moment-restriction assumption is 
     % discarded, a moment-restricted model is inadequate, as is borne out in the
     % simulation study.} \bruno{\bf I would avoid getting into the details of what the
     % pairwise beta model does. More important is to say why we chose it, and how available 
-    % it is} 
-    We observe that for simulated data using Algorithm~\ref{algo:simulated}, the 
-    projected gamma models dominate, and within that class of model, the choice of 
-    centering distribution is irrelevant.  For the projected \emph{restricted} 
-    gamma models, the choice of a multivariate log-normal centering distribution 
-    appears to negatively affect model fidelity.
+    % it is}
+    \makenote{It was anticipated that the log-normal centering distribution would place
+    more mass of the  DP into regions of the support with active clusters, which would 
+    generate new clusters more readily.  For the simulated data,} 
+    we observe that the projected gamma models dominate, and within that class
+    of model, the choice of centering distribution is immaterial.  For the 
+    projected \emph{restricted} gamma models, the choice of a multivariate log-normal 
+    centering distribution appears to \makenote{somewhat} negatively affect model 
+    fidelity.  \makenote{Additionally, the log-normal models with the additional computational cost
+    of multivariate normal evaluation and parallel tempering, take approximately six times
+    longer to sample relative to the gamma models.}
+    % \bruno{The comparison needs some information about the computing times.}
 
 \subsection{Integrated Vapor Transport\label{subsec:ivt}}
 The \emph{integrated vapor transport} (IVT) is a two component vector 
@@ -140,15 +153,15 @@ The \emph{integrated vapor transport} (IVT) is a two component vector
     \end{center}
 \end{figure}
 
-Our data corresponds to daily average values for the IVT magnitude
+Our data correspond to daily average values for the IVT magnitude
     along the coast of California.  The ERA-Interim data used covers the time period 
     1979 through 2014 (37 years) omitting leap days, and eight grid cells that 
-    correspond to the coast of California.  The ERA5 data covers the time period 
+    correspond to the coast of California.  The ERA5 data cover the time period 
     1979 through 2019 (42 years) with the same restriction, and  47 grid cells for 
     the coast of California.  This gives us the opportunity to illustrate the 
     performance of our method in multivariate settings of very different dimensions. 
     Figure~\ref{fig:gridlocs} provides a visual representation of the area these grid 
-    cells represent.
+    cells cover.
 
 \begin{algorithm}[htb]
     \caption{Data preprocessing to isolate and transform data exhibiting extreme behavior.  $r_i$
@@ -219,12 +232,10 @@ After subsetting the ERA-Interim data to the rainy season we
 %     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
 %     Interestingly, this preference for the restricted gamma form is the opposite of the result 
 %     obtained in the simulation example.
-Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy 
+Table~\ref{tab:dev} shows the values of the estimated energy 
     scores for the different models considered. We observe that, contrary to the results in the
     simulation study in Figure~\ref{fig:simpples}, the preferred model is the projected restricted 
     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
-    Interestingly, this preference for the restricted gamma form is the opposite of the result 
-    obtained in the simulation example.
 
 \begin{figure*}[htb]
     \centering

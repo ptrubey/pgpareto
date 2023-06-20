@@ -18,14 +18,7 @@
 
 \newcommand{\comment}[1]{\textcolor{teal}{#1}}
 \newcommand{\bruno}[1]{\textcolor{red}{#1}}
-
-% TODO
-%
-% in pointbypoint, add description of why parallel tempering for lognormal and why not in gamma.
-% additional description of prior elicitation
-% future work in conclusion.
-% Responses for already answered comments referencing previous comments.
-%
+\newcommand{\response}[1]{\textcolor{blue}{#1}}
 
 \begin{document}
 
@@ -47,7 +40,7 @@
     % $\mathcal{L}_p$ norm as described in our paper.  A massive difference in meaning of notation.
     % I'll find the reference again and confirm.}
     
-We thank the referee for calling our attention to
+\response{We thank the referee for calling our attention to
     the issue of moment restrictions. The approach considered in the
     paper follows that of \cite{rootzen2018}, consisting on modeling the
     distribution of the extreme observations, conditional on them being
@@ -65,8 +58,9 @@ We thank the referee for calling our attention to
     $H$ are not univariate Pareto, due to the difference between the 
     conditioning events in the joint and the marginal cases. Thus, no
     moment conditions arise in our model. This has now been clarified in the paper.
+    }
 
-We note in passing that the moment conditions for the spectral distribution, say 
+\response{We note in passing that the moment conditions for the spectral distribution, say 
     $\Phi$, in the two-dimensional case, using the infinity norm, imply that 
     \[
         \int_0^{\pi/4} \Phi(d\theta) = \int_{\pi/4}^{\pi/2}
@@ -75,6 +69,7 @@ We note in passing that the moment conditions for the spectral distribution, say
     The former looks like a fairly strong symmetry restriction that is unlike to 
     be realistic in practice. Thus, imposing moment conditions would probably 
     result in a very restrictive model.
+    }
 
 \item \emph{Main contribution}: While I appreciate the interesting construction 
     based on the DPM of projected gammas (which itself could be of use for other 
@@ -87,14 +82,8 @@ We note in passing that the moment conditions for the spectral distribution, say
     moment constraint. Indeed, one could use any of the previous approaches with 
     pseudo-angles based on the infinity norm.
 
-\comment{Please review this response.  I've done a little googling, but I can't figure
-    out how one would sample from the Bernstein polynomial model.  Maybe after a lot of
-    integration you could sort out some inverse CDF transform?}
-    
-We thank the reviewer for inviting us to expound on differences between our approach
-    and prior contributions. We have clarified the distinctions between our approach 
-    and the prior contributions
-    mentioned.  \cite{guillotte2011} is a strictly bivariate model which assumes
+\response{We thank the reviewer for inviting us to be explicit about the advantages of 
+    our approach. \cite{guillotte2011} is a strictly bivariate model which assumes
     unit Fr\'{e}chet margins.  \cite{boldi2007} similarly assumes unit Fr\'{e}chet
     margins, but builds the spectral density representation on the unit simplex with
     a finite mixture of Dirichlets.  \cite{SaNa2014} assumes the same, but implements
@@ -108,6 +97,9 @@ We thank the reviewer for inviting us to expound on differences between our appr
     imposed restriction on the number of dimensions.  Finally, as stated in the previous
     comment, the moment restriction used in those papers is incompatible with our model.
     This allows us to consider a wider class of distributions on pseudo-angles.
+    We have added a sentence in the introduction of the paper to highlight our 
+    contribution.
+    }
     
     % Setting aside \cite{guillotte2011} which is a strictly bivariate
     % model, the named approaches consider batch extrema and by construction must
@@ -139,24 +131,27 @@ We thank the reviewer for inviting us to expound on differences between our appr
     ignores the uncertainty that stems from step 1 of the procedure 
     (i.e. estimating the margins).
 
-To address this concern, we have revised the simulation study to feature the 
+\response{To address this concern, we have revised the simulation study to feature the 
     average rise in energy score over baseline, averaged over 10 replications.  
     The simulated datasets are generated as mixtures of multivariate lognormals, 
-    projected onto the unit sphere.  As you say, this paper focuses on estimating
-    the spectral distribution, and ignores uncertainty from estimating marginal
-    parameters.  We have clarified as such.
-    \comment{I'm not sure how to address this.  I added a comment in the paper
-    that explicitly stated that uncertainty in marginal parameters is outside the
-    scope of the paper.  As a practical concern, every paper I have seen assumed
-    pre-standardized marginals, which implies estimating marginal parameters and
-    ignoring the uncertainty stemming from that estimation.}    
+    projected onto the unit sphere.  The results are now presented in a new set
+    of plots in Figure 2. As for the lack of propagation of the uncertainty
+    related to the estimation of the Pareto marginals, we acknowledge that this is
+    indeed the case. A comprehensive approach is in theory possible, by using the
+    full Bayesian formalism. Yet the positive value function in the marginals 
+    introduce data dependent parameter space constraints that are essentially
+    impossible to deal with when assuming a flexible model for the angular
+    measure. Even for a simple parametric model, the exploration of the posterior
+    distribution becomes very challenging in high dimensions. We have a added
+    a statement pointing this issue in the section with the concluding remarks.
+    }
 
 \item \emph{Prior and MCMC}: A lot is left to the reader in §5 in terms of
     prior specification and MCMC settings.  At least some further details would 
     be required.
 
-    \comment{We thank you for drawing our attention to this omission.  We have included the
-    details of the prior parameters at the start of section 5.}
+    \response{We thank the reviewers for drawing our attention to this omission.  We have 
+    included the details of the prior parameters at the start of section 5.}
 
     % \comment{The form of the prior is specified.  I'm guessing he's referring to 
     % the actual values used for computation?  $\bm{\mu}_0 = \bm{0}$, 
@@ -177,10 +172,10 @@ To address this concern, we have revised the simulation study to feature the
     projected gammas—as well as predictor-dependent versions of it—could be of 
     interest in other settings beyond angular measures?
 
-    \comment{I'm guessing this guy is de Carvalho?}
-    
-    \bruno{I have no doubts that this referee is Carvalho. I'll spend some time 
-    reading the papers that he mentions.}
+\response{We thank the referee for the very interesting suggestions for extensions 
+    of our proposed approach. We have a included a discussion of these ideas
+    in the final section of the paper.
+    }
     
 \end{itemize}
 
@@ -201,14 +196,13 @@ To address this concern, we have revised the simulation study to feature the
         In order to have the representation $W = W_{\infty}V$ as in the paper, with 
         $W_{\infty} \sim \text{Pa}(1)$, one needs to assume that $W$ is indeed standard GP. In other 
         words it is correct to write $Z = RV$ where $Z$ is a properly standardized vector, not $W = RV$.
-
-        \comment{Yeah.  W is a multivariate GPD vector; Z is a multivariate standardized Pareto vector.
-        This needs to be fixed.}
         
-        We thank the referee for pointing out the inconsistencies in the notation. We have corrected them 
+\response{We thank the referee for pointing out the inconsistencies in the notation. We have corrected them 
         to make things clearer. We denote all random variables with capital letters and their values
         with small letters. The random variable corresponding to the conditional limiting distribution
-        $H$ is now denoted as $Z$.
+        $H$ is now denoted as $Z$. We have re-written Section 2 where the backgournd material on multivariate
+        PoT is presented.
+        }
 
     \item About the standardization, Eq. (3): please introduce some background. In the paper it is
         introduced as \emph{’the standardization’} and it is unclear what is the relation between this 
@@ -216,19 +210,21 @@ To address this concern, we have revised the simulation study to feature the
         standardization methods in multivariate EVT. In any case there are several ways to perform 
         marginal standardization in multivariate EVT.
 
-        We have rewritten the material at the beginning of Section 3, explicitly mentioning the marginal
+\response{We have rewritten the material at the beginning of Section 3, explicitly mentioning the marginal
         univariate generalized Pareto, and how it is used to estimate the shape and scale parameters, 
         which are then used to standardize the observations.
+        }
 
     \item Section 3.2.1: Please provide some minimal background (or references) on the Dirichlet 
         Process Mixture, in particular about clusters of observations occurring naturally in this 
         model. This is indeed standard in Bayesian Non-parametrics, so there should be a precise 
         reference where it is explained.
 
-        To ameliorate this shortfall, in addition to the foundational papers for the DP
+\response{To ameliorate this shortfall, in addition to the foundational papers for the DP
         already included, we add \cite{muller2015} to provide a modern approachable reference on
         and associated clustering, as well as \cite{ascolani2022} which provides a discussion of
         robustness of clusters generated under the DP.
+        }
 
         % \bruno{Peter, you need to come up with additional, and more specific references here.}
         % \comment{We have \cite{Ferguson74}, \cite{Antoniak1974}, (foundational) \cite{neal2000},
@@ -254,9 +250,10 @@ To address this concern, we have revised the simulation study to feature the
         \item The statistical model (projected Gamma family) is only introduced in the
             \emph{‘estimation’} section, whereas it is the main building block of the paper.
 
-            We thank the referee for the suggestion to change the layout of the paper. We have
+\response{We thank the referee for the suggestion to change the layout of the paper. We have
             re-written Section 3 to put a stronger emphasis on the presentation of the
             projected gamma kernel.
+            }
             
         \end{enumerate}
 
@@ -276,19 +273,38 @@ To address this concern, we have revised the simulation study to feature the
         the projected Gamma family on the $L_p$ sphere with a DPM prior is anyways a nice 
         contribution, which is somewhat hidden by this additional projection on the infinity sphere.
 
-        \bruno{We need to get hold of a copy of the right book to see what the result is. If the result 
-        is so straightforward, then we need to decided what to do about it, but I am worried that
-        it will require a moment constraint.}
-
-        \comment{\cite{resnick2008extreme} is available on springerlink.  I'm skimming through it now.}
+\response{We apologize for the lack of clarity of our presentation of the background that supports 
+        our proposed model. We have rewritten Section 2 making clear that there are two possible
+        approaches to obtaining a multivariate PoT model. One is to assume a max-stability condition 
+        that leads to a conditional multivariate Pareto distribution. The other is to assume a 
+        condition of regular variation. We follow the former, and use the fact that there are a
+        number of representations of the resulting multivariate Pareto. One of them is based on 
+        using the infinity norm to represent the random variables that follow such distribution 
+        as the product of an angular and a radial component. As for the idea that a it is possible 
+        to use the $\tilde{W} = RV_p$, where $R$ is a standard Pareto and $V_p$ is located on the 
+        $\mathcal{L}_p$-sphere, as a representation of the multivariate Pareto distribution that 
+        we term $H$ in the paper, we have  not been able to find any results to justify it for 
+        $p\neq \infty$. It is possible to assume regular variation and obtain an equation like
+        Equation (1) in the paper for a $p$-norm. That, though, would entail either dealing with,
+        or ignoring, the moment constraints and the normalizing constant. Having said that, we
+        acknowledge that our model proposes a family of distributions on the $\mathcal{L}_p$-sphere
+        that can be useful in its own right. One possible application is that of inference for
+        directional data in many dimensions. That is mentioned in the final section of the manuscript.
+        }
         
         \item Another issue is that it is not clear in the present form of the paper, what is the
         added value of fitting this parametric model with the Bayesian framework and the Gibbs 
         sampler, if the output is mainly bivariate densities and extremal dependence coefficients 
         which could be obtained by standard non parametric methods with very low computational cost?
 
-        \bruno{This is an unfair comment. We do use the full multivariate distributiont to come up
-        with the results we present. I'll work on an answer to this one.}
+\response{The focus of our paper is to develop a model that is flexible and computationally tractable
+        for multivariate PoT extreme value analysis in many dimensions. We discuss and compute the
+        properties of the pair-wise extremal coefficients, as it is an important summary of multivariate
+        extreme value analysis. Yet, our inferential results are based on the full joint multivariate 
+        distribution, and use the whole vector of observations. It is not a pair-wise analysis. In 
+        particular, the conditional survival functions considered in Proposition 2 and illustrated in
+        Figure 7 make use of the whole joint distribution.
+        }
     \end{enumerate}
 
 \item \emph{Comparison with other methods}: The only comparison study displayed in the paper 
@@ -297,52 +313,56 @@ To address this concern, we have revised the simulation study to feature the
     results obtained with the empirical angular measure or smoothed versions of it in terms of 
     extremal dependence and conditional survival probability.
 
-    We have included for comparison some other models established on $\mathcal{S}_{1}^{d-1}$;
-        notably the pairwise betas model developed in \cite{sabourin2013}, as well
-        as the Dirichlet distribution.  We have investigated several R and python packages to
-        compute empirical angular measure, or other means of estimating the spectral distribution.
-        To be clear, our analysis requires the ability to generate a sample from a posterior
-        predictive distribution, or at least sample from a fitted density, projected onto 
-        $\mathbb{S}_{\infty}^{d-1}$. Most packages implement a bivariate angular density, 
-        including \verb|ExtremalDep|~\citep{ExtremalDep}, \verb|BAMBI|~\citep{BAMBI}, 
-        \comment{expand list}.  Some, such as
-        \verb|evd|~\citep{evd} implement a multivariate generalized Pareto density with a 
-        parametric dependence structure, but I didn't see a way to learn the dependence
-        structure in isolation, as well as sample from it.  I found 
-        \cite{BMAmevt} as an example of a true multivariate density on $\mathbb{S}_1^{d-1}$, 
-        and on first attempt to use
-        it I encountered a bug with its output (for distributions with more than 3 dimensions, 
-        the dimension of the output parameter space became larger than it should be).  Upon 
+\response{We thank the referee for prompting us to seek a more thorough comparison of our proposed
+        model with existing models. To this end investigated several R and python packages designed 
+        to compute empirical angular measure in highly multivariate settings, with the ability to 
+        provide predictive uncertainty. We found that most packages implement methods to estimate
+        a bivariate angular density,}  \response{including} \verb|ExtremalDep| \response{\citep{ExtremalDep},}
+        \verb|BAMBI| \response{\citep{BAMBI}. We found that} \verb|evd| \response{\citep{evd} implements a multivariate 
+        generalized Pareto density with a  parametric dependence structure, but it is unclear to us 
+        how to learn the dependence structure and sample from it. 
+        notably} \verb|BMAmevt| \response{\citep{BMAmevt} that implements the 
+        pairwise betas model developed in \cite{sabourin2013}, as well as the Dirichlet distribution,
+        is an example of a true multivariate density on $\mathbb{S}_1^{d-1}$.  Our first attempt to use
+        it found a bug with its output for distributions with more than 3 dimensions.  Upon 
         conferring with the package maintainer and author, they identified the source of the
         bug and fixed it.  For this reason, we are able to include it as a point of comparison.
-    
-    \bruno{Well, here we have to bite the bullet. Hopefully there some software that allows us
-    to fit the empirical angular measure.}
+}    
+    \bruno{You need to include in the paper some justification of why the package you used was the only
+    one considered.}
 
     \item \emph{Experiments}:
         \begin{enumerate}
             \item Computational Evidence missing: The convergence of the Gibbs sampler is not 
             discussed in the paper.
 
-            We thank the reviewers for bringing this omission to our attention.  We have now
-            included a discussion of MCMC convergence among the models in section 5.  
-
-            As we considered parallel tempering to be necessary in fitting the multivariate-lognormal
-            model, as we're using a $d$-dimensional joint proposal step, it is readily apparent that 
-            convergence will appear \emph{cleaner} on the log-density plots for the lognormal models 
-            relative to the gamma models, as parallel tempering also ameliorates autocorrelation
-            issues.  Below are the log-density by iteration plots for the ERA-5 data, on the two 
+\response{We thank the reviewers for bringing this omission to our attention.  We have now
+            included a discussion of MCMC convergence among the models in section 5.  In the current
+            version of the paper we clarify that we used two different strategies to run the MCMC.
+            For the model that have a prior distribution centered around a log-normal we observed 
+            that a single chain Metropolis-Hastings algorithm had very slow mixing. Thus we resorted 
+            to implementing a parallel tempering approach. This improved the mixing, at the cost 
+            of increasing computation times per iterations. In addition, parallel tempering requires
+            tuning of the temperature scale, something that can be time-consuming. The models that
+            use a prior centered around a product of gammas have substantially better mixing than the
+            log-normal centered models, albeit the mixing is not ideal. Yet each iteration is much
+            faster, so consider a strategy of running the chain longer and doing more thinning, than 
+            in the former case. This is now discussed in Section 5. In order to monitor convergence 
+            we used plots of the log-posterior density.
+            Below are the log-density by iteration plots for the ERA-5 data, on the two 
             unrestricted projected gamma models; left uses the product of gammas centering distribution, 
             right uses the log-normal centering distribution.  The red line indicates the end of the 
             burn-in period, and we only keep every tenth sample after.
+            }
             
             \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-G.pdf}
             \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-LN.pdf}
 
-            We could say that parallel tempering would improve autocorrelation for the gamma model,
-            but sampling longer and thinning more would serve the same effect.  And since it also
-            reaches convergence faster, we could also simply use less burn-in.
-            
+            \bruno{You should include, also, a graph of the autocorrelation functons of these two values.
+            Now, there is something that is bit contradicting, you say you run the PG-G longer and do more
+            thinning and the PG-LN shorter and do less thinning. But in both cases you use 40K and thin
+            every 10. How is that?}
+
             % \bruno{This one was pointed out by the other referee. So, we need to come up with something.}
 
             % \comment{\st{I'm not sure how to demonstrate convergence in the case of the DP.  I can
@@ -359,10 +379,11 @@ To address this concern, we have revised the simulation study to feature the
             true distribution. This is not the case in Figure 2, which deserves an explanation 
             (it might be a too small sample size, or some coding error at worst).
 
-            We have converted the graphs to use average rise in score over baseline (as calculated
-            by average of model on 10 distributions), rather than the score directly on a single
-            sample. We have verified that instances of displayed values dropping below zero are 
-            within MCMC error of zero.\comment{I need to say this better.}
+\response{The plots in Figure 2 are totally new, as they are based on a new set of experiments 
+            and comparisons.  We now show average rise in score over baseline (as calculated
+            by average of model on 10 simulations), rather than the score directly on a single
+            sample. The averages in the figures are all positive.
+            }
 
         \end{enumerate}
 
@@ -386,7 +407,7 @@ To address this concern, we have revised the simulation study to feature the
     distributions, i.e. the distributions of the $W_{\ell}$’s in the limit are not entirely determined, 
     but this needs to be clarified.
 
-    \bruno{This was dealt with already.}
+\response{Please refer to the answer to the first question of Referee 1}
 
     \item \emph{Energy Score, kernel function, flaw in the proof}: In the proof of proposition 3, 
     one needs to verify that $g$ is a negative definite kernel, that is, that for all $x_1,\ldots,x_n$
@@ -395,34 +416,30 @@ To address this concern, we have revised the simulation study to feature the
     which allows to break the sum into two parts in the current proof should in fact depend on $(i,j)$, 
     and the proof is not valid.
 
-    \bruno{We need to rewrite the proof. I'll do that.}
+\response{We thank the referee for pointing out the inconsistency and apologize for the sloppy presentation 
+    of the result. We have rewritten propositions 3 and 4 and their proofs.
+    }
 
     \item \emph{Minor point 1}: About the word \emph{‘Projection’}, e.g. \emph{in 
     ‘To define an angular measure, we are interested in the direction of vectors in $\mathbb{R}_+^d$
     thus, we project them onto $[\ldots]$}: The angular variable variable is not really a projection 
     (at least not an orthogonal one) except when the $\mathcal{L}_2$ norm is used.
 
-    \comment{Indeed, it's not an orthogonal projection.  Even the $\mathcal{L}_2$ norm doesn't 
-    produce an orthogonal projection, unless using the trigonometric mapping.  I don't think that's
-    a problem.}
-
-    \bruno{I think we need to de-emphasize the word ``projection''. We will call it ``normalization''
-    the first time we mention it, and then say that we will use the term ``projection''. It is a
-    projection in the sense that it is the point in $\mathbb{S}_p^{d-1}$ that is closest to the original
-    point, is it not?}
+\response{The transformation that maps a point onto a hypercube is indeed not an ``orthogonal'' projection. 
+    In Section 3.1 we acknowledge that this is an abuse of terminology. 
+    }
 
     \item \emph{Minor point 2}: The first sentence of Section 3 is vague: [\emph{‘Consider a 
     collection of observations $w_l, l = 1,\ldots,n$ that exhibit extreme behavior}].  Probably the
     authors mean that the underlying random vector W is regularly varying, or belongs to some domain 
     of attraction. However only specialists of EVT can guess that.
 
-    \comment{we're using $l$ for iterating observations, rather than dimensions?  Yeah, it's probably
-    bad wording.}
+\response{The introduction of Section 3 has been rewritten.}
 
     \item \emph{Minor point 3}: (typos): Section 3, first paragraph: Some confusions between 
         $\ell \in \lbrace 1,\ldots, n\rbrace$ and $\ell \in \lbrace 1,\ldots,d\rbrace$
 
-    \comment{same as previous.}
+\response{See above.}
 \end{itemize}
 
 \bibliography{./refs}

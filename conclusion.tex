@@ -4,38 +4,55 @@ In this paper, we have built upon the definition of the multivariate Pareto
     its dependence structure, through the distribution of its angular component,
     which is supported on the positive orthant of the unit hypersphere under 
     the $\mathcal{L}_{\infty}$ norm.  Due to the inherent difficulty of 
-    obtaining a distribution with support on ${\mathbb S}^{d-1}_\infty$ our 
-    method projects distributions, supported on the positive quadrant and 
-    based on products of independent gammas,  onto the manifold 
-    ${\mathbb S}_{p}^{d-1}$. Samples of the resulting probability distribution 
-    are then projected onto ${\mathbb S}_{\infty}^{d-1}$.  As 
-    ${\mathbb S}_{p}^{d-1}$ converges to ${\mathbb S}_{\infty}^{d-1}$ as 
-    $p\to\infty$, we expect the resampling to be efficient for large enough
-    $p$. In fact, our exploration of the simulated and real data indicate
-    that the procedure is robust to the choice of moderately large values
-    of $p$. 
+    obtaining the likelihood of distributions with support on ${\mathbb S}^{d-1}_\infty$ 
+    our method transforms the data to ${\mathbb S}_{p}^{d-1}$, fits then using mixtures of 
+    products of independent gammas, then transforms the predictions back to 
+    ${\mathbb S}^{d-1}_\infty$. As ${\mathbb S}_{p}^{d-1}$ converges to 
+    ${\mathbb S}_{\infty}^{d-1}$ as  $p\to\infty$, we expect the proposed 
+    resampling to be efficient for large enough $p$. In fact, our exploration 
+    of the simulated and real data indicates that the procedure is robust to 
+    the choice of moderately large values of $p$. 
+    Our method includes two inferential steps. The first consists of the
+    estimation of the marginal Pareto distributions. The second consists 
+    of the estimation of the angular density. Parameter uncertainty incurred in
+    the former is not propagated to the latter. Conceptually, and integrated approach 
+    that accounts for all the estimation uncertainty is conceivable. Unfortunately, 
+    this leads to posterior distributions with complex data dependent restrictions 
+    that  are very difficult to explore, especially in large dimensional setting. In 
+    fact, our attempts to fit a simple parametric model for the marginals and the
+    angular measure jointly in several dimensions were not successful.
+
+In this paper we have focused on a particular representation of the multivariate
+    Pareto distribution for PoT inference on extreme values. To this end, our model 
+    provides a computationally efficient and flexible approach. An interesting extension 
+    of the proposed model is to consider regressions of extreme value responses, due
+    to extreme value inputs following the ideas in  \cite{carvalho2022}. This will 
+    produce PoT based Bayesian non-parametric extreme value regression models. More 
+    generally,  models that allow for covariate-dependent extremal dependence 
+    \citep{mhalla2019} could be considered. In addition, we notice that our approach 
+    is based on flexibly  modeling angular distributions for any $p$-norm. As such, 
+    it can be applied to other problems focused on high dimensional directional 
+    statistics  constrained  to a cone of directions. 
  
 We explored the behavior of the proposed model using simulated data from
     mixtures of projected Gammas with varying degrees of complexity---both 
     in terms of dimensionality and in number of mixture components.  From this,
     we observed that the additional flexibility offered by varying the $\beta$
     term---the rate parameter of the gamma distribution---can offer additional
-    model fidelity.  This result is not borne out in our real data example,
-    for which the simpler model is vastly preferred.  Additionally, we observe
+    model fidelity.  \makenote{However,} this result is not borne out in our 
+    real data example, for which in higher dimensions the simpler model is 
+    strongly preferred.  Additionally, we observe
     that the choice of the log-normal centering distribution and additional
-    flexibility it offers did not translate to additional model fidelity.  This
-    is borne out in the real data, where on the ERA--Interim dataset it performed
-    only comparably, but on ERA--5 it performed significantly worse.
-    
-    % From this,
-    % we learned that the additional flexibility offered by varying the $\beta$ 
-    % term---the rate parameter of the Gamma distribution---does not result in 
-    % increased model fidelity in a mixture setting.  Within the tested range, 
-    % between 3 and 20 dimensions, we observed that the additional information 
-    % provided by a log--normal centering distribution did not translate to 
-    % additional model fidelity.  However, for real data, with 47 dimensions, 
-    % we did observe an effect.
-    
+    flexibility it offers did not translate to additional model fidelity.  
+    \makenote{This result is borne out in the real data, where it performed at best 
+    comparably to the gamma model.}  
+    % This
+    % is borne out in the real data, where on the ERA--Interim dataset it performed
+    % only comparably, but on ERA--5 it performed significantly worse.
+    % {\bf I am not sure that this paragraph is appropriate anymore. I think that
+    % the different mixture models considered are pretty much equivalent, so we should
+    % favor the one that is easiest and most robust to fit.}
+
 The computations in this paper were performed on a desktop computer with an 
     AMD Ryzen 5950X processor. The program is largely single-threaded, so 
     computation time is not dependent on available core count.  In each case, 
@@ -44,11 +61,10 @@ The computations in this paper were performed on a desktop computer with an
     15 minutes.  Work is in progress to optimize the code, and explore 
     parallelization where possible.  We are also exploring alternative 
     computational approaches that will make it feasible to tackle very high 
-    dimensional problems. In fact, to elaborate on the study of IVT, there is 
-    a need to consider several hundreds, if not thousands, of grid cells over
-    the Pacific Ocean in order to obtain a good description of atmospheric 
-    events responsible for large storm activity over California.  Moving beyond
-    this model
+    dimensional problems, such as variational Bayes. In fact, to elaborate on 
+    the study of IVT, there is a need to consider several hundreds, if not thousands, 
+    of grid cells over the Pacific Ocean in order to obtain a good description of 
+    atmospheric  events responsible for large storm activity over California.  
 
 % §6 calls for a view of the authors on what 
 %     could be related exercises—or even extensions of this research and future 

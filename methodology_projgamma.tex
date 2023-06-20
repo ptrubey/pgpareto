@@ -59,7 +59,7 @@ A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product o
       \left[\frac{\beta_{\ell}^{\alpha_{\ell}}}{\Gamma(\alpha_{\ell})}(ry_{\ell})^{\alpha_{\ell} - 1}
           \exp\lbrace-\beta_{\ell}ry_{\ell}\rbrace\right] \\
       &\hspace{0.5cm}\times r^{d-1}\left[y_d +
-            {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(y_d^p\right)^{\frac{1}{p} - 1}\right].
+            {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p y_d^{1 - p}\right].
     \end{aligned}
   \end{equation}
   Integrating out $r$ yields the resulting \emph{Projected Gamma} density
@@ -70,7 +70,7 @@ A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product o
           \prod_{\ell = 1}^d\left[\frac{\beta_{\ell}^{\alpha_{\ell}}}{\Gamma(\alpha_{\ell})}
                 y_{\ell}^{\alpha_{\ell} - 1}\right]\\
       &\hspace{0.5cm}\times \left[y_d +
-          {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p\left(y_d^p\right)^{\frac{1}{p} - 1}\right]\\
+          {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p y_d^{1 - p}\right]\\
       &\hspace{0.5cm}\times \frac{\Gamma({\textstyle\sum}_{\ell = 1}^d\alpha_{\ell})}{\left({\textstyle\sum}_{\ell = 1}^d
                     \beta_{\ell}y_{\ell}\right)^{{\scriptstyle\sum_{\ell = 1}^d \alpha_{\ell}}}},
     \end{aligned}
@@ -79,7 +79,8 @@ A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product o
   problems when estimating the shape and scale parameters, we set $\beta_1 = 1$.
   \cite{nunez2019} obtain the density in Equation (\ref{eqn:projgamma})
   for $p=2$ as a multivariate distribution for directional data, using spherical coordinates.  
-  For $\bm{ y}\in {\mathbb S}_1^{d-1}$, and $\beta_{\ell} = \beta$ for all $\ell$, the density in Equation (\ref{eqn:projgamma}) corresponds to that of a Dirichlet distribution.
+  For $\bm{ y}\in {\mathbb S}_1^{d-1}$, and $\beta_{\ell} = \beta$ for all $\ell$, the density in
+  Equation (\ref{eqn:projgamma}) corresponds to that of a Dirichlet distribution.
   
   
 The projected gamma family is simple to specify and has very tractable 
