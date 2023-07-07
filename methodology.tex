@@ -11,7 +11,7 @@ Our approach to estimating the PoT distribution considers two steps: First we
     distribution of the observations for the $\ell$-th component, 
     conditional on exceeding the threshold, can be 
     approximated as $1 - (1 + \xi_\ell   (w_{i\ell} - b_{t,\ell})/\sigma_\ell)_+^
-    {1/\xi_ell}$, where $(\cdot)_+$ indicates the positive part function.  We 
+    {1/\xi_\ell}$, where $(\cdot)_+$ indicates the positive part function.  We 
     proceed by setting a threshold equal to the empirical $(1-1/t)$-quantile. 
     Thus $b_{t,l}  = \hat{F}^{-1}_{\ell}(1 - 1/t)$.  We then use the 
     approximate exceedance distribution to estimate $\xi_\ell$ and $\sigma_\ell$,
@@ -21,7 +21,7 @@ Our approach to estimating the PoT distribution considers two steps: First we
     \begin{equation}
             \label{eqn:standardization}
             z_{i\ell} = \left(1 + \xi_{\ell}\frac{w_{i\ell} -
-                b_{\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}\; .
+                b_{t,\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}\; .
         \end{equation}
     Note that $z_{i\ell}> 1$ implies that $w_{i\ell} > b_{t,\ell}$, meaning 
     that the observation $\bm{w}_i$ is extreme in the $\ell$-th dimension. 
@@ -29,9 +29,9 @@ Our approach to estimating the PoT distribution considers two steps: First we
     least one dimension has an extreme observation, and corresponds 
     to a very extreme observation when $t$ is large. We focus on 
     the observations that are such that $r_i > 1$. These provide a
-    sub-sample of $r_i$ and $\bm{v}_i = \bm{z}_i /r_i \in 
-    \mathbb{S}_{\infty}^{d-1}$ that is used for  the estimation of 
-    $\Phi$ conditional on the sample. 
+    sub-sample of the stardardized original sample. We define $\bm{v}_i = 
+    \bm{z}_i /r_i \in  \mathbb{S}_{\infty}^{d-1}$. These vectors are used 
+    for  the estimation of $\Phi$. 
     % We observe that in practice, the choice
     % of $\bm{b}$, and the subsequent fitting of $\bm{a}$ and $\bm{\xi}$ induces
     % a stochastic element in the spectral distribution that is not accounted for

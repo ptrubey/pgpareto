@@ -41,7 +41,7 @@ Our hyperprior parameters are set as follows: for the gamma-centered models (PG-
     For models learning rate parameters $\beta_{j\ell}$ (PG--G, PG--LN), the centering
     distribution's shape parameter $\zeta\sim\mathcal{G}\left(1,1\right)$ and rate parameter
     $\sigma\sim\mathcal{G}\left(2,2\right)$.  The choice of the $\mathcal{G}(2,2)$ for rate
-    parameters places no mass near 0, in order to draw estimates for the value away from 
+    parameters places little mass near 0, in order to draw estimates for the value away from 
     0 for numerical stability.
 
 \subsection{Simulation Study\label{subsec:simulated}}
@@ -50,13 +50,26 @@ To evaluate our proposed approach for angular measure estimation
     for values of $d$ ranging between 2 and 32.  We generated each
     dataset as a mixture of multivariate log-normal distributions,
     projected onto $\mathbb{S}_{\infty}^{d-1}$. The generation 
-    procedure is detailed in Algorithm~\ref{algo:simulated}.  We consider two gamma-centered
+    procedure is detailed in Algorithm~\ref{algo:simulated}. We produced 
+    ten replicates of each configuration. We consider two gamma-centered
     and two log-normal centered DP mixture models, with and without restrictions in each
-    case. We also consider a Dirichlet distribution and 
-    a pairwise betas model \citep{COOLEY2010}, fitted using the \verb|BMAmevt| 
-    package in R~\citep{BMAmevt}. For the DP mixture
+    case. To perform a comparative analysis we fitted 
+   % \makenote{Comparative analysis using posterior predictive samples necessitates
+    %alternative models having defined methods of sampling from their respective posterior
+    %predictive distributions, for models defined on some normalization of the positive cone.  
+    %To that end, we also consider the Dirichlet distribution, as well as} 
+    %We also consider a Dirichlet distribution and 
+    the pairwise betas model proposed in \cite{COOLEY2010}. We chose this model for comparison
+    as it is implemented in the readily available package \verb|BMAmevt| 
+    in R~\citep{BMAmevt}. \verb|BMAmevt| provides samples from the predictive
+    posterior distribution. These are needed for the calculation of the energy
+    scores that are at the basis of our comparison. In addition, \verb|BMAmevt| can 
+    be fitted to moderately large multivariate observations. For the DP mixture
     models, the data are projected onto $\mathbb{S}_{10}^{d-1}$. For the other
-    two models they are projected on $\mathbb{S}_1^{d-1}$.
+    two models they are projected on $\mathbb{S}_1^{d-1}$.   We sampled each model for 50,000 
+    iterations, dropping the first 40,000 as burn-in, and thinning to keep every 10th iteration
+    after.  These settings were intended to provide a consistent sampling strategy that would
+    work with every model, even if inefficient for some.
 
 \begin{algorithm}[ht]  % algorithm using algorithm package
         \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}.
@@ -81,13 +94,15 @@ To evaluate our proposed approach for angular measure estimation
         \EndFor
         \EndFor
         \end{algorithmic}
-    \end{algorithm}
+    \end{algorithm}    
 
 Figure~\ref{fig:simpples} shows the average rise over baseline in energy score as
     calculated on $\mathbb{S}_{\infty}^{d-1}$ using the kernel metric described
     in Proposition~\ref{prop:rot}, for models trained on simulated data.  After training
     a model, a posterior predictive dataset is generated, and the energy score is
-    calculated as a Monte Carlo approximation of Equation~\ref{eq:es}.
+    calculated as a Monte Carlo approximation of Equation~\ref{eq:es}.  In our analysis,
+    after burn-in and thinning, we had 1,000 replicates from the posterior distribution, and
+    generated 10 posterior predictive replicates per iteration.
     The \emph{baseline} value is the energy score of a new dataset from the same
     generating distribution as the training dataset, evaluated against the training 
     dataset.  
@@ -106,16 +121,23 @@ Figure~\ref{fig:simpples} shows the average rise over baseline in energy score a
     % simulation study.} \bruno{\bf I would avoid getting into the details of what the
     % pairwise beta model does. More important is to say why we chose it, and how available 
     % it is}
-    \makenote{It was anticipated that the log-normal centering distribution would place
-    more mass of the  DP into regions of the support with active clusters, which would 
-    generate new clusters more readily.  For the simulated data,} 
-    we observe that the projected gamma models dominate, and within that class
-    of model, the choice of centering distribution is immaterial.  For the 
-    projected \emph{restricted} gamma models, the choice of a multivariate log-normal 
-    centering distribution appears to \makenote{somewhat} negatively affect model 
-    fidelity.  \makenote{Additionally, the log-normal models with the additional computational cost
-    of multivariate normal evaluation and parallel tempering, take approximately six times
-    longer to sample relative to the gamma models.}
+   % \makenote{It was anticipated that the log-normal centering distribution would place
+    %more mass of the  DP into regions of the support with active clusters, which would 
+    %generate new clusters more readily.}  
+    For the simulated data, we observe that the projected gamma models dominate the other two
+    options considered, regardless of the choice of centering distribution.  The  projected 
+    restricted gamma models with a multivariate log-normal centering distribution appears to 
+    be dominated by the models based on the alternative centering distributions. Moreover, the
+    performance deteriorates with the increase in dimensionality. Additionally, models
+    centered around the log-normal distribution incur in the computational cost of 
+    multivariate normal evaluation and parallel tempering, taking approximately six times
+    longer to sample relative to the gamma models.  We also note that the 
+    computational cost  of the pairwise betas model grows combinatorially, with a 
+    sample space of dimension $\binom{d}{2} + 1$. In our testing, \verb|BMAmevt| is 
+    substantially faster than any of our proposed DP mixture models for low dimensions, 
+    however for examples with high number of dimensions, the computational time for 
+    \verb|BMAmevt| was comparable or greater than that for DP-PG-G.  We compare computing
+    times in our data analysis in Table~\ref{tab:sampletime}.
     % \bruno{The comparison needs some information about the computing times.}
 
 \subsection{Integrated Vapor Transport\label{subsec:ivt}}
@@ -139,18 +161,28 @@ The \emph{integrated vapor transport} (IVT) is a two component vector
     observational product, ERA5 \citep{hersbach2020era5}. 
 
 \begin{figure}[tb]
-    \begin{center}
     \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering 
-        \includegraphics[height=2.5in]{./images/erai_grid}
-    \end{subfigure}
-    %
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[height=2.5in]{./images/era5_grid}
-    \end{subfigure}
-    \end{center}
+    \centering
+    \begin{minipage}{0.25\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{./images/erai_grid}
+    \end{minipage}%
+    \begin{minipage}{0.25\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{./images/era5_grid}
+    \end{minipage}  
+    % \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
+    % \begin{center}
+    % \begin{subfigure}{0.48\textwidth}
+    %     \centering 
+    %     \includegraphics[height=2.5in]{./images/erai_grid}
+    % \end{subfigure}
+    % %
+    % \begin{subfigure}{0.48\textwidth}
+    %     \centering
+    %     \includegraphics[height=2.5in]{./images/era5_grid}
+    % \end{subfigure}
+    % \end{center}
 \end{figure}
 
 Our data correspond to daily average values for the IVT magnitude
@@ -226,16 +258,23 @@ After subsetting the ERA-Interim data to the rainy season we
   \include{./tables/table_dev_updated}
 \end{table}
 
-% Table~\ref{tab:dev} shows the values of the estimated posterior predictive loss and energy 
-%     scores for the different models considered. We observe that, as in the case of the simulation 
-%     study shown in Figures~\ref{fig:simpples}, the preferred model is the projected restricted 
-%     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
-%     Interestingly, this preference for the restricted gamma form is the opposite of the result 
-%     obtained in the simulation example.
+\begin{table}[htb]
+  \centering
+  \caption{Time to sample (in minutes) 50,000 iterations for various models\label{tab:sampletime}}
+  \include{./tables/table_sampletime}
+\end{table}
+
 Table~\ref{tab:dev} shows the values of the estimated energy 
     scores for the different models considered. We observe that, contrary to the results in the
     simulation study in Figure~\ref{fig:simpples}, the preferred model is the projected restricted 
     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
+    Table~\ref{tab:sampletime} shows the computing times needed to fit the different models to the
+    two datasets.  We see the effect of dimensionality on the various models; for gamma centered
+    models it grows linearly; for the log--normal centered model, it will grow superlinearly as matrix
+    inversion becomes the most costly operation.  For \verb|BMAmevt|, its parameter space grows
+    combinatorically with the number of dimensions, and thus so does computational complexity and
+    sampling time.
+    % \bruno{Insert here the table that you sent me in the email and comment the results.}
 
 \begin{figure*}[htb]
     \centering
@@ -248,7 +287,8 @@ We consider an exploration of the pairwise extremal dependence using Monte Carlo
   Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
   The coefficients achieve values between $0.286$ and $0.759$ for the ERA-Interim data and 
   between $0.181$ and $0.840$ for the ERA5 data.  The greater range in dependence scores observed 
-  with the ERA5 data versus ERA-Interim speaks to the greater granularity of the ERA5 data--distance between locations is a strong contributor to the strength of the 
+  with the ERA5 data versus ERA-Interim speaks to the greater granularity of the ERA5 data,
+  indicating that distance between locations is a strong contributor to the strength of the 
   pairwise asymptotic dependence. The highest coefficients are $0.759$ for 
   locations 4 and 5 in the ERA-Interim data and
   $0.840$ for locations 1 and 2 in the ERA5 data.  Clearly, pairwise asymptotic

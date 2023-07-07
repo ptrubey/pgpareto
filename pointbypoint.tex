@@ -22,6 +22,38 @@
 
 \begin{document}
 
+Dear Professor Jasra,
+
+\vskip 1.5cm
+
+Please consider a revised version of the manuscript `Bayesian non-parametric inference for 
+multivariate peaks-over-threshold models''. We have carefully considered the comments made
+by the referees, and produced a new version of the paper that we believe shows substantial
+improvement with respect to the original version. We notice that addressing the reviewers' 
+comments required significant
+    effort in redeveloping the simulation study.  To that end, we converted the generating distribution
+    for the simulations from mixtures of projected gammas, to mixtures of projected multivariate 
+    log-normals so that we are not merely recovering the generating distribution.  Further, the analysis 
+    from the simulation study has been made significantly more robust using multiple 
+    multiple replicates of the generating distribution.  The results are now reflected in a new figure
+    that should make them more easily interpretable.  After a thorough search for available software,
+    suitable to perform a comparison with our proposed method, we added two models for 
+    comparison: one based on Dirichlet distributions, and one based on pairwise beta distributions.  In
+    addition, we have followed the referees' advice of sharpening the presentation, including
+    justification, notation and proofs of the stated results.
+
+We believe all concerns raised by the reviewers have been addressed, and we have elaborated our responses
+    to each raised issue below.  Thank you for your time and effort in consideration of our manuscript.
+
+% The proof of negative definiteness of our kernel for the energy score has been fixed.  The rotation that
+%     previously served as a convenient method of calculation serves in the proof itself to verify negative
+%     definiteness.  The ordering of the section has been revised to reflect this.
+
+
+
+
+    
+
 \section*{Review 1}
 \begin{itemize}
 \item \emph{Moment constraint}: As can be seen, for example, in \cite[Equation 4.1]{einmahl2009}
@@ -138,8 +170,8 @@
     of plots in Figure 2. As for the lack of propagation of the uncertainty
     related to the estimation of the Pareto marginals, we acknowledge that this is
     indeed the case. A comprehensive approach is in theory possible, by using the
-    full Bayesian formalism. Yet the positive value function in the marginals 
-    introduce data dependent parameter space constraints that are essentially
+    full Bayesian formalism. Yet, the positive value function in the marginals 
+    introduce data dependent constraints for the parameter space. These are essentially
     impossible to deal with when assuming a flexible model for the angular
     measure. Even for a simple parametric model, the exploration of the posterior
     distribution becomes very challenging in high dimensions. We have a added
@@ -220,10 +252,11 @@
         model. This is indeed standard in Bayesian Non-parametrics, so there should be a precise 
         reference where it is explained.
 
-\response{To ameliorate this shortfall, in addition to the foundational papers for the DP
-        already included, we add \cite{muller2015} to provide a modern approachable reference on
-        and associated clustering, as well as \cite{ascolani2022} which provides a discussion of
-        robustness of clusters generated under the DP.
+\response{To include non-parametric modeling background background to the list of references, in 
+        addition to the foundational papers for the DP already included, we added \cite{muller2015} 
+        to provide a modern approachable and comprehensive reference,  as well as the more specific
+        reference \cite{ascolani2022},  which provides a discussion of robustness of clusters 
+        generated under the DP.
         }
 
         % \bruno{Peter, you need to come up with additional, and more specific references here.}
@@ -280,7 +313,7 @@
         condition of regular variation. We follow the former, and use the fact that there are a
         number of representations of the resulting multivariate Pareto. One of them is based on 
         using the infinity norm to represent the random variables that follow such distribution 
-        as the product of an angular and a radial component. As for the idea that a it is possible 
+        as the product of an angular and a radial component. As for the idea that it is possible 
         to use the $\tilde{W} = RV_p$, where $R$ is a standard Pareto and $V_p$ is located on the 
         $\mathcal{L}_p$-sphere, as a representation of the multivariate Pareto distribution that 
         we term $H$ in the paper, we have  not been able to find any results to justify it for 
@@ -314,22 +347,25 @@
     extremal dependence and conditional survival probability.
 
 \response{We thank the referee for prompting us to seek a more thorough comparison of our proposed
-        model with existing models. To this end investigated several R and python packages designed 
+        model with existing models. To this end we investigated several R and python packages designed 
         to compute empirical angular measure in highly multivariate settings, with the ability to 
         provide predictive uncertainty. We found that most packages implement methods to estimate
         a bivariate angular density,}  \response{including} \verb|ExtremalDep| \response{\citep{ExtremalDep},}
-        \verb|BAMBI| \response{\citep{BAMBI}. We found that} \verb|evd| \response{\citep{evd} implements a multivariate 
+        \response{and} \verb|BAMBI| \response{\citep{BAMBI}. We found that} \verb|evd| \response{\citep{evd} implements a multivariate 
         generalized Pareto density with a  parametric dependence structure, but it is unclear to us 
         how to learn the dependence structure and sample from it. 
-        notably} \verb|BMAmevt| \response{\citep{BMAmevt} that implements the 
+        Notably} \verb|BMAmevt| \response{\citep{BMAmevt} implements the 
         pairwise betas model developed in \cite{sabourin2013}, as well as the Dirichlet distribution,
-        is an example of a true multivariate density on $\mathbb{S}_1^{d-1}$.  Our first attempt to use
+        an example of a multivariate density on $\mathbb{S}_1^{d-1}$.  Our first attempt to use
         it found a bug with its output for distributions with more than 3 dimensions.  Upon 
         conferring with the package maintainer and author, they identified the source of the
-        bug and fixed it.  For this reason, we are able to include it as a point of comparison.
+        bug and fixed it.  For this reason, we are able to include it as a point of comparison. The
+        comparison consists of the energy scores. For the IVT data we also include the computing
+        times. Due to the very large nature of the exercise, computations for the simulated examples 
+        were performed in a number of different environments, using different number of processors. Thus
+        computation times are difficult to compare. For the IVT examples all computations were performed 
+        in the same computer, serially. Thus, the comparison of computing times is fair. 
 }    
-    \bruno{You need to include in the paper some justification of why the package you used was the only
-    one considered.}
 
     \item \emph{Experiments}:
         \begin{enumerate}
@@ -342,11 +378,11 @@
             For the model that have a prior distribution centered around a log-normal we observed 
             that a single chain Metropolis-Hastings algorithm had very slow mixing. Thus we resorted 
             to implementing a parallel tempering approach. This improved the mixing, at the cost 
-            of increasing computation times per iterations. In addition, parallel tempering requires
+            of increasing computation times per iteration. In addition, parallel tempering requires
             tuning of the temperature scale, something that can be time-consuming. The models that
             use a prior centered around a product of gammas have substantially better mixing than the
             log-normal centered models, albeit the mixing is not ideal. Yet each iteration is much
-            faster, so consider a strategy of running the chain longer and doing more thinning, than 
+            faster, so we adopt a strategy of running the chain longer and doing more thinning, than 
             in the former case. This is now discussed in Section 5. In order to monitor convergence 
             we used plots of the log-posterior density.
             Below are the log-density by iteration plots for the ERA-5 data, on the two 
@@ -356,12 +392,16 @@
             }
             
             \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-G.pdf}
-            \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-LN.pdf}
+            \includegraphics[width=0.45\textwidth]{images/ERA-5-PG-LN.pdf} \\
+        
+            \response{The choice of 40,000 iterations burn-in, and thinning the resulting chain, 
+            provides a consistent strategy that produces satisfactory posterior samples for both 
+            models.}
 
-            \bruno{You should include, also, a graph of the autocorrelation functons of these two values.
-            Now, there is something that is bit contradicting, you say you run the PG-G longer and do more
-            thinning and the PG-LN shorter and do less thinning. But in both cases you use 40K and thin
-            every 10. How is that?}
+            % \bruno{You should include, also, a graph of the autocorrelation functons of these two values.
+            % Now, there is something that is bit contradicting, you say you run the PG-G longer and do more
+            % thinning and the PG-LN shorter and do less thinning. But in both cases you use 40K and thin
+            % every 10. How is that?}
 
             % \bruno{This one was pointed out by the other referee. So, we need to come up with something.}
 

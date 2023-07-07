@@ -1,26 +1,27 @@
 \subsection{Projected gamma family\label{subsec:projgamma}}
-To obtain a distribution on 
-${\mathbb S}_{p}^{d-1}=\{\bm{s} : \bm{s} \in {\mathbb R}_{+}^{d}, \| \bm{s}\|_{p} = 1\}$ 
-we start with a vector in 
-$\bm{x} \in {\mathbb R}^d_+$, calculate its $\mathcal{L}_p$-norm  defined as
+The $\mathcal{L}_p$-norm, for $p>0$ is  defined as
   \begin{equation*}
     \lVert \bm{x} \rVert_p = 
     \left({\textstyle\sum}_{\ell = 1}^d \lvert s_{\ell}\rvert^p\right)^{\frac{1}{p}},
   \end{equation*}
-  and normalize it to obtain $\bm{y} = \bm{x}/\|\bm{x}\|_p \in {\mathbb S}_p^{d-1}$. 
-  The absolute and Euclidean norms are obtained for $p=1$ and $p=2$ respectively,
+The absolute and Euclidean norms are obtained for $p=1$ and $p=2$ respectively,
   and the $\mathcal{L}_{\infty}$ norm can be obtained as a limit, 
   \begin{equation*}
     \| \bm{s} \|_{\infty}
       = \lim\limits_{p\to\infty} \| \bm{s} \|
       = \underset{\ell = 1}{\overset{d}{\bigvee}}s_{\ell}.
   \end{equation*}
-
+  
+To obtain a distribution on 
+${\mathbb S}_{p}^{d-1}=\{\bm{s} : \bm{s} \in {\mathbb R}_{+}^{d}, \| \bm{s}\|_{p} = 1\}$ 
+we start with a vector in 
+$\bm{x} \in {\mathbb R}^d_+$, and normalize it to obtain 
+$\bm{y} = \bm{x}/\|\bm{x}\|_p \in {\mathbb S}_p^{d-1}$. 
 A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product of independent
   univariate Gamma distributions. Let
     $\bm{ X} \sim \prod_{\ell = 1}^d\text{Ga}\left(X_{\ell}\mid\alpha_{\ell},\beta_{\ell}\right)$, 
     $\alpha_\ell$ and $\beta_\ell$ are the shape and scale parameters, respectively. 
-    For any finite $p$, letting 
+    For any finite $p>0$, letting 
    $ y_d = (1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p)^{1/p}$,
     the transformation
   \begin{equation}
@@ -199,9 +200,9 @@ Equations \ref{eqn:chi_ij} and \ref{eqn:condsurv} provide relevant tools for inf
 \subsubsection{Inference for the projected Gamma mixture model}
 In a sample-based inference approach, for a given iteration the Dirichlet process mixture model 
     groups observations into stochastically assigned clusters, where members of a cluster share 
-    distributional parameters \citep{ascolani2022}. Building out the methods of inference for Equation~(\ref{eqn:dppg}), 
+    distributional parameters \citep{muller2015,ascolani2022}. Building out the methods of inference for Equation~(\ref{eqn:dppg}), 
     let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be 
-    the number of extant clusters, not including any singleton that observation $i$ is in. Under this model, 
+    the number of extant clusters, not including any singleton containing observation $i$. Under this model, 
     the probability of cluster membership for a given observation is proportional to
 \begin{equation*}
     \text{Pr}\left[\delta_i = j\mid\ldots\right] \propto \begin{cases}
@@ -250,7 +251,7 @@ We first consider a centering distribution given by a product of independent Gam
     &= \prod_{\ell = 1}^d\mathcal{G}(\alpha_{j\ell}\mid \xi_{\ell},\tau_{\ell})\times\prod_{\ell = 2}^d\mathcal{G}(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}).
     \end{aligned}
 \end{equation}
-This model is completed with independent Gamma priors on $\xi_{\ell}$, $\tau_{\ell}$, $\zeta_{\ell}$, $\sigma_{\ell}$.  We also assume a Gamma prior on $\eta$, that is updated via the procedure outlined in \cite{escobar1995}.  We refer to this model as the \emph{projected Gamma--Gamma} (PG--G) model.  An advantage of the PG--G model is that, thanks to conjugacy, the rate parameters can easily be integrated out for inference on $\bm{\alpha}_j$.  Then, the full conditional for $\alpha_{j\ell}$ takes the form
+This model is completed with independent Gamma priors on $\xi_{\ell}$, $\tau_{\ell}$, $\zeta_{\ell}$, $\sigma_{\ell}$.  We also assume a Gamma prior on $\eta$, that is updated via the procedure outlined in \cite{escobar1995}.  We refer to this model as the \emph{projected gamma--gamma} (PG--G) model.  An advantage of the PG--G model is that, thanks to conjugacy, the rate parameters can easily be integrated out for inference on $\bm{\alpha}_j$.  Then, the full conditional for $\alpha_{j\ell}$ takes the form
 \begin{equation}
     \label{eqn:alphalupdate}
     \begin{aligned}
@@ -276,9 +277,14 @@ The full conditional for $\beta$ is
     &\sim \mathcal{G}\left(\beta_{j\ell}\bigmid n_j\alpha_{j\ell} + \zeta_\ell, \sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right),
     \end{aligned}
 \end{equation}
-for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters $\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar Gamma-Gamma update relationships.  We also explore a restricted form of this model, where $\beta_{\ell} = 1$ for all $\ell$.  Under this model, we use the full conditional in Equation~(\ref{eqn:alpha1update}) for all $\ell$, and omit inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the \emph{projected restricted Gamma--Gamma} (PRG--G) model.
+for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters
+$\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar gamma-gamma update relationships.
+We also explore a restricted form of this model, where $\beta_{\ell} = 1$ for all $\ell$.  Under this 
+model, we use the full conditional in Equation~(\ref{eqn:alpha1update}) for all $\ell$, and omit 
+inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the 
+\emph{projected restricted gamma--gamma} (PRG--G) model.
 
-The second form of centering distribution we explore is a multivariate log-normal distribution on the shape parameters $\bm{\alpha}_j$, with independent Gamma $\beta_{j\ell}$ rate parameters.  
+The second form of centering distribution we explore is a multivariate log-normal distribution on the shape parameters $\bm{\alpha}_j$, with independent gamma $\beta_{j\ell}$ rate parameters.  
     \begin{equation}
         \begin{aligned}
         &\hspace{-0.5cm}G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right) \\
@@ -287,7 +293,7 @@ The second form of centering distribution we explore is a multivariate log-norma
     \end{equation}
     This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on
     $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  
-    This model is denoted as the \emph{projected Gamma--log-normal} (PG--LN) model.  
+    This model is denoted as the \emph{projected gamma--log-normal} (PG--LN) model.  
     We also explore a restricted Gamma form of this model as above, where 
     $\beta_{\ell} = 1$ for all $\ell$.  This is denoted as the 
     \emph{projected restricted gamma--log-normal} (PRG--LN) model.  Updates for 
