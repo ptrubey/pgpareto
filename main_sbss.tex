@@ -1,0 +1,82 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage[ruled]{algorithm2e}
+\usepackage{bm}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\linespread{1.8}
+\usepackage{anysize}
+\marginsize{1in}{1in}{1in}{1in}
+
+\newtheorem{prop}{Proposition}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\bigmid}{\,\middle\vert\,}
+\newcommand{\bruno}[1]{\textcolor{red}{#1}} % Bruno edits - red
+\newcommand{\makenote}[1]{\textcolor{teal}{#1}} % Peter edits - teal
+
+
+\newcommand{\findcite}{\textcolor{red}{[Find Citation]}}
+\newcommand{\needcite}{\findcite}
+\newcommand{\Chi}{\mbox{\Large$\chi$}}
+
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\inorm}[1]{\norm{#1}_{\infty}}
+\newcommand{\pnorm}[2]{\norm{#1}_{#2}}
+\newcommand{\prob}[1]{\text{Pr}\left[#1\right]}
+\newcommand{\expect}[1]{\text{E}\left[#1\right]}
+
+\jyear{2023}
+\theoremstyle{thmstyleone}
+
+\raggedbottom
+
+\begin{document}
+
+\title[~\hspace{6.75in}BNP inference for multivariate PoT]{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
+
+\author*{\fnm{Peter} \sur{Trubey}}\email{ptrubey@ucsc.edu}
+\author{\fnm{Bruno} \sur{Sans\'{o}}}\email{bruno@soe.ucsc.edu}
+
+\affil{\orgdiv{Department of Statistics}, \orgname{University of California Santa Cruz}, 
+            \orgaddress{\street{1156 High Street}, \city{Santa Cruz}, \postcode{95064}, \state{CA}, \country{USA}}}
+
+\abstract{\input{./abstract}}
+\keywords{Multivariate extremes, Peak over threshold models,
+                Bayesian non-parametric models, Dirichlet process mixtures}
+
+\maketitle
+
+%--------content
+\input{./introduction}
+
+\input{./methodology}
+
+\input{./evaluation}
+
+\input{./results}
+
+\input{./conclusion}
+
+\section*{Acknowledgements}
+This material is based upon work supported by the National Science Foundation
+    under Grant No. SES-2050012 and DMS-2153277.
+
+
+\bibliography{./refs}
+
+\end{document}
+
+% EOF
