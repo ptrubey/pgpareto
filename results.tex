@@ -71,7 +71,7 @@ To evaluate our proposed approach for angular measure estimation
     after.  These settings were intended to provide a consistent sampling strategy that would
     work with every model, even if inefficient for some.
 
-\begin{algorithm}[ht]  % algorithm using algorithm package
+\begin{algorithm}  % algorithm using algorithm package
         \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}.
         $\mu_j$, $\Sigma_j$ are the parameters of the mixture component distribution; 
         $\pi$ is the probability vector assigning weight mixture components; $\delta_i$ 
@@ -94,13 +94,13 @@ To evaluate our proposed approach for angular measure estimation
         \EndFor
         \EndFor
         \end{algorithmic}
-    \end{algorithm}    
+    \end{algorithm}
 
 Figure~\ref{fig:simpples} shows the average rise over baseline in energy score as
     calculated on $\mathbb{S}_{\infty}^{d-1}$ using the kernel metric described
     in Proposition~\ref{prop:rot}, for models trained on simulated data.  After training
     a model, a posterior predictive dataset is generated, and the energy score is
-    calculated as a Monte Carlo approximation of Equation~\ref{eq:es}.  In our analysis,
+    calculated as a Monte Carlo approximation of Equation~\eqref{eq:es}.  In our analysis,
     after burn-in and thinning, we had 1,000 replicates from the posterior distribution, and
     generated 10 posterior predictive replicates per iteration.
     The \emph{baseline} value is the energy score of a new dataset from the same
@@ -228,8 +228,8 @@ Fitting our models to the IVT data requires some pre-processing. First, we subse
   in Section \ref{sec:methodology} we estimate the shape and scale parameters of a univariate GP, in each
   dimension, using maximum likelihood. We set the threshold in each dimensions $\ell$ as  
   $b_{t,\ell} = \hat{F}_{\ell}^{-1}(1 - t^{-1})$, where $\hat{F}$ is the empirical CDF and $t=20$, 
-  that corresponds to the $95$ percentile. We then use the transformation in Equation
-  \eqref{eqn:standardization} to standardize the observations.  Dividing each standardized observation
+  that corresponds to the $95$ percentile. We then use the transformation in Equation~\eqref{eqn:standardization} 
+  to standardize the observations.  Dividing each standardized observation
   by its $\mathcal{L}_{\infty}$ norm, we obtain a projection onto $\mathcal{S}_{\infty}^{d-1}$. As 
   the data correspond to a daily time series, the observations are temporally correlated.  For each
   group of consecutive standardized vectors $z_i$ such  that  $\inorm{z_i} > 1$, we retain only the
@@ -283,7 +283,7 @@ Table~\ref{tab:dev} shows the values of the estimated energy
 \end{figure*}
 
 We consider an exploration of the pairwise extremal dependence using Monte Carlo estimates of the 
-  coefficients in  Equation~\ref{eqn:chi_ij}. For this we use samples obtained from the PRG--G model.
+  coefficients in  Equation~\eqref{eqn:chi_ij}. For this we use samples obtained from the PRG--G model.
   Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
   The coefficients achieve values between $0.286$ and $0.759$ for the ERA-Interim data and 
   between $0.181$ and $0.840$ for the ERA5 data.  The greater range in dependence scores observed 
@@ -313,7 +313,7 @@ We consider an exploration of the pairwise extremal dependence using Monte Carlo
 \end{figure*}
 
 Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG--G model,  
-    the conditional survival curve defined in Equation~\ref{eqn:condsurv}, for one dimension, 
+    the conditional survival curve defined in Equation~\eqref{eqn:condsurv}, for one dimension, 
     conditioned on all other dimensions being greater than their (fitted) $90$th percentile. 
     Figure~\ref{fig:condsurv2d} presents the bi-variate conditional survival function,
     conditioning on all other dimensions.  These results illustrate quantitatively how 

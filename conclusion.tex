@@ -1,9 +1,10 @@
 \section{Conclusion\label{sec:conclusion}}
 In this paper, we have built upon the definition of the multivariate Pareto 
     described in \cite{ferreira2014} to establish a useful representation of 
-    its dependence structure, through the distribution of its angular component,
+    its dependence structure through the distribution of its angular component,
     which is supported on the positive orthant of the unit hypersphere under 
-    the $\mathcal{L}_{\infty}$ norm.  Due to the inherent difficulty of 
+    the $\mathcal{L}_{\infty}$ norm, $\mathbb{S}_{\infty}^{d-1}$.
+    Due to the inherent difficulty of 
     obtaining the likelihood of distributions with support on ${\mathbb S}^{d-1}_\infty$ 
     our method transforms the data to ${\mathbb S}_{p}^{d-1}$, fits then using mixtures of 
     products of independent gammas, then transforms the predictions back to 
@@ -11,20 +12,20 @@ In this paper, we have built upon the definition of the multivariate Pareto
     ${\mathbb S}_{\infty}^{d-1}$ as  $p\to\infty$, we expect the proposed 
     resampling to be efficient for large enough $p$. In fact, our exploration 
     of the simulated and real data indicates that the procedure is robust to 
-    the choice of moderately large values of $p$. 
+    the choice of moderately large values of $p$.
     Our method includes two inferential steps. The first consists of the
-    estimation of the marginal Pareto distributions. The second consists 
+    estimation of the marginal Pareto distributions; the second consists 
     of the estimation of the angular density. Parameter uncertainty incurred in
     the former is not propagated to the latter. Conceptually, an integrated approach 
     that accounts for all the estimation uncertainty is conceivable. Unfortunately, 
     this leads to posterior distributions with complex data dependent restrictions 
-    that  are very difficult to explore, especially in large dimensional settings. In 
+    that are very difficult to explore, especially in large dimensional settings. In 
     fact, our attempts to fit a simple parametric model for the marginals and the
     angular measure jointly in several dimensions were not successful.
 
 In this paper we have focused on a particular representation of the multivariate
     Pareto distribution for PoT inference on extreme values. To this end, our model 
-    provides a computationally efficient and flexible approach. An interesting extension 
+    provides a computationally efficient and flexible approach. An interesting extension
     of the proposed model is to consider regressions of extreme value responses, due
     to extreme value inputs following the ideas in  \cite{carvalho2022}. This will 
     produce PoT based Bayesian non-parametric extreme value regression models. More 
@@ -33,6 +34,18 @@ In this paper we have focused on a particular representation of the multivariate
     is based on flexibly  modeling angular distributions for any $p$-norm. As such, 
     it can be applied to other problems focused on high dimensional directional 
     statistics  constrained  to a cone of directions. 
+
+Establishing the angular measure
+    specifically in $\mathbb{S}_{\infty}^{d-1}$ provides two benefits over 
+    $\mathbb{S}_p^{d-1}$.  First, the transformation to 
+    $\mathbb{S}_{\infty}^{d-1}$ is unique.  Observe in 
+    Equation~\eqref{eqn:pnormtinv}, establishing $y_d$ as a function
+    of $y_1,\ldots,y_{d-1}$ can be replaced in form with any $y_{\ell}$, 
+    indicating there are $d$ equivalent transformations, each yielding a different
+    Jacobian and, for $p>1$, potentially resulting in a different calculated density.  
+    Second, evaluation of geodesic distance on $\mathbb{S}_p^{d-1}$ is not 
+    straightforward.  However, we have demonstrated a computationally efficient 
+    upper bound on geodesic distance on $\mathbb{S}_{\infty}^{d-1}$.
  
 %We explored the behavior of the proposed model using simulated data from
     %mixtures of projected Gammas with varying degrees of complexity---both 
@@ -64,7 +77,7 @@ The computations in this paper were performed on a desktop computer with an
     dimensional problems, such as variational Bayes. In fact, to elaborate on 
     the study of IVT, there is a need to consider several hundreds, if not thousands, 
     of grid cells over the Pacific Ocean in order to obtain a good description of 
-    atmospheric  events responsible for large storm activity over California.  
+    atmospheric events responsible for large storm activity over California.  
 
 % §6 calls for a view of the authors on what 
 %     could be related exercises—or even extensions of this research and future 
