@@ -45,7 +45,9 @@ Establishing the angular measure
     Jacobian and, for $p>1$, potentially resulting in a different calculated density.  
     Second, evaluation of geodesic distance on $\mathbb{S}_p^{d-1}$ is not 
     straightforward.  However, we have demonstrated a computationally efficient 
-    upper bound on geodesic distance on $\mathbb{S}_{\infty}^{d-1}$.
+    upper bound on geodesic distance on $\mathbb{S}_{\infty}^{d-1}$.  Accepting
+    these foibles, it would be interesting to explore the distribution on 
+    $\mathbb{S}_{p}^{d-1}$, 
  
 %We explored the behavior of the proposed model using simulated data from
     %mixtures of projected Gammas with varying degrees of complexity---both 
@@ -67,7 +69,7 @@ Establishing the angular measure
     % favor the one that is easiest and most robust to fit.}
 
 The computations in this paper were performed on a desktop computer with an 
-    AMD Ryzen 5950X processor. The program is largely single-threaded, so 
+    AMD Ryzen 5000 series processor. The program is largely single-threaded, so 
     computation time is not dependent on available core count.  In each case, 
     we run the MCMC chain for 50\,000 iterations, with a burn-in of 40\,000 
     samples.  Fitting the PG--G model on the ERA5 dataset took approximately 
