@@ -1,13 +1,3 @@
-
-\begin{figure*}[htb]
-    \centering
-    \caption{Average energy score rise over baseline (on $\mathbb{S}_{\infty}^{d-1}$) for various 
-    models fitted to simulated data, with ascending count of mixture components (indicated by plot
-    heading) and number of dimensions (indicated by horizontal axis).  Note that pairwise betas is
-    a moment-restricted model.\label{fig:simpples}}
-    \includegraphics[height=3in, width = \textwidth]{./images/sim_es_rise}
-\end{figure*}
-
 \section{Data illustrations\label{sec:results}} 
 We apply the aforementioned models to simulated angular data. We then consider the analysis
     of atmospheric data. To tackle the difficult problem of assessing the convergence 
@@ -44,6 +34,41 @@ Our hyperprior parameters are set as follows: for the gamma-centered models (PG-
     parameters places little mass near 0, in order to draw estimates for the value away from 
     0 for numerical stability.
 
+\begin{algorithm} % algorithm using algorithm package
+        \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}.
+        $\mu_j$, $\Sigma_j$ are the parameters of the mixture component distribution; 
+        $\pi$ is the probability vector assigning weight mixture components; $\delta_i$ 
+        is the mixture component identifier for each simulated observation.}
+        \begin{algorithmic}
+        \For{$n_{\text{iter}}$ in $[1,\ldots,10]$}
+        \For{$n_{\text{mix}}$ in $[1, 2, 4, 8]$}
+            \For{$j$ in $1,\ldots,n_{\text{mix}}$}
+                \State Generate $\mu_{j} \sim \mathcal{N}_{32}\left(\bm{0},\bm{I}\right)$
+                \State Generate $\Sigma_{j}\sim\mathcal{IW}_{32}\left(70,70 \bm{I}\right)$
+            \EndFor
+            \State Generate $\pi\sim\text{Dirichlet}(\bm{10}_{n_{\text{mix}}})$
+            \For{$i$ in $1,\ldots,1000$}
+                \State Generate $\delta_i \sim \text{Categorical}(\pi)$
+                \State Generate $\bm{X}_i \sim \mathcal{LN}\left(\mu_{[\delta_i]},\Sigma_{[\delta_i]}\right)$
+            \EndFor
+            \For{$n_{\text{col}}$ in $[2,4,8,16,24,32]$}
+                \State Project columns 1 to $n_{\text{col}}$ of ${\bf X}$ onto $\mathcal{S}_{\infty}^{n_{\text{col}} - 1}$ and save.
+            \EndFor
+        \EndFor
+        \EndFor
+        \end{algorithmic}
+    \end{algorithm}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[height=2.5in, width = 0.9\textwidth]{./images/sim_es_rise}
+    \caption{Average energy score rise over baseline (on $\mathbb{S}_{\infty}^{d-1}$) for various 
+    models fitted to simulated data, with ascending count of mixture components (indicated by plot
+    heading) and number of dimensions (indicated by horizontal axis).  Note that pairwise betas is
+    a moment-restricted model.\label{fig:simpples}}
+\end{figure}
+
+
 \subsection{Simulation Study\label{subsec:simulated}}
 To evaluate our proposed approach for angular measure estimation 
     we consider simulated datasets on $\mathbb{S}_{\infty}^{d-1}$,
@@ -71,30 +96,6 @@ To evaluate our proposed approach for angular measure estimation
     after.  These settings were intended to provide a consistent sampling strategy that would
     work with every model, even if inefficient for some.
 
-\begin{algorithm}  % algorithm using algorithm package
-        \caption{Simulated Angular Dataset Generation Routine\label{algo:simulated}.
-        $\mu_j$, $\Sigma_j$ are the parameters of the mixture component distribution; 
-        $\pi$ is the probability vector assigning weight mixture components; $\delta_i$ 
-        is the mixture component identifier for each simulated observation.}
-        \begin{algorithmic}
-        \For{$n_{\text{iter}}$ in $[1,\ldots,10]$}
-        \For{$n_{\text{mix}}$ in $[1, 2, 4, 8]$}
-            \For{$j$ in $1,\ldots,n_{\text{mix}}$}
-                \State Generate $\mu_{j} \sim \mathcal{N}_{32}\left(\bm{0},\bm{I}\right)$
-                \State Generate $\Sigma_{j}\sim\mathcal{IW}_{32}\left(70,70 \bm{I}\right)$
-            \EndFor
-            \State Generate $\pi\sim\text{Dirichlet}(\bm{10}_{n_{\text{mix}}})$
-            \For{$i$ in $1,\ldots,1000$}
-                \State Generate $\delta_i \sim \text{Categorical}(\pi)$
-                \State Generate $\bm{X}_i \sim \mathcal{LN}\left(\mu_{[\delta_i]},\Sigma_{[\delta_i]}\right)$
-            \EndFor
-            \For{$n_{\text{col}}$ in $[2,4,8,16,24,32]$}
-                \State Project columns 1 to $n_{\text{col}}$ of ${\bf X}$ onto $\mathcal{S}_{\infty}^{n_{\text{col}} - 1}$ and save.
-            \EndFor
-        \EndFor
-        \EndFor
-        \end{algorithmic}
-    \end{algorithm}
 
 Figure~\ref{fig:simpples} shows the average rise over baseline in energy score as
     calculated on $\mathbb{S}_{\infty}^{d-1}$ using the kernel metric described
@@ -161,7 +162,6 @@ The \emph{integrated vapor transport} (IVT) is a two component vector
     observational product, ERA5 \citep{hersbach2020era5}. 
 
 \begin{figure}[tb]
-    \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
     \centering
     \begin{minipage}{0.25\textwidth}
     \centering
@@ -170,19 +170,8 @@ The \emph{integrated vapor transport} (IVT) is a two component vector
     \begin{minipage}{0.25\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{./images/era5_grid}
-    \end{minipage}  
-    % \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
-    % \begin{center}
-    % \begin{subfigure}{0.48\textwidth}
-    %     \centering 
-    %     \includegraphics[height=2.5in]{./images/erai_grid}
-    % \end{subfigure}
-    % %
-    % \begin{subfigure}{0.48\textwidth}
-    %     \centering
-    %     \includegraphics[height=2.5in]{./images/era5_grid}
-    % \end{subfigure}
-    % \end{center}
+    \end{minipage}
+    \caption{Grid cell locations for ERA-Interim (left) and ERA5 (right).\label{fig:gridlocs}}
 \end{figure}
 
 Our data correspond to daily average values for the IVT magnitude
@@ -217,11 +206,11 @@ Our data correspond to daily average values for the IVT magnitude
 \end{algorithm}
 
 
-\begin{figure*}[ht]%{l}{0.45\textwidth}
+\begin{figure}[ht]%{l}{0.45\textwidth}
     \centering
-    \caption{Pairwise plots from ERA-Interim data after transformation and projection to ${\mathbb S}_{\infty}^{7}$.  Down the diagonal are marginal kernel densities, with two-dimensional histograms on the off-diagonal.  In those plots, red indicates a higher density.  All data is between 0 and 1.\label{fig:erai_data}}
     \includegraphics[width=.7\linewidth]{./images/data_transformed}
-\end{figure*}
+    \caption{Pairwise plots from ERA-Interim data after transformation and projection to ${\mathbb S}_{\infty}^{7}$.  Down the diagonal are marginal kernel densities, with two-dimensional histograms on the off-diagonal.  In those plots, red indicates a higher density.  All data is between 0 and 1.\label{fig:erai_data}}
+\end{figure}
 
 Fitting our models to the IVT data requires some pre-processing. First, we subset the data to the rainy
   season, which in California runs roughly from November to March.  Following the approach described 
@@ -251,18 +240,37 @@ After subsetting the ERA-Interim data to the rainy season we
   after processing and declustering. We fit the PG--G, PRG--G, PG--LN, and PRG--LN models to 
   both datasets.
 
-\begin{table}[htb]
-  \centering
-  \caption{Energy score criterion from fitted models against the IVT data. 
-    Lower is better.\label{tab:dev}}
-  \include{./tables/table_dev_updated}
+% \begin{table}[htb]
+%   \centering
+%   \caption{Energy score criterion from fitted models against the IVT data. 
+%     Lower is better.\label{tab:dev}}
+%   \include{./tables/table_dev_updated}
+% \end{table}
+
+% \begin{table}[htb]
+%   \centering
+%   \caption{Time to sample (in minutes) 50,000 iterations for various models\label{tab:sampletime}}
+%   \include{./tables/table_sampletime}
+% \end{table}
+
+\begin{table}[t]
+    \centering
+    \caption{Model fit assessment and computation time on ERA--interim and ERA5 data.}
+    \begin{subtable}{0.7\textwidth}
+    \centering
+    \include{./tables/table_dev_updated}
+    \caption{Energy score criterion from fitted models against the IVT data. Lower is better.\label{tab:dev}}
+    \end{subtable}
+    \\
+    \bigskip
+    \begin{subtable}{0.7\textwidth}
+    \centering
+    \include{./tables/table_sampletime}
+    \caption{Time to sample (in minutes) 50,000 iterations for various models\label{tab:sampletime}}
+    \end{subtable}%
 \end{table}
 
-\begin{table}[htb]
-  \centering
-  \caption{Time to sample (in minutes) 50,000 iterations for various models\label{tab:sampletime}}
-  \include{./tables/table_sampletime}
-\end{table}
+
 
 Table~\ref{tab:dev} shows the values of the estimated energy 
     scores for the different models considered. We observe that, contrary to the results in the
@@ -276,11 +284,11 @@ Table~\ref{tab:dev} shows the values of the estimated energy
     sampling time.
     % \bruno{Insert here the table that you sent me in the email and comment the results.}
 
-\begin{figure*}[htb]
+\begin{figure}[b]
     \centering
-    \caption{Pairwise extremal dependence coefficients for IVT data using the PRG--G model.\label{fig:chi_ij}}
     \includegraphics[width=0.9\textwidth]{./images/chi_ij_c}
-\end{figure*}
+    \caption{Pairwise extremal dependence coefficients for IVT data using the PRG--G model.\label{fig:chi_ij}}
+\end{figure}
 
 We consider an exploration of the pairwise extremal dependence using Monte Carlo estimates of the 
   coefficients in  Equation~\eqref{eqn:chi_ij}. For this we use samples obtained from the PRG--G model.
@@ -298,19 +306,19 @@ We consider an exploration of the pairwise extremal dependence using Monte Carlo
   between cells 5-8, indicating a strong dependence among these cells.  Analogously, for
   the ERA5 data, we observe three possible groups of locations.
 
-\begin{figure*}[htb]
+\begin{figure}[t]
     \centering
-    \caption{Conditional survival curves for selected locations, using ERA-Interim, and PRG-G model,  conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv1d}. The left panel uses original units. Right panel uses standardized units.}
     \includegraphics[width=\linewidth]{./images/condsurv_1d}
-\end{figure*}
+    \caption{Conditional survival curves for selected locations, using ERA-Interim, and PRG-G model,  conditioning on all other dimensions at greater than 90th percentile (fitted)\label{fig:condsurv1d}. The left panel uses original units. Right panel uses standardized units.}
+\end{figure}
 
-\begin{figure*}[htb]
+\begin{figure}[t]
     \centering
+    \includegraphics[height=4in, width=4in]{./images/condsurv_2d}
     \caption{Pairwise conditional survival curves for selected locations, using 
         ERA-Interim, and PRG-G model, conditioning on all other dimensions at greater 
         than 90th percentile (fitted).\label{fig:condsurv2d}}
-    \includegraphics[height=4in, width=4in]{./images/condsurv_2d}
-\end{figure*}
+\end{figure}
 
 Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG--G model,  
     the conditional survival curve defined in Equation~\eqref{eqn:condsurv}, for one dimension, 

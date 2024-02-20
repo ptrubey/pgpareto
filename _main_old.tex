@@ -1,0 +1,72 @@
+\documentclass[entropy,article,submit,moreauthors]{Definitions/mdpi}
+
+%\usepackage{natbib}
+\usepackage{amsthm}
+\usepackage{hyperref}
+%\usepackage{graphicx}
+%\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{soul}
+%\usepackage[ruled]{algorithm2e}
+\usepackage{bm}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\newtheorem{prop}{Proposition}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\bigmid}{\,\middle\vert\,}
+\newcommand{\bruno}[1]{\textcolor{red}{#1}} % Bruno edits - red
+\newcommand{\makenote}[1]{\textcolor{teal}{#1}} % Peter edits - teal
+
+\newcommand{\findcite}{\textcolor{red}{[Find Citation]}}
+\newcommand{\needcite}{\findcite}
+\newcommand{\Chi}{\mbox{\Large$\chi$}}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\inorm}[1]{\norm{#1}_{\infty}}
+\newcommand{\pnorm}[2]{\norm{#1}_{#2}}
+\newcommand{\prob}[1]{\text{Pr}\left[#1\right]}
+\newcommand{\expect}[1]{\text{E}\left[#1\right]}
+
+\title{Bayesian Non-parametric Inference for Multivariate\\ Peaks-over-threshold Models}
+\author{Peter Trubey \& Bruno Sans\'{o}\\ Department of Statistics, UC Santa Cruz}
+
+
+% \affil{\orgdiv{Department of Statistics}, \orgname{University of California Santa Cruz}, 
+%             \orgaddress{\street{1156 High Street}, \city{Santa Cruz}, \postcode{95064}, \state{CA}, \country{USA}}}
+% \keywords{Multivariate extremes, Peak over threshold models,
+%                 Bayesian non-parametric models, Dirichlet process mixtures}
+
+\theoremstyle{thmstyleone}
+
+\raggedbottom
+
+\begin{document}
+
+\abstract{\input{./abstract}}
+
+\maketitle
+
+%--------content
+\input{./introduction}
+
+\input{./methodology}
+
+\input{./evaluation}
+
+\input{./results}
+
+\input{./conclusion}
+
+\section*{Acknowledgements}
+This material is based upon work supported by the National Science Foundation
+    under Grant No. SES-2050012 and DMS-2153277.
+
+
+\bibliography{./refs}
+
+\end{document}
+
+% EOF

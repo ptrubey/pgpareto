@@ -1,23 +1,48 @@
-\documentclass[entropy,article,submit,moreauthors]{Definitions/mdpi}
-
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-%\usepackage{natbib}
-\usepackage{amsthm}
-\usepackage{hyperref}
-%\usepackage{graphicx}
-%\usepackage{xcolor}
-\usepackage{booktabs}
-\usepackage{soul}
-%\usepackage[ruled]{algorithm2e}
+%  LaTeX support: latex@mdpi.com 
+%  For support, please attach all files needed for compiling as well as the log file, and specify your operating system, LaTeX version, and LaTeX editor.
+%=================================================================
+\documentclass[entropy,article,submit,pdftex,moreauthors]{Definitions/mdpi} 
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1} 
+\makeatletter 
+\setcounter{page}{\@firstpage} 
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2024}
+\copyrightyear{2024}
+%\externaleditor{Academic Editor: Firstname Lastname}
+\datereceived{ } 
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ } 
+\datepublished{ } 
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For corrected papers: "Retracted: XXX" date in the original paper.
+\hreflink{https://doi.org/} % If needed use \linebreak
+%\doinum{}
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+%\CorrStatement{yes}  % For updates
+%=================================================================
+% Add packages and commands here. The following packages are loaded in our class file: fontenc, inputenc, calc, indentfirst, fancyhdr, graphicx, epstopdf, lastpage, ifthen, float, amsmath, amssymb, lineno, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, tabto, xcolor, colortbl, soul, multirow, microtype, tikz, totcount, changepage, attrib, upgreek, array, tabularx, pbox, ragged2e, tocloft, marginnote, marginfix, enotez, amsthm, natbib, hyperref, cleveref, scrextend, url, geometry, newfloat, caption, draftwatermark, seqsplit
+% cleveref: load \crefname definitions after \begin{document}
 \usepackage{bm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
 \usepackage{subcaption}
-\usepackage{wrapfig}
-% \usepackage{setspace}
-% \linespread{1.8}
-\usepackage{anysize}
-\marginsize{1in}{1in}{1in}{1in}
-
+\captionsetup[sub]{position=bottom,
+        labelfont={bf, small, stretch=1.17},
+        labelsep=space,
+        textfont={small, stretch=1.5},
+        aboveskip=6pt, 
+        belowskip=6pt,
+        singlelinecheck=off,
+        justification=justified}   
+%=================================================================
+% Please use the following mathematics environments: Theorem, Lemma, Corollary, Proposition, Characterization, Property, Problem, Example, ExamplesandDefinitions, Hypothesis, Remark, Definition, Notation, Assumption
+%% For proofs, please use the proof environment (the amsthm package is loaded by the MDPI class).
 \newtheorem{prop}{Proposition}
 \DeclareMathOperator{\tr}{Tr}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -25,41 +50,79 @@
 \newcommand{\bigmid}{\,\middle\vert\,}
 \newcommand{\bruno}[1]{\textcolor{red}{#1}} % Bruno edits - red
 \newcommand{\makenote}[1]{\textcolor{teal}{#1}} % Peter edits - teal
-
-
 \newcommand{\findcite}{\textcolor{red}{[Find Citation]}}
 \newcommand{\needcite}{\findcite}
 \newcommand{\Chi}{\mbox{\Large$\chi$}}
-
-
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\inorm}[1]{\norm{#1}_{\infty}}
 \newcommand{\pnorm}[2]{\norm{#1}_{#2}}
 \newcommand{\prob}[1]{\text{Pr}\left[#1\right]}
 \newcommand{\expect}[1]{\text{E}\left[#1\right]}
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
 
-\jyear{2023}
-\theoremstyle{thmstyleone}
+% MDPI internal command: Title for citation in the left column
+\TitleCitation{BNP inference for multivariate PoT}
 
-\raggedbottom
+% Author Orchid ID: enter ID or remove command
+\newcommand{\orcidauthorA}{0000-0002-7549-2033} % Add \orcidA{} behind the author's name
+\newcommand{\orcidauthorB}{0000-0001-5436-8028} % Add \orcidB{} behind the author's name
 
+% Authors, for the paper (add full first names)
+\Author{Peter Trubey $^{1}$\orcidA{} and Bruno Sans\'{o} $^{2}$\orcidB{}}
+
+%\longauthorlist{yes}
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{Peter Trubey and Bruno Sans\'{o}}
+
+% MDPI internal command: Authors, for citation in the left column
+\AuthorCitation{Trubey, P.; Sans\'{o}, B.}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad Department of Statistics, University of California, Santa Cruz, ptrubey@ucsc.edu\\
+$^{2}$ \quad Department of Statistics, University of California, Santa Cruz, bsanso@ucsc.edu
+}
+% $^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
+
+% Contact information of the corresponding author
+\corres{Correspondence: ptrubey@ucsc.edu}
+
+% Current address and/or shared authorship
+% The commands \thirdnote{} till \eighthnote{} are available for further notes
+
+%\simplesumm{} % Simple summary
+
+%\conference{} % An extended version of a conference paper
+
+% Abstract (Do not insert blank lines, i.e. \\) 
+% \abstract{A single paragraph of about 200 words maximum. For research articles, abstracts should give a pertinent overview of the work. We strongly encourage authors to use the following style of structured abstracts, but without headings: (1) Background: place the question addressed in a broad context and highlight the purpose of the study; (2) Methods: describe briefly the main methods or treatments applied; (3) Results: summarize the article's main findings; (4) Conclusions: indicate the main conclusions or interpretations. The abstract should be an objective representation of the article, it must not contain results which are not presented and substantiated in the main text and should not exaggerate the main conclusions.}
+\abstract{We consider a constructive definition of the multivariate Pareto that factorizes the 
+random vector into a radial component and an independent angular component; The former
+following a univariate Pareto distribution, and the latter defined on the surface of the 
+positive orthant of the infinity norm unit hypercube.   We propose a method 
+for inferring the distribution of the angular component, by identifying its support 
+as the limit of the positive orthant of the unit $p$--norm spheres, and introduce a 
+projected gamma family of distributions defined through the normalization of a vector of 
+independent random gammas to the space.   This serves in constructing a flexible family of
+distributions obtained as a Dirichlet process mixture of projected gammas.  For model 
+assessment, we discuss scoring methods appropriate to distributions on the unit hypercube.  
+In particular, working with the energy score criterion, we develop a kernel metric that 
+produces a proper scoring rule, and present 
+a simulation study to compare different modeling choices using the proposed metric.    
+Using our approach, we describe the dependence structure of extreme values in the
+integrated vapor transport (IVT), data describing the flow of atmospheric moisture 
+along the coast of California.  We find clear but heterogeneous geographical dependence.}
+
+% Keywords
+\keyword{Multivariate extremes, Peak over threshold models, Bayesian non-parametric models, Dirichlet process mixtures} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-\title[~\hspace{6.75in}BNP inference for multivariate PoT]{Bayesian non-parametric inference for multivariate peaks-over-threshold models}
-
-\author*{\fnm{Peter} \sur{Trubey}}\email{ptrubey@ucsc.edu}
-\author{\fnm{Bruno} \sur{Sans\'{o}}}\email{bruno@soe.ucsc.edu}
-
-\affil{\orgdiv{Department of Statistics}, \orgname{University of California Santa Cruz}, 
-            \orgaddress{\street{1156 High Street}, \city{Santa Cruz}, \postcode{95064}, \state{CA}, \country{USA}}}
-
-\abstract{\input{./abstract}}
-\keywords{Multivariate extremes, Peak over threshold models,
-                Bayesian non-parametric models, Dirichlet process mixtures}
-
-\maketitle
-
-%--------content
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{./introduction}
 
 \input{./methodology}
@@ -70,13 +133,24 @@
 
 \input{./conclusion}
 
-\section*{Acknowledgements}
-This material is based upon work supported by the National Science Foundation
-    under Grant No. SES-2050012 and DMS-2153277.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{6pt} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontributions{Conceptualization, methodology, visualization, writing, P.T.; Supervision, editing, B.S.  All authors have read and agreed to the published version of the manuscript.}
 
+\funding{This material is based upon work supported by the National Science Foundation under Grant No. SES-2050012 and DMS-2153277.}
+
+% \dataavailability{We encourage all authors of articles published in MDPI journals to share their research data. In this section, please provide details regarding where data supporting reported results can be found, including links to publicly archived datasets analyzed or generated during the study. Where no new data were created, or where data is unavailable due to privacy or ethical restrictions, a statement is still required. Suggested Data Availability Statements are available in section ``MDPI Research Data Policies'' at \url{https://www.mdpi.com/ethics}.} 
+
+\conflictsofinterest{The authors declare no conflicts of interest.} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{adjustwidth}{-\extralength}{0cm}
 
 \bibliography{./refs}
 
+
+\PublishersNote{}
+\end{adjustwidth}
 \end{document}
 
-% EOF

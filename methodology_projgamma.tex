@@ -1,16 +1,16 @@
 \subsection{Projected gamma family\label{subsec:projgamma}}
 The $\mathcal{L}_p$-norm, for $p>0$ is  defined as
-  \begin{equation*}
+  \[
     \lVert \bm{x} \rVert_p = 
     \left({\textstyle\sum}_{\ell = 1}^d \lvert s_{\ell}\rvert^p\right)^{\frac{1}{p}},
-  \end{equation*}
+  \]
 The absolute and Euclidean norms are obtained for $p=1$ and $p=2$ respectively,
   and the $\mathcal{L}_{\infty}$ norm can be obtained as a limit, 
-  \begin{equation*}
+  \[
     \| \bm{s} \|_{\infty}
       = \lim\limits_{p\to\infty} \| \bm{s} \|
       = \underset{\ell = 1}{\overset{d}{\bigvee}}s_{\ell}.
-  \end{equation*}
+  \]
   
 To obtain a distribution on 
 ${\mathbb S}_{p}^{d-1}=\{\bm{s} : \bm{s} \in {\mathbb R}_{+}^{d}, \| \bm{s}\|_{p} = 1\}$ 
@@ -26,55 +26,42 @@ A natural  distribution to consider in ${\mathbb R}^d_+$ is given by a product o
     the transformation
   \begin{equation}
     \label{eqn:pnormt}
-    \begin{aligned}
-    T(x_1,\ldots,x_d) &= \left(\pnorm{\bm{x}}{p}, \frac{x_1}{\pnorm{\bm{x}}{p}},
-                          \ldots , \frac{x_{d-1}}{\pnorm{\bm{x}}{p}}\right) \\
-                        &= (r,y_1,\ldots,y_{d-1})
-    \end{aligned}
+    T(x_1,\ldots,x_d) = \left(\pnorm{\bm{x}}{p}, \frac{x_1}{\pnorm{\bm{x}}{p}},
+                          \ldots , \frac{x_{d-1}}{\pnorm{\bm{x}}{p}}\right) = (r,y_1,\ldots,y_{d-1})
   \end{equation}
   is invertible with
   \begin{equation}
     \label{eqn:pnormtinv}
-    \begin{aligned}
-    &\hspace{-0.5cm}T^{-1}\left(r,y_1,\ldots,y_{d-1}\right)\\
-      & = \left(ry_1,\ldots,ry_{d-1}, 
+    T^{-1}\left(r,y_1,\ldots,y_{d-1}\right)
+       = \left(ry_1,\ldots,ry_{d-1}, 
         r\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}}\right).
-    \end{aligned}
   \end{equation}
   The Jacobian of the transformation takes the form
   \begin{equation}
     \label{eqn:pnormjac}
-    \begin{aligned}
-    r^{d-1}\left[\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}} \right. & \\
-        &\hspace{-2cm}+ \left. {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p
+    r^{d-1}\left[\left(1 - {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p\right)^{\frac{1}{p}} \right.
+        + \left. {\textstyle\sum}_{\ell = 1}^{d-1}y_{\ell}^p
           \left(1 - {\textstyle\sum}_{l=1}^{d-1} y_{\ell}^p\right)^{\frac{1}{p} - 1}\right].
-    \end{aligned}
   \end{equation}
   The normalization provided by $T$ maps a vector in ${\mathbb R}_+^d$ onto
   ${\mathbb S}_p^{d-1} $. With a slight abuse of terminology we refer to it as a
   projection. Using Equations \eqref{eqn:pnormt}--\eqref{eqn:pnormjac} we have the joint density
   \begin{equation}
   \label{joint}
-    \begin{aligned}
-    f(r,\bm{ y}) = &\prod_{\ell = 1}^{d}
+    f(r,\bm{ y}) = \prod_{\ell = 1}^{d}
       \left[\frac{\beta_{\ell}^{\alpha_{\ell}}}{\Gamma(\alpha_{\ell})}(ry_{\ell})^{\alpha_{\ell} - 1}
-          \exp\lbrace-\beta_{\ell}ry_{\ell}\rbrace\right] \\
-      &\hspace{0.5cm}\times r^{d-1}\left[y_d +
+          \exp\lbrace-\beta_{\ell}ry_{\ell}\rbrace\right] \times r^{d-1}\left[y_d +
             {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p y_d^{1 - p}\right].
-    \end{aligned}
   \end{equation}
   Integrating out $r$ yields the resulting \emph{Projected Gamma} density
   \begin{equation}
     \label{eqn:projgamma}
-    \begin{aligned}
-    \text{PG}(\bm{ y}\mid\bm{ \alpha},\bm{ \beta}) &=
+    \text{PG}(\bm{ y}\mid\bm{ \alpha},\bm{ \beta}) =
           \prod_{\ell = 1}^d\left[\frac{\beta_{\ell}^{\alpha_{\ell}}}{\Gamma(\alpha_{\ell})}
-                y_{\ell}^{\alpha_{\ell} - 1}\right]\\
-      &\hspace{0.5cm}\times \left[y_d +
-          {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p y_d^{1 - p}\right]\\
-      &\hspace{0.5cm}\times \frac{\Gamma({\textstyle\sum}_{\ell = 1}^d\alpha_{\ell})}{\left({\textstyle\sum}_{\ell = 1}^d
+                y_{\ell}^{\alpha_{\ell} - 1}\right] \times \left[y_d +
+          {\textstyle \sum}_{\ell = 1}^{d-1}y_{\ell}^p y_d^{1 - p}\right]
+      \times \frac{\Gamma({\textstyle\sum}_{\ell = 1}^d\alpha_{\ell})}{\left({\textstyle\sum}_{\ell = 1}^d
                     \beta_{\ell}y_{\ell}\right)^{{\scriptstyle\sum_{\ell = 1}^d \alpha_{\ell}}}},
-    \end{aligned}
   \end{equation}
   defined for $\bm{y}\in {\mathbb S}_p^{d-1}$, and for any finite $p>0$. To avoid identifiability 
   problems when estimating the shape and scale parameters, we set $\beta_1 = 1$.
@@ -102,14 +89,9 @@ where $\bm{\theta} = (\bm{\alpha}, \bm{\beta})$. Following a Bayesian
   prior for $G$, we have a hierarchical formulation of the mixture model that, 
   for a vector of observations $\bm{y}_i$, is given by
   \begin{equation}\label{eqn:dppg}
-    \begin{aligned}
-    \bm{y}_i &\sim \text{PG}(\bm{y}_i\mid \bm{\theta}_i)\\
-    \bm{\theta}_i &\sim G
-    \end{aligned}
-    ~\hspace{1cm}
-    \begin{aligned}
-    G &\sim \mathcal{DP}(\eta, G_0),
-    \end{aligned}
+    \bm{y}_i \sim \text{PG}(\bm{y}_i\mid \bm{\theta}_i)\hspace{1cm}
+    \bm{\theta}_i \sim G\hspace{1cm}
+    G \sim \mathcal{DP}(\eta, G_0)
   \end{equation}
   where $\mathcal{DP}$ denotes a Dirichlet process, $\eta$ is the precision 
   parameter, and $G_0$ is the centering distribution. 
@@ -129,9 +111,8 @@ Unfortunately, in the limit when $p\rightarrow \infty$, the normalizing
   For step (iv) we use a Bayesian approach that is implemented using a purposely 
   developed Markov chain Monte Carlo sampler described in the next section.
 
-\begin{figure}[ht]
+\begin{figure}[t]
     \centering
-    \caption{The positive orthant of the $p$-norm sphere.}
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{./images/p_sphere}
     \caption{${\mathbb S}_p^1$ for $p = 1,\ldots, 10$\label{fig:psphere}}
@@ -141,6 +122,7 @@ Unfortunately, in the limit when $p\rightarrow \infty$, the normalizing
     \includegraphics[width=\textwidth]{./images/p_project}
     \caption{Projection of data on ${\mathbb S}_{\infty}^1$ onto ${\mathbb S}_p^1$\label{fig:pproject}}
   \end{subfigure}
+    \caption{The positive orthant of the $p$--norm sphere for $d=2$.}
 \end{figure}
 
 A measure that is used to characterize the strength of the dependence,
@@ -165,14 +147,16 @@ A measure that is used to characterize the strength of the dependence,
   Denote as $F_\ell$ the marginal distribution of $Z_\ell$. To obtain $\chi_{\jmath\ell}$ we need 
   $Pr(Z_\jmath>z_\jmath,Z_\ell>z_\ell)$, where $z_\ell = F_\ell^{-1}(u) = \expect{V_\ell}/(1 - u), \;\ell=1,\dots, d$.  
   Using the fact that $V_\ell>0, \forall \ell$ almost surely, we have that the former is equal to
-  \begin{equation*}
-    \begin{aligned}
-    &\hspace{-0.5cm}\prob{R>\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}}
+  \[
+    %\begin{aligned}
+    %&\hspace{-0.5cm}
+    \prob{R>\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}}
     = \expect{1\wedge\left(\frac{z_\jmath}{V_\jmath}\vee\frac{z_\ell}{V_\ell}\right)^{-1}}\\
-    &= \expect{\frac{V_\jmath}{z_\jmath}\wedge\frac{V_\ell}{z_\ell}}
-    = (1 - u)\expect{\frac{V_\jmath}{\expect{V_\jmath}}\wedge\frac{V_\ell}{\expect{V_\ell}}},
-    \end{aligned}
-  \end{equation*}
+    %&
+    = \expect{\frac{V_\jmath}{z_\jmath}\wedge\frac{V_\ell}{z_\ell}}
+    = (1 - u)\expect{\frac{V_\jmath}{\expect{V_\jmath}}\wedge\frac{V_\ell}{\expect{V_\ell}}}
+    %\end{aligned}
+  \]
   where the second identity is justified by the fact that $V_i$ is bounded and $z_i\rightarrow\infty$. The 
   proof is completed by noting that $\prob{F_i(Z_i)>u} = 1 - u. \hfill\Box$
 
@@ -184,11 +168,9 @@ Equation~\eqref{eqn:chi_ij} implies that $\chi_{\jmath\ell}>0$, and so, no asymp
   Assume the same conditions of Proposition \ref{ppchi}.   Let $\alpha \subset \{1, \ldots ,d\}$ be a 
   collections of indexes.  Then     
   \begin{equation} \label{eqn:condsurv}
-    \begin{aligned}
-    &\hspace{-0.5cm}\mathrm{Pr}\left[\bigcap_{\ell \in \alpha} 
-        Z_\ell > z_\ell \mid \bigcap_{\ell\not\in\alpha} Z_\ell > z_\ell\right] \\
-    &= \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
-    \end{aligned}
+    \mathrm{Pr}\left[\bigcap_{\ell \in \alpha} 
+        Z_\ell > z_\ell \mid \bigcap_{\ell\not\in\alpha} Z_\ell > z_\ell\right]
+    = \frac{\expect{\bigwedge_{k = 1}^d 1\wedge \frac{V_k}{z_k}}}{\expect{\bigwedge_{k \not\in\alpha}1\wedge\frac{V_k}{z_k}}}.
   \end{equation}
   \end{prop}  
   The proof uses a similar approach to the proof of Proposition \ref{ppchi}.
@@ -204,13 +186,13 @@ In a sample-based inference approach, for a given iteration the Dirichlet proces
     let $n_j^{-i}$ be the number of observations in cluster $j$ not including observation $i$.  Let $J^{-i}$ be 
     the number of extant clusters, not including any singleton containing observation $i$. Under this model, 
     the probability of cluster membership for a given observation is proportional to
-\begin{equation*}
+    \[
     \text{Pr}\left[\delta_i = j\mid\ldots\right] \propto \begin{cases}
         n_j^{-i}\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)\\ % \hspace{0.5cm} \\ % &\text{~for~}j \in \lbrace 1,\ldots,J^{-i}\rbrace\\
         \eta\int\mathcal{PG}\left(\bm{y}_i\mid\bm{\alpha}_j,\bm{\beta}_j\right)dG_0(\bm{\alpha}_j,\bm{\beta}_j),%\hspace{0.5cm} % &\text{~for~}j = J^{-i} + 1.
         \end{cases}
-\end{equation*}
-where the top case is iterating over extant clusters $j = 1,\ldots, J^{-i}$, and the bottom case is
+    \]
+    where the top case is iterating over extant clusters $j = 1,\ldots, J^{-i}$, and the bottom case is
     for a \emph{new} cluster. If $G_0$ is not a conjugate prior for the kernel density, the integral in the 
     above formula may not be available in closed form. We sidestep this using Algorithm 8 from \cite{neal2000}: 
     by Monte Carlo integration, we draw $m$ candidate clusters, $\bm{\alpha}_j,\bm{\beta}_j$ for
@@ -237,21 +219,17 @@ full conditional of $r_i$ is easy to sample from, as it is given as
 Moreover,  the full conditional for $\bm{\alpha}_j,\bm{\beta}_j$ is then proportional to
 \begin{equation}
     \label{eqn:alphabetafc}
-    \begin{aligned}
-    &\hspace{-1cm}f(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{Y},\bm{r},\bm{\delta},\ldots) \\
-    &\propto \prod_{i:\gamma_i = j}\prod_{\ell = 1}^d\mathcal{G}\left(r_iy_{i\ell}\mid\alpha_{j\ell},\beta_{j\ell}\right) \\
-    &\hspace{0.5cm} \times dG_0(\bm{\alpha}_j,\bm{\beta}_j).
-    \end{aligned}
+    f(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{Y},\bm{r},\bm{\delta},\ldots)
+    \propto \prod_{i:\gamma_i = j}\prod_{\ell = 1}^d\mathcal{G}\left(r_iy_{i\ell}\mid\alpha_{j\ell},\beta_{j\ell}\right)
+    \times dG_0(\bm{\alpha}_j,\bm{\beta}_j).
 \end{equation}
 Note that the ordering of the products can be reversed in Equation~\eqref{eqn:alphabetafc}, 
 indicating that with appropriate choice of centering distribution, the full conditionals 
 for $\bm{\alpha}_j,\bm{\beta}_j$ become separable by dimension.
 We first consider a centering distribution given by a product of independent Gammas:
 \begin{equation}
-    \begin{aligned}
-    &\hspace{-0.3cm}G_0(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{\xi},\bm{\tau},\bm{\zeta},\bm{\sigma}) \\
-    &= \prod_{\ell = 1}^d\mathcal{G}(\alpha_{j\ell}\mid \xi_{\ell},\tau_{\ell})\times\prod_{\ell = 2}^d\mathcal{G}(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}).
-    \end{aligned}
+    G_0(\bm{\alpha}_j,\bm{\beta}_j\mid \bm{\xi},\bm{\tau},\bm{\zeta},\bm{\sigma})
+    = \prod_{\ell = 1}^d\mathcal{G}(\alpha_{j\ell}\mid \xi_{\ell},\tau_{\ell})\times\prod_{\ell = 2}^d\mathcal{G}(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}).
 \end{equation}
 This model is completed with independent Gamma priors on $\xi_{\ell}$, $\tau_{\ell}$, $\zeta_{\ell}$, $\sigma_{\ell}$.  
 We also assume a Gamma prior on $\eta$, that is updated via the procedure outlined in \cite{escobar1995}.  
@@ -260,28 +238,21 @@ is that, thanks to conjugacy, the rate parameters can easily be integrated out f
 Then, the full conditional for $\alpha_{j\ell}$ takes the form
 \begin{equation}
     \label{eqn:alphalupdate}
-    \begin{aligned}
-    &\hspace{-0.5cm}\pi(\alpha_{j\ell}\mid \bm{r},\bm{Y},\bm{\gamma},\xi_\ell,\tau_\ell,\zeta_\ell,\sigma_\ell) \\
-    &\propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i\ell}\right)^{\alpha_{j\ell} - 1}\alpha_{j\ell}^{\xi_\ell - 1}e^{-\tau_\ell \alpha_{j\ell}}}{\Gamma^{n_j}(\alpha_{j\ell})} \\
-    &\hspace{0.5cm}\times \frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
-    \end{aligned}
+    \pi(\alpha_{j\ell}\mid \bm{r},\bm{Y},\bm{\gamma},\xi_\ell,\tau_\ell,\zeta_\ell,\sigma_\ell)
+    \propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i\ell}\right)^{\alpha_{j\ell} - 1}\alpha_{j\ell}^{\xi_\ell - 1}e^{-\tau_\ell \alpha_{j\ell}}}{\Gamma^{n_j}(\alpha_{j\ell})}\times \frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
 \end{equation}
 for $\ell = 2,\ldots,d$.  For $\ell = 1$, as $\beta_{1} := 1$, the full conditional takes the simpler form
 \begin{equation}
     \label{eqn:alpha1update}
-    \begin{aligned}
-    &\hspace{-0.5cm}\pi(\alpha_{j1}\mid\bm{r},\bm{Y},\bm{\gamma},\xi_1,\tau_1) \\
-    &\propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}\alpha_{j1}^{\xi_1 - 1}e^{-\tau_1\alpha_{j1}}}{\Gamma^{n_j}(\alpha_{j1})}.
-    \end{aligned}
+    \pi(\alpha_{j1}\mid\bm{r},\bm{Y},\bm{\gamma},\xi_1,\tau_1)
+    \propto \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}\alpha_{j1}^{\xi_1 - 1}e^{-\tau_1\alpha_{j1}}}{\Gamma^{n_j}(\alpha_{j1})}.
 \end{equation}
 Samples of $\alpha_{j\ell}$ can thus be obtained using a Metropolis step. In our analysis, we first transform $\alpha_{j\ell}$ to the log scale, and use a normal proposal density.
 The full conditional for $\beta$ is 
 \begin{equation}
     \label{eqn:betafc}
-    \begin{aligned}
-    &\hspace{-0.5cm}\beta_{j\ell}\mid\bm{r},\bm{Y},\alpha,\zeta_{\ell},\sigma_{\ell} \\
-    &\sim \mathcal{G}\left(\beta_{j\ell}\bigmid n_j\alpha_{j\ell} + \zeta_\ell, \sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right),
-    \end{aligned}
+    \beta_{j\ell}\mid\bm{r},\bm{Y},\alpha,\zeta_{\ell},\sigma_{\ell}
+    \sim \mathcal{G}\left(\beta_{j\ell}\bigmid n_j\alpha_{j\ell} + \zeta_\ell, \sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right),
 \end{equation}
 for $\ell = 2,\ldots, d$.  Updating $\beta_{j\ell}$ is done via a Gibbs step.  The hyper-parameters
 $\xi_{\ell},\tau_{\ell},\zeta_{\ell},\sigma_{\ell}$ follow similar gamma-gamma update relationships.
@@ -292,10 +263,8 @@ inference on $\bm{\zeta},\bm{\sigma}$.  We refer to this model as the
 
 The second form of centering distribution we explore is a multivariate log-normal distribution on the shape parameters $\bm{\alpha}_j$, with independent gamma $\beta_{j\ell}$ rate parameters.  
     \begin{equation}
-        \begin{aligned}
-        &\hspace{-0.5cm}G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right) \\
-        &=\mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right).
-        \end{aligned}
+        G_0\left(\bm{\alpha}_j,\bm{\beta}_j\mid\bm{\mu},\bm{\Sigma},\zeta,\sigma\right)
+        =\mathcal{LN}\left(\bm{\alpha}_j\mid\bm{\mu},\bm{\Sigma}\right)\times\prod_{\ell = 2}^d\mathcal{G}\left(\beta_{j\ell}\mid\zeta_{\ell},\sigma_{\ell}\right).
     \end{equation}
     This model is completed with a normal prior on $\bm{\mu}$, an inverse Wishart prior on
     $\bm{\Sigma}$, and Gamma priors on $\zeta_{\ell}$ and $\sigma_{\ell}$, and $\eta$.  
@@ -306,14 +275,15 @@ The second form of centering distribution we explore is a multivariate log-norma
     $\bm{\alpha}$ can be accomplished using a joint Metropolis step, where 
     $\beta_{j\ell}$ for $\ell = 2,\ldots,d$ have been integrated out of the 
     log-density.  That is,
-    \begin{equation*}
+    \[
         \begin{aligned}
-        &\hspace{-0.5cm}\pi(\bm{\alpha}_j\mid\bm{Y},\bm{r},\bm{\delta},\bm{\mu},\bm{\Sigma},\bm{\zeta},\bm{\sigma})\\
-        &\propto \exp\left\lbrace-\frac{1}{2}(\log\bm{\alpha}_j - \mu)^T\bm{\Sigma}^{-1}(\log\bm{\alpha}_j - \mu)\right\rbrace \\
-        &\hspace{0.5cm}\times\frac{1}{\prod_{\ell = 1}^d\alpha_{j\ell}}\times \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}}{\prod_{\ell = 1}^d\Gamma^{n_j}(\alpha_{j\ell})}\\
-        &\hspace{0.5cm}\times \prod_{\ell = 2}^d\frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
+        \pi(\bm{\alpha}_j\mid\bm{Y},\bm{r},\bm{\delta},\bm{\mu},\bm{\Sigma},\bm{\zeta},\bm{\sigma})
+        &\propto \exp\left\lbrace-\frac{1}{2}(\log\bm{\alpha}_j - \mu)^T\bm{\Sigma}^{-1}(\log\bm{\alpha}_j - \mu)\right\rbrace
+        \times\frac{1}{\prod_{\ell = 1}^d\alpha_{j\ell}}\\
+        &\hspace{1cm}\times \frac{\left(\prod_{i:\gamma_i = j}r_iy_{i1}\right)^{\alpha_{j1} - 1}}{\prod_{\ell = 1}^d\Gamma^{n_j}(\alpha_{j\ell})}
+        \times \prod_{\ell = 2}^d\frac{\Gamma\left(n_j\alpha_{j\ell} + \zeta_{\ell}\right)}{\left(\sum_{i:\gamma_i = j}r_iy_{i\ell} + \sigma_{\ell}\right)^{n_j\alpha_{j\ell} + \zeta_{\ell}}}
         \end{aligned}
-    \end{equation*}
+    \]
     The inferential forms for $\beta_{j\ell}$ and its priors are the same as for PG--G.  The 
   normal prior for $\mu$ is conjugate for the log-normal $\bm{\alpha}_j$, and can be sampled
   via a Gibbs step.  Finally, the inverse Wishart prior for $\Sigma$ is again conjugate to

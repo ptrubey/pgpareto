@@ -1,4 +1,4 @@
-\section{Scoring criteria for distributions in ${\mathbb S}_\infty^{d-1}$\label{sec:evaluation}}
+\section{Scoring criteria for distributions on the infinity--norm sphere\label{sec:evaluation}}
 
 In order to assess and compare the estimation of a distribution on ${\mathbb S}_\infty^{d-1}$ we consider 
     the theory of proper scoring rules developed in \cite{gneiting2007}. As mentioned in 
@@ -11,11 +11,9 @@ The energy score criterion defined for a general probability distribution $P$, w
     is developed as
     \begin{equation}
     \label{eq:es}
-    \begin{aligned}
-    &\hspace{-0.5cm}\text{S}_{\text{ES}}\left(P, \bm{x}_i\right) \\
-    &=\text{E}_p \left[g\left(\bm{X}_i, \bm{x}_i\right)\right] -
+    \text{S}_{\text{ES}}\left(P, \bm{x}_i\right)
+    =\text{E}_p \left[g\left(\bm{X}_i, \bm{x}_i\right)\right] -
                                     \frac{1}{2}\text{E}_p \left[g\left(\bm{X}_i,\bm{X}_i^{\prime}\right)\right],
-    \end{aligned}
     \end{equation}
 where $g$ is a kernel function. The score defined in Equation~\eqref{eq:es} can be evaluated
   using samples from $P$, with the help of the law of large numbers.
@@ -29,9 +27,9 @@ In a Euclidean space, these conditions are satisfied by the Euclidean distance \
     However, for observations on different faces of ${\mathbb S}_{\infty}^{d-1}$, the Euclidean 
     distance will under-estimate the geodesic distance, the actual distance required to travel 
     between the two points.  Let
-\begin{equation*}
+    \[
     {\mathbb C}_{\ell}^{d-1} = \lbrace \bm{x} : \bm{x} \in {\mathbb S}_{\infty}^{d-1}, x_{\ell} = 1\rbrace
-\end{equation*}
+    \]
     comprise the $\ell$th \emph{face}.  For points on the same face, the Euclidean distance 
     corresponds to the length of the shortest possible path in ${\mathbb S}_{\infty}^{d-1}$.  
     For points on different faces, the Euclidean distance is a lower bound for that length.
@@ -90,15 +88,15 @@ Notice that for
 %        \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\}.
 %\]
 We then have that
-  \begin{equation*}
+    \[
     \begin{aligned}
-    g(\bm{a},\bm{b}) = &\min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+    g(\bm{a},\bm{b}) &= \min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
         \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}-\bm{c}}{2} \right\} \\
-     &\min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
+     &= \min_{\bm{c} \in{\mathbb C}_{\jmath}^{d-1}\cap{\mathbb C}_{\ell}^{d-1}}\left\{ 
         \pnorm{\bm{c}-\bm{a}}{2} + \pnorm{\bm{b}^{\prime}-\bm{c}}{2} \right\}\\
-    &= \pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
+    &=\pnorm{\bm{a} - \bm{b}^{\prime}}{2}.
     \end{aligned}
-  \end{equation*}
+    \]
   The last equality is due to the fact that $\bm{a}$ and $\bm{b}'$ belong to the 
   same hyperplane. $\hfill\Box$
     
