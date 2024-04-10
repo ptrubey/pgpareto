@@ -1,6 +1,6 @@
 \section{Estimation of the angular measure\label{sec:methodology}}
 
-Our approach to estimating the PoT distribution considers two steps: First we 
+To infer the PoT distribution we consider two steps: First we 
     estimate the shape and scale parameters for the
     multivariate Pareto distribution, using the univariate marginals; Then 
     we focus on the dependence structure in extreme regions by proposing a 
@@ -11,20 +11,22 @@ Our approach to estimating the PoT distribution considers two steps: First we
     Consider $\bm{w}_i,\;i =1,\ldots,n$ a collection of realizations of $\bm{W}$.
     We start by setting a large threshold 
     $b_{t,\ell}$ for the  $\ell$-th marginal, $\ell = 1, \ldots,d$. Then, the 
-    distribution of the observations for the $\ell$-th component, 
-    conditional on exceeding the threshold, can be 
-    approximated as $1 - (1 + \xi_\ell   (w_{i\ell} - b_{t,\ell})/\sigma_\ell)_+^
-    {1/\xi_\ell}$, where $(\cdot)_+$ indicates the positive part function.  We 
-    proceed by setting a threshold equal to the empirical $(1-1/t)$-quantile. 
-    Thus $b_{t,l}  = \hat{F}^{-1}_{\ell}(1 - 1/t)$.  We then use the 
-    approximate exceedance distribution to estimate $\xi_\ell$ and $\sigma_\ell$,
-    for each $\ell$, using likelihood based methods. Then, in order to estimate 
-    the angular distribution, we use those estimates to standardize each of 
-    the marginals. The standardization yields
+    distribution of $W_\ell$, conditional on exceeding the threshold, can be 
+    approximated with a generalized univariate Pareto. Thus,
+    \[
+    \Pr[W_\ell>w_{i\ell} \mid W_\ell>b_{t,\ell} ]= \left(1 + \xi_\ell
+    \frac{w_{i\ell} - b_{t,\ell}}{\sigma_\ell}\right)_+^{-1/\xi_\ell}
+    \]
+    where $(\cdot)_+$ indicates the positive part function.  We set 
+    $b_{t,l}  = \hat{F}^{-1}_{\ell}(1 - 1/t)$, the the empirical $(1-1/t)$-quantile.  
+    We then estimate $\xi_\ell$ and $\sigma_\ell$,
+    for each $\ell$, using likelihood based methods. To estimate 
+    the angular distribution, we standardize each of the marginals. 
+    The standardization yields
     \begin{equation}
             \label{eqn:standardization}
             z_{i\ell} = \left(1 + \xi_{\ell}\frac{w_{i\ell} -
-                b_{t,\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}\; .
+                b_{t,\ell}}{\sigma_{\ell}}\right)_{+}^{1/\xi_{\ell}}\; .
         \end{equation}
     Note that $z_{i\ell}> 1$ implies that $w_{i\ell} > b_{t,\ell}$, meaning 
     that the observation $\bm{w}_i$ is extreme in the $\ell$-th dimension. 

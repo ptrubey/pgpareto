@@ -19,16 +19,16 @@ We apply the aforementioned models to simulated angular data. We then consider t
     sampler with good mixing properties. The strategy for the gamma-centered models is based on
     a cheap sampler that can be run for a large number of iterations.
 
-Our hyperprior parameters are set as follows: for the gamma-centered models (PG--G, PRG--G), 
+Our hyperprior parameters are set as follows: for the gamma-centered models (PG-G, PRG-G), 
     the shape parameter for the centering 
     distribution~$\xi_{\ell}\sim \mathcal{G}\left(1,1\right)$, and
     rate parameter~$\tau_{\ell}\sim\mathcal{G}\left(2,2\right)$.
-    For the log-normal centered models (PG--LN, PRG--LN), the centering distribution's
+    For the log-normal centered models (PG-LN, PRG-LN), the centering distribution's
     log-mean $\bm{\mu}\sim\mathcal{N}_d\left(0,\bm{I}_d\right)$, and covariance 
     matrix~$\Sigma\sim\mathcal{IW}\left(d + 10, (d+10)\bm{I}_{d}\right)$.  These values are 
     intended such that draws from the prior for $\Sigma$ will weakly tend towards the 
     identity matrix.
-    For models learning rate parameters $\beta_{j\ell}$ (PG--G, PG--LN), the centering
+    For models learning rate parameters $\beta_{j\ell}$ (PG-G, PG-LN), the centering
     distribution's shape parameter $\zeta\sim\mathcal{G}\left(1,1\right)$ and rate parameter
     $\sigma\sim\mathcal{G}\left(2,2\right)$.  The choice of the $\mathcal{G}(2,2)$ for rate
     parameters places little mass near 0, in order to draw estimates for the value away from 
@@ -70,7 +70,10 @@ Our hyperprior parameters are set as follows: for the gamma-centered models (PG-
 
 
 \subsection{Simulation Study\label{subsec:simulated}}
-To evaluate our proposed approach for angular measure estimation 
+The challenging problem in multivariate EVT is to capture the dependence 
+    structure of the limiting distribution.  To this end, we focus our 
+    simulation study specifically on the angular component.  To evaluate 
+    our proposed approach for angular measure estimation 
     we consider simulated datasets on $\mathbb{S}_{\infty}^{d-1}$,
     for values of $d$ ranging between 2 and 32.  We generated each
     dataset as a mixture of multivariate log-normal distributions,
@@ -85,9 +88,10 @@ To evaluate our proposed approach for angular measure estimation
     %To that end, we also consider the Dirichlet distribution, as well as} 
     %We also consider a Dirichlet distribution and 
     the pairwise betas model proposed in \cite{COOLEY2010}. We chose this model for comparison
-    as it is implemented in the readily available package \verb|BMAmevt| 
-    in R~\citep{BMAmevt}. \verb|BMAmevt| provides samples from the predictive
-    posterior distribution. These are needed for the calculation of the energy
+    as it is similarly works to capture a complex dependence structure on
+    an $\mathbb{S}_p^{d-1}$ sphere, albeit with $p = 1$, and is implemented in the readily 
+    available package \verb|BMAmevt| in R~\citep{BMAmevt}, which can provide samples from the 
+    posterior predictive distribution. These samples are needed for the calculation of the energy
     scores that are at the basis of our comparison. In addition, \verb|BMAmevt| can 
     be fitted to moderately large multivariate observations. For the DP mixture
     models, the data are projected onto $\mathbb{S}_{10}^{d-1}$. For the other
@@ -95,7 +99,6 @@ To evaluate our proposed approach for angular measure estimation
     iterations, dropping the first 40,000 as burn-in, and thinning to keep every 10th iteration
     after.  These settings were intended to provide a consistent sampling strategy that would
     work with every model, even if inefficient for some.
-
 
 Figure~\ref{fig:simpples} shows the average rise over baseline in energy score as
     calculated on $\mathbb{S}_{\infty}^{d-1}$ using the kernel metric described
@@ -126,18 +129,21 @@ Figure~\ref{fig:simpples} shows the average rise over baseline in energy score a
     %more mass of the  DP into regions of the support with active clusters, which would 
     %generate new clusters more readily.}  
     For the simulated data, we observe that the projected gamma models dominate the other two
-    options considered, regardless of the choice of centering distribution.  The  projected 
+    options considered, regardless of the choice of centering distribution.  The projected 
     restricted gamma models with a multivariate log-normal centering distribution appears to 
     be dominated by the models based on the alternative centering distributions. Moreover, the
     performance deteriorates with the increase in dimensionality. Additionally, models
     centered around the log-normal distribution incur in the computational cost of 
     multivariate normal evaluation and parallel tempering, taking approximately six times
     longer to sample relative to the gamma models.  We also note that the 
-    computational cost  of the pairwise betas model grows combinatorially, with a 
-    sample space of dimension $\binom{d}{2} + 1$. In our testing, \verb|BMAmevt| is 
-    substantially faster than any of our proposed DP mixture models for low dimensions, 
-    however for examples with high number of dimensions, the computational time for 
-    \verb|BMAmevt| was comparable or greater than that for DP-PG-G.  We compare computing
+    computational cost of the pairwise betas model grows combinatorially, with a 
+    sample space of dimension $\binom{d}{2} + 1$.  By comparison, the sample space for 
+    PG-G and PRG-G are $2(J+1)d$ and $(J+1)d$ respectively, where $J$ is the number of extant
+    clusters, with much of that inference able to be done in parallel.  
+    In our testing, for low-dimensional problems, \verb|BMAmevt| was 
+    substantially faster than any of our proposed DP mixture models.  However, for examples with 
+    high numbers of dimensions, the computational time for 
+    \verb|BMAmevt| was greater than that for PG-G.  We compare computing
     times in our data analysis in Table~\ref{tab:sampletime}.
     % \bruno{The comparison needs some information about the computing times.}
 
@@ -237,7 +243,7 @@ After subsetting the ERA-Interim data to the rainy season we
   small arc along the $45^{\circ}$, while other site combinations such as $(3,6)$, $(2,7)$, or
   $(1,8)$ the data is split, favoring one side or the other of the $45^{\circ}$ line. For the 
   ERA5 data, after subsetting we have $6342$ observations, which reduces to $532$ observations 
-  after processing and declustering. We fit the PG--G, PRG--G, PG--LN, and PRG--LN models to 
+  after processing and declustering. We fit the PG-G, PRG-G, PG-LN, and PRG-LN models to 
   both datasets.
 
 % \begin{table}[htb]
@@ -255,7 +261,7 @@ After subsetting the ERA-Interim data to the rainy season we
 
 \begin{table}[t]
     \centering
-    \caption{Model fit assessment and computation time on ERA--interim and ERA5 data.}
+    \caption{Model fit assessment and computation time on ERA-Interim and ERA5 data.}
     \begin{subtable}{0.7\textwidth}
     \centering
     \include{./tables/table_dev_updated}
@@ -278,7 +284,7 @@ Table~\ref{tab:dev} shows the values of the estimated energy
     gamma models, though for the lower-dimensional ERA-Interim data, all models perform comparably.
     Table~\ref{tab:sampletime} shows the computing times needed to fit the different models to the
     two datasets.  We see the effect of dimensionality on the various models; for gamma centered
-    models it grows linearly; for the log--normal centered model, it will grow superlinearly as matrix
+    models it grows linearly; for the log-normal centered model, it will grow superlinearly as matrix
     inversion becomes the most costly operation.  For \verb|BMAmevt|, its parameter space grows
     combinatorically with the number of dimensions, and thus so does computational complexity and
     sampling time.
@@ -287,11 +293,11 @@ Table~\ref{tab:dev} shows the values of the estimated energy
 \begin{figure}[b]
     \centering
     \includegraphics[width=0.9\textwidth]{./images/chi_ij_c}
-    \caption{Pairwise extremal dependence coefficients for IVT data using the PRG--G model.\label{fig:chi_ij}}
+    \caption{Pairwise extremal dependence coefficients for IVT data using the PRG-G model.\label{fig:chi_ij}}
 \end{figure}
 
 We consider an exploration of the pairwise extremal dependence using Monte Carlo estimates of the 
-  coefficients in  Equation~\eqref{eqn:chi_ij}. For this we use samples obtained from the PRG--G model.
+  coefficients in  Equation~\eqref{eqn:chi_ij}. For this we use samples obtained from the PRG-G model.
   Figure~\ref{fig:chi_ij} provides a graphical analysis of the results. 
   The coefficients achieve values between $0.286$ and $0.759$ for the ERA-Interim data and 
   between $0.181$ and $0.840$ for the ERA5 data.  The greater range in dependence scores observed 
@@ -320,7 +326,7 @@ We consider an exploration of the pairwise extremal dependence using Monte Carlo
         than 90th percentile (fitted).\label{fig:condsurv2d}}
 \end{figure}
 
-Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG--G model,  
+Figure~\ref{fig:condsurv1d} shows, for the ERA-Interim data under the PRG-G model,  
     the conditional survival curve defined in Equation~\eqref{eqn:condsurv}, for one dimension, 
     conditioned on all other dimensions being greater than their (fitted) $90$th percentile. 
     Figure~\ref{fig:condsurv2d} presents the bi-variate conditional survival function,

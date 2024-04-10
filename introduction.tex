@@ -40,7 +40,7 @@ During the last decade or so, much work has been done in the exploration of the
     state of the art in multivariate peaks over threshold modelling using 
     generalized Pareto is provided in \cite{rootzen2018} while \cite{RoSeWa2018a} 
     provides insight on the theoretical properties of possible parametrizations. 
-    These are use in \cite{KiRoSeWa2019} for likelihood-based models for PoT 
+    These are used in \cite{KiRoSeWa2019} for likelihood-based models for PoT 
     estimation. A frequently used method for describing the dependence in 
     multivariate distributions is to use a copula. \cite{renard2007}, and 
     \cite{falk2019} provide successful examples of this approach in an EVT 
@@ -57,21 +57,20 @@ During the last decade or so, much work has been done in the exploration of the
     setting.  Our focus on the angular measure is similar to that in \cite{boldi2007},
     \cite{SaNa2014} and \cite{HaCaCh2017}, that consider Bayesian non-parametric 
     approaches. Yet, our approach differs in that it is established in the 
-    peaks-over-threshold regime, and avoids the problem of dealing with the so 
-    called moment constraint by considering a constructive definition of the 
+    peaks-over-threshold regime, and uses a constructive definition of the 
     multivariate GP, based on the infinity norm. The approach proposed in this paper
     adds to the growing literature on Bayesian models for multivariate extreme
     value analysis (see, for example, \cite{boldi2007},\cite{guillotte2011},
     \cite{SaNa2014},\cite{hanson2017}), providing a model that has strong computational
     advantages due its structural simplicitly, achieves flexibility using 
-    a mixture model, imposes no moment constraints, and scales well to moderately 
-    large dimensions.
+    a mixture model, and scales well to moderately large dimensions.
   
 The remainder of this paper is outlined as follows. 
     Section~\ref{sec:multivariatepot} comprises a brief review of multivariate PoT, 
       detailing the separation of the radial measure from the angular measure.
     Section~\ref{sec:methodology} details our approach for estimating the angular 
-      measure, based on projecting an arbitrary distribution supported in ${\mathbb R}_+^d$ 
+      measure, based on transforming an arbitrary 
+      distribution supported in ${\mathbb R}_+^d$ 
       onto unit hyper-spheres defined by $p$-norms. 
     Section~\ref{sec:evaluation} develops criteria for model selection in the support 
       of the angular measure.  
@@ -86,36 +85,51 @@ Throughout the paper, we adopt the operators $\wedge$ to denote minima, and
     the $\vee$ to denote maxima.  Thus $\wedge_i s_i = \min_i s_i$, and 
     $\vee_i s_i = \max_i s_i$.  These operators can also be applied component-wise 
     between vectors, such as $\bm{a}\wedge\bm{b} = (a_1\wedge b_1, a_2\wedge b_2,\ldots)$.  
+    Similarly, we apply inequality and arithmetic operators operators to vectors, for
+    example $\bm{a}\leq \bm{b}$, and interpret them component-wise.
     We use uppercase to indicate random variables, lowercase to indicate points, and
     bold-face to indicate vectors or matrices thereof.
   
 \section{A multivariate PoT model\label{sec:multivariatepot}}
 To develop a multivariate PoT model for extreme values consider a 
     $d$-dimensional random vector $\bm{W} = (W_1, \ldots ,W_d)$ with
-    cumulative distribution $F$. Following \cite{RoSeWa2018a}, assume 
+    cumulative distribution $F$. A common assumption on 
+    $\bm{W}$ is that it is in the so called domain of attraction of 
+    a multivariate max-stable distribution, $G$. Thus, following \cite{RoSeWa2018a}, assume 
     that there exists sequences of vectors $\bm{a}_n$ and $\bm{b}_n$,
-    and a $d$-variate distribution $G$ such that 
-    $\lim_{n\rightarrow\infty} F^n(\bm{a}_n \bm{w} + \bm{b}_n) = 
+    such that $\lim_{n\rightarrow\infty} F^n(\bm{a}_n \bm{w} + \bm{b}_n) = 
     G(\bm{w})$. $G$ is a $d$-variate generalized extreme value 
-    distribution. It follows that
-    \[
-        \lim\limits_{n\rightarrow\infty} \prob{\bm{a}^{-1}_n (\bm{W} - \bm{b}_n) 
-      \leq \bm{w} \mid \bm{W} \not\leq \bm{b}_n)} \\ 
-        = \frac{\log G(\bm{w} \wedge \bm{0}) 
-        - \log G(\bm{w}) }{\log G(\bm{0})} = H(\bm{w}).
+    distribution. Notice that, even though the univariate marginals are obtained from 
+    a three parameter family, there is no parametric form to represent $G$.
+    Taking logarithms and expanding, we have that 
+    \[  
+        \lim\limits_{n\rightarrow\infty} n(1 - F(\bm{a}_n \bm{w} + \bm{b}_n)) = 
+        -\log G(\bm{w}), 
     \]
-    $H$ is a multivariate Pareto distribution, and corresponds to a joint
-    distribution conditional on exceeding a multivariate threshold. In addition to
-    a copula function, $H$ depends on two $d$-dimensional vectors of 
-    parameters that we denote as $\bm{\xi}$ for the shapes and $\bm{\sigma}$ 
-    for the scales. \cite{RoSeWa2018a} provide a number of stochastic 
-    representations for $H$.  In particular, denote as $Z$ a
-    random variable with distribution $H$ where $\bm{\xi}= 1$ and 
-    $\bm{\sigma} = 0$.  Then, Remark 1 justifies the representation in 
-    \cite{ferreira2014}, giving $\bm{Z} = \bm{V}R$
-    where $R$ and $\bm{V}$ are independent. $R = \|\bm{Z}\|_\infty$ is 
-    distributed as a standard Pareto random variable, and $\bm{V} = 
-    \bm{Z}/\|\bm{Z}\|_\infty$ is a random vector in  
+    $\forall \bm{w\in{\mathbb R}^d}$ such that $G(\bm{w})>0$. It follows that
+    \begin{multline*}
+        \lim\limits_{n\rightarrow\infty} \prob{\bm{a}^{-1}_n (\bm{W} - \bm{b}_n) 
+      \leq \bm{w} \mid \bm{W} \not\leq \bm{b}_n)} = 
+         \frac{\log G(\bm{w} \wedge \bm{0}) 
+        - \log G(\bm{w}) }{\log G(\bm{0})} = H(\bm{w}),
+    \end{multline*}
+    where $\bm{a}_n^{-1}$ indicates element-wise inversion, and 
+    $\{\bm{W} \not\leq \bm{b}_n\}$ denotes the set where at least one coordinate is above 
+    the corresponding  component of $\bm{b}_n$.  
+    $H$ is a multivariate Pareto distribution.  It corresponds to a joint
+    distribution conditional on exceeding a multivariate threshold. $H$
+    is defined by a non-parametric function governing the multivariate dependence, and 
+    two $d$-dimensional vectors of 
+    parameters that control the shapes and scales of the
+    marginals. We denote these as $\bm{\xi}$ for the shapes and $\bm{\sigma}$ 
+    for the scales.  \cite{RoSeWa2018a} provides a number of stochastic 
+    representations for $H$.  In this paper we focus in a
+    particular one that is proposed in \cite{ferreira2014}. To this end, 
+    we denote as $Z$ a random variable with distribution $H$ where $\bm{\xi}= 1$ 
+    and $\bm{\sigma} = 0$.  Then, $\bm{Z} = R\bm{V}$ where $R$ and $\bm{V}$ 
+    are independent. $R = \|\bm{Z}\|_\infty= \vee_{i=1}^d Z_i$ is
+    distributed as a standard Pareto random variable, and 
+    $\bm{V} = \bm{Z}/\|\bm{Z}\|_\infty$ is a random vector in  
     $\mathbb{S}_{\infty}^{d-1}$, the positive orthant of the 
     unit sphere under $\mathcal{L}_{\infty}$ norm, with distribution $\Phi$. 
     This representation is central to the methods proposed in this paper.
@@ -123,18 +137,21 @@ To develop a multivariate PoT model for extreme values consider a
     and {\em angular} components of $H$. The angular measure controls 
     the dependence  structure of $\bm{Z}$  in the tails. In view of 
     this, to obtain a  PoT model we seek a flexible model for the 
-    distribution of $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$.
+    distribution of $\bm{V} \in {\mathbb S}_{\infty}^{d-1}$, based
+    on a Bayesian non-parametric model.
 
 The approach considered in \cite{rootzen2018} focuses on the limiting
-    conditional distribution $H$. An alternative approach consists of assuming
+    conditional distribution $H$. An alternative approach to obtaining a limiting 
+    PoT distribution consists of assuming
     that regular variation \cite[see, for example,][]{resnick2008extreme} holds 
-    for the limiting distribution of $\bm{W}$, implying
+    for the limiting distribution of $\bm{W}$, implying that
     \[
         \lim\limits_{n\rightarrow\infty} n \prob{n^{-1} \bm{W}\in A} = 
         \mu(A),
     \]
-    where $\mu$ is termed the exponent measure. $\mu$ has the homogeneity property
-    $\mu(tA) = t^{-1}\mu(A)$. Letting $\rho = \|W\|_p, p>0$ 
+    for some measure $\mu$ that is referred to as the exponent measure. 
+    $\mu$ has the homogeneity property $\mu(tA) = t^{-1}\mu(A)$. 
+    Letting $\rho = \|W\|_p, p>0$ 
     and $\bm{\theta} = \bm{W}/\rho$, define  $\Psi(B) = \mu(\{\bm{w} : \rho>1, 
     \bm{\theta} \in B\})$, which is referred to as the angular measure. After 
     some manipulations, we obtain that
@@ -147,12 +164,15 @@ The approach considered in \cite{rootzen2018} focuses on the limiting
     Thus, a model for the exponent measure induces a model for the limiting distribution
     conditional on the observations being above a threshold defined with respect
     to their $p$-norm. The constraint that all marginals of $\mu$ correspond to a
-    standard Pareto distribution leads to the so called moment constraints on $\Psi$. 
+    standard Pareto distribution leads to the so called moment constraints on $\Psi$, consisting
+    of
+    \[
+    \int_{{\mathbb S}_p^{d-1}} w_i \,d\Psi(\bm{w}) = \frac{1}{d}, \;\; i=1, \ldots , d.
+    \]
     Inference for the limiting distribution of the exceedances
     needs to account for the normalizing constant in Equation~\eqref{exponent-mu}, as well
-    the moment constraints. 
-    
-    % In addition, the moment constraints can impose unrealistic
-    % symmetries in the data distribution.
+    the moment constraints. Because of these issues, in this paper
+    we prefer to follow the limiting conditional distribution approach. An example of 
+    the application of the regular variation approach, using $p=1$ is developed in \cite{SaNa2014}.
 
 % EOF
