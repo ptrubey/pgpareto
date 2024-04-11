@@ -197,10 +197,10 @@ Our data correspond to daily average values for the IVT magnitude
     \begin{algorithmic}
         \For{$\ell = 1,\ldots,d$}
             \State Set $b_{t,\ell} = \hat{F}_{\ell}^{-1}\left(1 - \frac{1}{t}\right)$.
-            \State With $\bm{ x}_{\ell} > b_{t,\ell}$, fit $a_{\ell}$, $\xi_{\ell}$ via MLE according to generalized Pareto likelihood.
+            \State With $\bm{ x}_{\ell} > b_{t,\ell}$, fit $\sigma_{\ell}$, $\xi_{\ell}$ via MLE according to generalized Pareto likelihood.
         \EndFor
         \For{$i = 1,\ldots,n$}
-            \State Define $z_{i,\ell} = \left(1 + \xi_{\ell}\frac{x_{i,\ell} - b_{t,\ell}}{a_{\ell}}\right)_{+}^{1/\xi_{\ell}}$; $\;\;\;$ then $r_i = \pnorm{\bm{ z}_i}{\infty}$, $\;\;\bm{ v}_i = \frac{\bm{ z}_i}{\pnorm{\bm{ z}_i}{\infty}}$
+            \State Define $z_{i,\ell} = \left(1 + \xi_{\ell}\frac{x_{i,\ell} - b_{t,\ell}}{\sigma_{\ell}}\right)_{+}^{1/\xi_{\ell}}$; $\;\;\;$ then $r_i = \pnorm{\bm{ z}_i}{\infty}$, $\;\;\bm{ v}_i = \frac{\bm{ z}_i}{\pnorm{\bm{ z}_i}{\infty}}$
         \EndFor
         \State Subset $\bm{ r},\bm{ v}$ such that $r_i \geq 1$
         \If{declustering}
